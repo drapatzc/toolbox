@@ -12,7 +12,8 @@ Xcode Developer Toolbox ist ein interaktives Swift-CLI-Tool für iOS- und macOS-
 - **Sprache:** Swift (kein externes Dependency)
 - **Build-Tool:** Swift Package Manager
 - **Lokalisierung:** Deutsch und Englisch (umschaltbar im laufenden Betrieb)
-- **Start:** `swift run` im Root des Xcode-Projekts
+- **Installation:** `git clone https://github.com/drapatzc/toolbox.git`
+- **Start:** Im Stammverzeichnis des Xcode-Projekts: `../toolbox/toolbox`
 
 ---
 
@@ -115,14 +116,20 @@ Neben SwiftLint, SwiftFormat, Periphery und dem statischen Analyzer prüft das T
 
 ---
 
-## Technische Details
+## Installation
 
-- **Einstiegspunkt:** `Sources/xcode-toolbox/main.swift` → `mainMenu()`
-- **Lokalisierung:** `Localizable.xcstrings` im Projekt-Root (~1500 Keys, DE+EN)
-- **Projekterkennung:** Automatisch via `detectXcodeProject()` (`.xcworkspace` / `.xcodeproj`)
-- **Shell-Ausführung:** `runShell()` synchron, `runShellLive()` für interaktive Live-Ausgabe
-- **Keine externen Dependencies** — reines Swift, nur Foundation
+```bash
+git clone https://github.com/drapatzc/toolbox.git
+cd toolbox
+```
+
+Im Stammverzeichnis des Xcode-Projekts starten:
+
+```bash
+cd MeinXcodeProjekt
+../toolbox/toolbox
+```
 
 ---
 
-*Entwickelt von Christian Drapatz · macOS 13+ · Swift Package Manager*
+*Entwickelt von Christian Drapatz · macOS 13+*

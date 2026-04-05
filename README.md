@@ -22,12 +22,8 @@ Jedes Tool hat eigene Flags, eigene Syntax und eigene Fallstricke.
 ## Installation
 
 ```bash
-# Repository klonen
-git clone https://github.com/<user>/XCode-Developer-Toolbox.git
-cd XCode-Developer-Toolbox
-
-# Einmalig bauen
-swift build -c release
+git clone https://github.com/drapatzc/toolbox.git
+cd toolbox
 ```
 
 ---
@@ -37,14 +33,8 @@ swift build -c release
 Das Tool im **Stammverzeichnis des Xcode-Projekts** ausfuehren, das analysiert werden soll:
 
 ```bash
-# Variante 1: Convenience-Script (baut automatisch bei Aenderungen)
-/pfad/zu/XCode-Developer-Toolbox/run.sh
-
-# Variante 2: Direkt ueber das kompilierte Binary
-/pfad/zu/XCode-Developer-Toolbox/.build/release/xcode-toolbox
-
-# Variante 3: Ueber Swift Package Manager
-cd /pfad/zu/XCode-Developer-Toolbox && swift run
+cd MeinXcodeProjekt
+../toolbox/toolbox
 ```
 
 Das Tool erkennt automatisch `.xcworkspace`- oder `.xcodeproj`-Dateien im aktuellen Verzeichnis.
@@ -135,58 +125,17 @@ brew install periphery     # Projekt-Analyse: Unused Code Detection
 
 ## Projektstruktur
 
-Das Projekt ist als Swift Package Manager Executable aufgebaut und modular in fachliche Bereiche gegliedert:
-
 ```
-XCode-Developer-Toolbox/
-├── Package.swift
-├── run.sh                              # Convenience: bauen + starten
-├── Sources/
-│   └── xcode-toolbox/
-│       ├── main.swift                  # Programmstart (8 Zeilen)
-│       ├── Core/                       # Infrastruktur
-│       │   ├── Color.swift             # ANSI-Farbcodes
-│       │   ├── State.swift             # Globale Variablen
-│       │   ├── Preferences.swift       # Einstellungen laden/speichern
-│       │   ├── Shell.swift             # Shell-Ausfuehrung
-│       │   ├── BuildSystem.swift       # Build-Ergebnis, Zusammenfassung
-│       │   ├── Spinner.swift           # Ladeindikator, Fortschritt
-│       │   ├── UI.swift                # Terminal-UI, Dashboard, Menueelemente
-│       │   └── Input.swift             # Benutzereingabe, Menuewahl, Shortcuts
-│       ├── Project/                    # Projekt-Erkennung & Konfiguration
-│       │   ├── ProjectDetection.swift  # .xcworkspace / .xcodeproj finden
-│       │   └── SchemeDevice.swift      # Schema, Device, Destination, Validation
-│       ├── Help/
-│       │   └── HelpSystem.swift        # Kontextsensitive Hilfetexte
-│       ├── Actions/
-│       │   └── SharedActions.swift     # Gemeinsame Aktionen (Simple + Extended)
-│       └── Menus/                      # Alle 20 Fachmenues + Hauptmenue
-│           ├── MainMenu.swift          # Hauptmenue (Einfach + Erweitert)
-│           ├── MenuClean.swift
-│           ├── MenuBuildSimulator.swift
-│           ├── MenuTest.swift
-│           ├── MenuDependencies.swift
-│           ├── MenuDistribution.swift
-│           ├── MenuCodeQuality.swift
-│           ├── MenuLocalization.swift
-│           ├── MenuProfiling.swift
-│           ├── MenuXcode.swift
-│           ├── MenuInfo.swift
-│           ├── MenuGit.swift
-│           ├── MenuProjectAnalysis.swift
-│           ├── MenuMetrics.swift
-│           ├── MenuDevices.swift
-│           ├── MenuCrashSymbols.swift
-│           ├── MenuBinaryAnalysis.swift
-│           ├── MenuVersioning.swift
-│           ├── MenuDocumentation.swift
-│           ├── MenuXCFramework.swift
-│           └── MenuCodeSigning.swift
-└── Source/
-    └── tools.swift                     # Original (Single-File-Referenz)
+toolbox/
+├── toolbox                   # Ausfuehrbares Binary
+├── README.md
+├── Localizable.xcstrings     # Lokalisierung (DE+EN, ~1500 Keys)
+└── Documentation/
+    ├── index.html
+    ├── DESCRIPTION.md
+    ├── DESCRIPTION.txt
+    └── XcodeDeveloperToolbox_Presentation.pptx
 ```
-
-**34 Dateien** — fachlich getrennt nach Verantwortung, jede Datei hat eine klar definierte Aufgabe.
 
 ---
 

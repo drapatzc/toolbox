@@ -14,7 +14,8 @@ hin zu Distribution und Debugging.
   Sprache    : Swift (kein externes Dependency)
   Build-Tool : Swift Package Manager
   Sprachen   : Deutsch und Englisch (umschaltbar im laufenden Betrieb)
-  Start      : swift run  (im Root des Xcode-Projekts)
+  Installation: git clone https://github.com/drapatzc/toolbox.git
+  Start      : cd MeinXcodeProjekt && ../toolbox/toolbox
 
 
 DIE DREI MODI
@@ -103,13 +104,15 @@ GIT-ANALYSE — 55+ ABFRAGEN IN 8 KATEGORIEN
   8. Reports & Export      PR-Summary, Changelog-Generator (Markdown)
 
 
-TECHNISCHE DETAILS
-------------------
-  Einstiegspunkt  : Sources/xcode-toolbox/main.swift -> mainMenu()
-  Lokalisierung   : Localizable.xcstrings im Projekt-Root (~1500 Keys, DE+EN)
-  Projekterkennung: automatisch (.xcworkspace / .xcodeproj)
-  Shell-Ausführung: runShell() synchron, runShellLive() für Live-Ausgabe
-  Dependencies    : keine — reines Swift, nur Foundation
+INSTALLATION
+------------
+  git clone https://github.com/drapatzc/toolbox.git
+  cd toolbox
+
+Im Stammverzeichnis des Xcode-Projekts starten:
+
+  cd MeinXcodeProjekt
+  ../toolbox/toolbox
 
 
-Entwickelt von Christian Drapatz · macOS 13+ · Swift Package Manager
+Entwickelt von Christian Drapatz · macOS 13+
