@@ -41,6 +41,8 @@ Das Tool erkennt automatisch `.xcworkspace`- oder `.xcodeproj`-Dateien im aktuel
 
 ### Bedienung
 
+<img src="images/image01.png" alt="Xcode Developer Toolbox" width="800">
+
 | Eingabe | Aktion |
 |---------|--------|
 | Zahl + Enter | Menuepunkt aufrufen |
