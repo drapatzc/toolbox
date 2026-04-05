@@ -1,7 +1,8 @@
 # Xcode Developer Toolbox
 
 Ein interaktives Terminal-Werkzeug fuer iOS- und macOS-Entwickler.  
-Vereint Build, Test, Simulator, Code-Qualitaet, Git-Analyse, Distribution und viele weitere Entwickler-Hilfsfunktionen in einem uebersichtlichen Menue — gesteuert ueber ein einziges Swift-Projekt.
+Vereint Build, Test, Simulator, Code-Qualitaet, Git-Analyse, Distribution und viele weitere Entwickler-Hilfsfunktionen in einem uebersichtlichen Menue — gesteuert ueber ein einziges Swift-Projekt.  
+Das Tool ist auf **Deutsch und Englisch** verfuegbar — weitere Sprachen folgen.
 
 ---
 
@@ -40,6 +41,8 @@ cd MeinXcodeProjekt
 Das Tool erkennt automatisch `.xcworkspace`- oder `.xcodeproj`-Dateien im aktuellen Verzeichnis.
 
 ### Bedienung
+
+<img src="images/image01.png" alt="Xcode Developer Toolbox" width="800">
 
 | Eingabe | Aktion |
 |---------|--------|
