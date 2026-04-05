@@ -1,0 +1,115 @@
+XCODE DEVELOPER TOOLBOX
+=======================
+Alle Xcode-Workflows. Ein Tool.
+
+
+ÜBERBLICK
+---------
+Xcode Developer Toolbox ist ein interaktives Swift-CLI-Tool für iOS- und
+macOS-Entwickler. Es bündelt über 100 typische Entwickler-Aufgaben in einem
+tastaturgesteuerten Terminal-Menü — von Build & Test über Code-Analyse bis
+hin zu Distribution und Debugging.
+
+  Plattform  : macOS 13+
+  Sprache    : Swift (kein externes Dependency)
+  Build-Tool : Swift Package Manager
+  Sprachen   : Deutsch und Englisch (umschaltbar im laufenden Betrieb)
+  Start      : swift run  (im Root des Xcode-Projekts)
+
+
+DIE DREI MODI
+-------------
+
+SIMPLE MODE
+  16 der meistgenutzten Aktionen auf einen Blick:
+  - Cache leeren (Derived Data, Module Cache, Simulator, SPM)
+  - Build & Run, App starten, Quick Reset & Build
+  - Unit Tests ausführen
+  - Simulator stoppen, Screenshot, Dark/Light Mode
+  - Xcode öffnen, schließen, neu starten
+  - Arbeitsverzeichnis wechseln, Apps öffnen
+
+EXTENDED MODE — 22 Themenbereiche
+  01  Clean & Cache         Derived Data, Module Cache, Simulator, SPM, Xcode
+  02  Build & Simulator     Build & Run, Reset, Simulator-Steuerung, Screenshot
+  03  Testing               Unit/UI Tests, Code Coverage, JUnit/Markdown-Report
+  04  Physische Geräte      devicectl: Install, Launch, Logs, Diagnose
+  05  Abhängigkeiten        SPM, CocoaPods, Carthage
+  06  Versionsverwaltung    Build-Nummer, Marketing-Version, agvtool
+  07  Code Quality          SwiftLint, SwiftFormat, Periphery, Analyzer, 59 Checks
+  08  Projektanalyse        38 Read-only-Abfragen (LOC, Struktur, Patterns, Assets)
+  09  Metriken              5-Punkte-Qualitätsscore, Risiko-Ranking, Markdown-Report
+  10  Git-Analyse           55+ Abfragen in 8 Kategorien
+  11  Crash & Symbole       Symbolicaten, atos, dSYM, xcresult, Crash-Logs
+  12  Binäranalyse          otool, lipo, nm, Entitlements, Hardcoded Strings
+  13  Distribution          IPA Export, TestFlight/App Store, Notarisierung, Checkliste
+  14  Lokalisierung         Fehlende Keys, ungenutzte Keys, Platzhalter-Checks
+  15  Profiling             Instruments, Build Timing, Warnungen zählen
+  16  XCFramework           Erstellen, Inhalte anzeigen, Device/Simulator separat
+  17  Dokumentation         DocC generieren, Preview, undokumentierte API finden
+  18  Code Signing          Zertifikate, Profile, Entitlements, Notarisierungshistorie
+  19  Xcode verwalten       Öffnen, Schließen, Neu starten, Versionen wechseln
+  20  Info & Diagnose       Disk-Übersicht, Tool-Versionen, Git-Status, Prozesse
+  21  Verzeichnis-Browser   Tastaturgesteuerter Verzeichniswechsel
+  22  Apps öffnen           Entwicklertools, Systemapps, eigene Apps
+
+CUSTOM MODE
+  20 frei belegbare Slots — Aktionen und Untermenüs aus allen 22 Bereichen
+  individuell zusammenstellen. Reihenfolge frei, persistent gespeichert,
+  jederzeit über M) umschaltbar.
+
+
+GLOBALE TASTENKÜRZEL
+--------------------
+  S   Schema wählen
+  D   Gerät wählen
+  K   Konfiguration (Debug/Release)
+  B   Bundle-ID setzen
+  N   Benutzername (Git-Commits)
+  C   Crash-Export-Pfad
+  L   Sprache umschalten (DE/EN)
+  M   Modus wechseln (Simple / Extended / Custom)
+  H   Hilfe anzeigen
+  R   Einstellungen zurücksetzen
+  X   Zurück
+  Q   Beenden
+
+Alle Einstellungen werden in ~/.xcode_toolbox_prefs.json gespeichert und
+beim nächsten Start wiederhergestellt.
+
+
+CODE QUALITY — 59 EIGENE CHECKS
+--------------------------------
+Neben SwiftLint, SwiftFormat, Periphery und dem statischen Analyzer:
+  - Force Unwraps (!), try!, as!, fatalError
+  - Lange Funktionen (>50 Zeilen), große Dateien (>300 Zeilen)
+  - Tiefe Verschachtelung (>4 Ebenen), lange Parameter-Listen
+  - Potenzielle Retain Cycles, Singletons
+  - NSLog, hardcodierte URLs und Credentials
+  - Leere Catch-Blöcke, async ohne await, Task ohne await
+  - Fehlende Dokumentation, Magic Numbers, kurze Variablennamen
+  - ... und viele weitere Pattern-Checks
+
+
+GIT-ANALYSE — 55+ ABFRAGEN IN 8 KATEGORIEN
+-------------------------------------------
+  1. Status & Änderungen   Git-Status, Diffs, Konflikte prüfen
+  2. Branches & Vergleich  Visueller Log, Merged/Unmerged, Tags
+  3. Dateianalyse          Blame, Dateihistorie, umbenannte/gelöschte Dateien
+  4. Suche                 Hash, Commit-Message, Autor, Pickaxe, Regex
+  5. Stash                 Stash-Liste, Stash-Detail
+  6. Eigene Commits        Zeitraum-Filter nach Autor
+  7. Statistiken           Hotspot-Dateien, Commit-Frequenz, Wochentag/Stunde
+  8. Reports & Export      PR-Summary, Changelog-Generator (Markdown)
+
+
+TECHNISCHE DETAILS
+------------------
+  Einstiegspunkt  : Sources/xcode-toolbox/main.swift -> mainMenu()
+  Lokalisierung   : Localizable.xcstrings im Projekt-Root (~1500 Keys, DE+EN)
+  Projekterkennung: automatisch (.xcworkspace / .xcodeproj)
+  Shell-Ausführung: runShell() synchron, runShellLive() für Live-Ausgabe
+  Dependencies    : keine — reines Swift, nur Foundation
+
+
+Entwickelt von Christian Drapatz · macOS 13+ · Swift Package Manager
