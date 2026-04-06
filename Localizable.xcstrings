@@ -374,13 +374,13 @@
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Alle Commits von \\\"\\(user)\\\" im gewählten Zeitraum, chronologisch mit Hash, Datum und Nachricht."
+            "value": "Alle Commits von \"%@\" im gewählten Zeitraum, chronologisch mit Hash, Datum und Nachricht."
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "All commits by \\\"\\(user)\\\" in the selected period, chronologically with hash, date, and message."
+            "value": "All commits by \"%@\" in the selected period, chronologically with hash, date, and message."
           }
         }
       }
@@ -477,6 +477,22 @@
           "stringUnit": {
             "state": "translated",
             "value": "All pre-build checks passed."
+          }
+        }
+      }
+    },
+    "all_settings_and_menu_have_been_reset": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Alle Einstellungen und das benutzerdefinierte Menü wurden zurückgesetzt."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "All settings and the custom menu have been reset."
           }
         }
       }
@@ -2189,6 +2205,22 @@
           "stringUnit": {
             "state": "translated",
             "value": "build-for-testing"
+          }
+        }
+      }
+    },
+    "build_full_reset_question": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Alles neu bauen via Full Reset & Build? (Alle Caches werden gelöscht)"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rebuild everything via Full Reset & Build? (All caches will be deleted)"
           }
         }
       }
@@ -4657,6 +4689,54 @@
         }
       }
     },
+    "complete_menu": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Komplett-Ansicht"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Complete Overview"
+          }
+        }
+      }
+    },
+    "complete_mode": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gesamtübersicht"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Complete Overview"
+          }
+        }
+      }
+    },
+    "complete_mode_submenu_hint": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "öffnet übergeordnetes Menü"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "opens parent menu"
+          }
+        }
+      }
+    },
     "completely_reset_simulator_var_confirm": {
       "localizations": {
         "de": {
@@ -5649,6 +5729,150 @@
         }
       }
     },
+    "custom_menu_define_confirm": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Benutzerdefiniertes Menü jetzt auf Standardbelegung setzen? Alle bestehenden Einträge werden überschrieben."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Set custom menu to default layout now? All existing entries will be overwritten."
+          }
+        }
+      }
+    },
+    "custom_menu_define_label": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Benutzerdefiniertes Menü definieren"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Define Custom Menu"
+          }
+        }
+      }
+    },
+    "custom_menu_define_label_detail": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Setzt das benutzerdefinierte Menü auf eine vordefinierte Standardbelegung."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sets the custom menu to a predefined default layout."
+          }
+        }
+      }
+    },
+    "custom_menu_define_success": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Benutzerdefiniertes Menü wurde auf Standardbelegung gesetzt."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Custom menu has been set to default layout."
+          }
+        }
+      }
+    },
+    "custom_menu_export_confirm": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Benutzerdefiniertes Menü wirklich auf den Desktop exportieren?"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Really export the custom menu to the Desktop?"
+          }
+        }
+      }
+    },
+    "custom_menu_export_error": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fehler beim Exportieren des Menüs."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Error exporting the menu."
+          }
+        }
+      }
+    },
+    "custom_menu_export_label": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Benutzerdefiniertes Menü exportieren"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Export Custom Menu"
+          }
+        }
+      }
+    },
+    "custom_menu_export_label_detail": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Exportiert das benutzerdefinierte Menü als .conf-Datei auf den Desktop."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Exports the custom menu as a .conf file to the Desktop."
+          }
+        }
+      }
+    },
+    "custom_menu_exported_to_var": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Exportiert nach: %@"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Exported to: %@"
+          }
+        }
+      }
+    },
     "custom_menu_help_text": {
       "localizations": {
         "de": {
@@ -5661,6 +5885,102 @@
           "stringUnit": {
             "state": "translated",
             "value": "The custom menu holds up to 20 freely assignable slots. You can place any actions and submenus from the entire toolbox menu system there to build your personal quick-access menu.\n\nEmpty slots and entries not available on the current platform are automatically hidden.\n\nCommands for the custom menu:\n• menu — shows all 20 slots with their current content and availability status\n• menu[n]to[m] — saves item n from the current menu to slot m (example: menu16to1 → current item 16 is saved to slot 1)\n• menu-N — deletes the entry at slot N after confirmation (example: menu-5)\n• menu-delete — deletes all entries after confirmation\n\nThese commands work in all three menu modes: Simple, Extended, and Custom.\n\nIf a saved entry later becomes unavailable on the platform, it is marked as unavailable in the overview and hidden in the menu — the menu does not crash."
+          }
+        }
+      }
+    },
+    "custom_menu_import_confirm": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Benutzerdefiniertes Menü importieren? Die aktuellen Einträge werden überschrieben."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Import custom menu? The current entries will be overwritten."
+          }
+        }
+      }
+    },
+    "custom_menu_import_error": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fehler beim Importieren der Konfigurationsdatei."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Error importing the configuration file."
+          }
+        }
+      }
+    },
+    "custom_menu_import_label": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Benutzerdefiniertes Menü importieren"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Import Custom Menu"
+          }
+        }
+      }
+    },
+    "custom_menu_import_label_detail": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Importiert das benutzerdefinierte Menü aus einer .conf-Datei."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Imports the custom menu from a .conf file."
+          }
+        }
+      }
+    },
+    "custom_menu_import_success": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Benutzerdefiniertes Menü erfolgreich importiert."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Custom menu successfully imported."
+          }
+        }
+      }
+    },
+    "custom_menu_invalid_command": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unbekannter Befehl. Erlaubt: move(x)to(y), replace(x)to(y), delete(x), deleteall"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unknown command. Allowed: move(x)to(y), replace(x)to(y), delete(x), deleteall"
           }
         }
       }
@@ -5729,6 +6049,22 @@
         }
       }
     },
+    "custom_menu_move_done": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Platz %d → Platz %d verschoben"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Slot %d moved to slot %d"
+          }
+        }
+      }
+    },
     "custom_menu_no_change": {
       "localizations": {
         "de": {
@@ -5777,6 +6113,38 @@
         }
       }
     },
+    "custom_menu_overview_help_text": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bearbeitungsübersicht für das benutzerdefinierte Menü.\n\nHier kannst du alle 20 Plätze direkt verwalten.\n\nErlaubte Befehle:\n\n• move(x)to(y) — Eintrag von Platz x nach Platz y verschieben, Platz x wird geleert (Beispiel: move3to7)\n• replace(x)to(y) — Einträge auf Platz x und Platz y vertauschen (Beispiel: replace2to5)\n• delete(x) — Eintrag auf Platz x löschen, Bestätigung erforderlich (Beispiel: delete4)\n• deleteall — Alle Einträge löschen, Bestätigung erforderlich\n\nNavigation:\n\n• X — Zurück ins benutzerdefinierte Menü\n• H — Diese Hilfe anzeigen\n\nHinweis: Die Befehle menu und menu(x)to(y) sind in dieser Ansicht nicht erlaubt."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Edit view for the custom menu.\n\nHere you can directly manage all 20 slots.\n\nAllowed commands:\n\n• move(x)to(y) — Move entry from slot x to slot y, slot x is cleared (example: move3to7)\n• replace(x)to(y) — Swap entries on slot x and slot y (example: replace2to5)\n• delete(x) — Delete entry at slot x, confirmation required (example: delete4)\n• deleteall — Delete all entries, confirmation required\n\nNavigation:\n\n• X — Back to custom menu\n• H — Show this help\n\nNote: The commands menu and menu(x)to(y) are not allowed in this view."
+          }
+        }
+      }
+    },
+    "custom_menu_overview_show": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Anzeigen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Show"
+          }
+        }
+      }
+    },
     "custom_menu_overwrite_confirm": {
       "localizations": {
         "de": {
@@ -5789,6 +6157,38 @@
           "stringUnit": {
             "state": "translated",
             "value": "Overwrite entry?"
+          }
+        }
+      }
+    },
+    "custom_menu_replace_done": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Platz %d und Platz %d getauscht"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Slots %d and %d swapped"
+          }
+        }
+      }
+    },
+    "custom_menu_same_slot": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Quell- und Zielplatz sind identisch"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Source and target slot are identical"
           }
         }
       }
@@ -6113,6 +6513,22 @@
         }
       }
     },
+    "define": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Definieren"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Define"
+          }
+        }
+      }
+    },
     "debug_remnants": {
       "localizations": {
         "de": {
@@ -6173,6 +6589,22 @@
           "stringUnit": {
             "state": "translated",
             "value": "Deep Nesting (>4 levels)"
+          }
+        }
+      }
+    },
+    "delete": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Löschen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Delete"
           }
         }
       }
@@ -6769,22 +7201,6 @@
         }
       }
     },
-    "dependencies": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Dependencies"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Dependencies"
-          }
-        }
-      }
-    },
     "deleting_xcode_caches_detail": {
       "localizations": {
         "de": {
@@ -6797,6 +7213,22 @@
           "stringUnit": {
             "state": "translated",
             "value": "Deleting Xcode Caches …"
+          }
+        }
+      }
+    },
+    "dependencies": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dependencies"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dependencies"
           }
         }
       }
@@ -8257,6 +8689,22 @@
         }
       }
     },
+    "export": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Exportieren"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Export"
+          }
+        }
+      }
+    },
     "export_browse": {
       "localizations": {
         "de": {
@@ -8470,13 +8918,13 @@
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Erweitert"
+            "value": "Standard"
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Extended"
+            "value": "Standard"
           }
         }
       }
@@ -10817,6 +11265,22 @@
         }
       }
     },
+    "import": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Importieren"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Import"
+          }
+        }
+      }
+    },
     "info_diagnostics": {
       "localizations": {
         "de": {
@@ -11761,22 +12225,6 @@
         }
       }
     },
-    "launch_app_simulator": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "App starten (Simulator)"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Launch App (Simulator)"
-          }
-        }
-      }
-    },
     "launch_app_on_device": {
       "localizations": {
         "de": {
@@ -11789,6 +12237,22 @@
           "stringUnit": {
             "state": "translated",
             "value": "Launch app on device"
+          }
+        }
+      }
+    },
+    "launch_app_simulator": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "App starten (Simulator)"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Launch App (Simulator)"
           }
         }
       }
@@ -12449,22 +12913,6 @@
         }
       }
     },
-    "live_output": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Live-Ausgabe"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Live output"
-          }
-        }
-      }
-    },
     "live_log_from_device": {
       "localizations": {
         "de": {
@@ -12477,6 +12925,22 @@
           "stringUnit": {
             "state": "translated",
             "value": "Live log from device"
+          }
+        }
+      }
+    },
+    "live_output": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Live-Ausgabe"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Live output"
           }
         }
       }
@@ -13153,6 +13617,38 @@
         }
       }
     },
+    "menu_back": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zurück"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Back"
+          }
+        }
+      }
+    },
+    "menu_delete": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Löschen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Delete"
+          }
+        }
+      }
+    },
     "menu_mode": {
       "localizations": {
         "de": {
@@ -13681,18 +14177,34 @@
         }
       }
     },
-    "more_simulator_functions": {
+    "more_code_quality_functions": {
       "localizations": {
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Weitere Simulator-Funktionen"
+            "value": "Weitere Funktionen"
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "More Simulator Functions"
+            "value": "More Functions"
+          }
+        }
+      }
+    },
+    "more_simulator_functions": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Weitere Funktionen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "More Functions"
           }
         }
       }
@@ -14230,13 +14742,13 @@
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Keine Commits von '\\(author)' gefunden."
+            "value": "Keine Commits von '%@' gefunden."
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "No commits by '\\(author)' found."
+            "value": "No commits by '%@' found."
           }
         }
       }
@@ -14246,13 +14758,13 @@
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Keine Commits von \\\"\\(user)\\\" im Zeitraum \\\"\\(label)\\\" gefunden."
+            "value": "Keine Commits von \"%@\" im Zeitraum \"%@\" gefunden."
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "No commits by \\\"\\(user)\\\" found in period \\\"\\(label)\\\"."
+            "value": "No commits by \"%@\" found in period \"%@\"."
           }
         }
       }
@@ -18977,6 +19489,54 @@
         }
       }
     },
+    "reset_including_custom_menu_confirm": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Alle Einstellungen und das benutzerdefinierte Menü zurücksetzen?"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reset all settings and the custom menu?"
+          }
+        }
+      }
+    },
+    "reset_including_custom_menu_label": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zurücksetzen inkl. Menü"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reset incl. Menu"
+          }
+        }
+      }
+    },
+    "reset_only_label": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zurücksetzen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reset"
+          }
+        }
+      }
+    },
     "reset_settings": {
       "localizations": {
         "de": {
@@ -19373,6 +19933,22 @@
           "stringUnit": {
             "state": "translated",
             "value": "Run 'Build & Run' first."
+          }
+        }
+      }
+    },
+    "run_execute": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ausführen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Run"
           }
         }
       }
@@ -21421,6 +21997,38 @@
           "stringUnit": {
             "state": "translated",
             "value": "Sets simulator permissions for an app (simctl privacy grant/revoke)."
+          }
+        }
+      }
+    },
+    "settings_menu": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Einstellungen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Settings"
+          }
+        }
+      }
+    },
+    "settings_reset_note": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Das benutzerdefinierte Menü wird nicht zurückgesetzt."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The custom menu will not be reset."
           }
         }
       }
@@ -27553,6 +28161,22 @@
         }
       }
     },
+    "version_display": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Version: %@"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Version: %@"
+          }
+        }
+      }
+    },
     "version_management": {
       "localizations": {
         "de": {
@@ -27985,6 +28609,22 @@
         }
       }
     },
+    "working_directory": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Arbeitsverzeichnis"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Working Directory"
+          }
+        }
+      }
+    },
     "worst_documented_files": {
       "localizations": {
         "de": {
@@ -28141,6 +28781,22 @@
           "stringUnit": {
             "state": "translated",
             "value": "xcodebuild clean"
+          }
+        }
+      }
+    },
+    "xcodebuild_clean_confirm": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "xcodebuild clean ausführen?"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Run xcodebuild clean?"
           }
         }
       }
