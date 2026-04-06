@@ -1127,6 +1127,87 @@
   .t-row { display: block; }
   .t-row-hi { display: block; background: rgba(10,132,255,0.06); border-radius: 4px; padding: 0 4px; margin: 0 -4px; }
 
+  /* ─── CUSTOM MENU SECTION ─── */
+  .custom-menu-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    margin-top: 64px;
+    align-items: start;
+  }
+
+  .cmd-section-label {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    color: var(--text-tertiary);
+    margin-bottom: 14px;
+  }
+
+  .cmd-highlight-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+  }
+
+  .cmd-syntax {
+    font-family: var(--font-mono);
+    font-size: 18px;
+    color: var(--accent);
+    margin-bottom: 12px;
+    letter-spacing: -0.5px;
+  }
+
+  .cmd-var-orange { color: var(--orange); }
+  .cmd-var-purple { color: var(--purple); }
+
+  .cmd-desc {
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.65;
+    margin-bottom: 12px;
+  }
+
+  .cmd-example {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--text-tertiary);
+    background: rgba(255,255,255,0.04);
+    border-radius: 6px;
+    padding: 8px 12px;
+  }
+
+  .cmd-row {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 16px 20px;
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+  }
+
+  .cmd-mono {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--accent);
+    white-space: nowrap;
+    min-width: 130px;
+    padding-top: 1px;
+  }
+
+  .cmd-row-desc {
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.5;
+  }
+
+  @media (max-width: 900px) {
+    .custom-menu-layout { grid-template-columns: 1fr; }
+  }
+
 </style>
 </head>
 <body>
@@ -1142,6 +1223,7 @@
       <li><a href="#features"><span class="lang-de">Funktionen</span><span class="lang-en">Features</span></a></li>
       <li><a href="#workflow">Workflow</a></li>
       <li><a href="#benefits"><span class="lang-de">Vorteile</span><span class="lang-en">Benefits</span></a></li>
+      <li><a href="#custom-menu"><span class="lang-de">Custom Menü</span><span class="lang-en">Custom Menu</span></a></li>
       <li><a href="#audience"><span class="lang-de">Zielgruppe</span><span class="lang-en">Audience</span></a></li>
       <li>
         <div class="lang-switch">
@@ -1392,9 +1474,9 @@
 <!-- THREE MODES -->
 <section id="modes">
   <div class="container">
-    <p class="section-eyebrow"><span class="lang-de">Drei Modi</span><span class="lang-en">Three Modes</span></p>
-    <h2 class="gradient-text"><span class="lang-de">Einfach. Komplett. Oder ganz individuell.</span><span class="lang-en">Simple. Complete. Or fully custom.</span></h2>
-    <p class="section-desc"><span class="lang-de">Das Tool passt sich dem Workflow an — mit einem täglichen Schnellmenü, einem vollständigen Erweiterungsmodus und einem frei konfigurierbaren Benutzermenü.</span><span class="lang-en">The tool adapts to your workflow — with a daily quick menu, a full extended mode, and a freely configurable custom menu.</span></p>
+    <p class="section-eyebrow"><span class="lang-de">Vier Modi</span><span class="lang-en">Four Modes</span></p>
+    <h2 class="gradient-text"><span class="lang-de">Einfach. Standard. Individuell. Komplett.</span><span class="lang-en">Simple. Standard. Custom. Complete.</span></h2>
+    <p class="section-desc"><span class="lang-de">Das Tool passt sich dem Workflow an — tägliches Schnellmenü, vollständiges Standardmenü, frei konfigurierbares Benutzermenü und ein hierarchisches Vollmenü mit allen 352 Befehlen.</span><span class="lang-en">The tool adapts to your workflow — a daily quick menu, a full standard menu, a freely configurable custom menu, and a hierarchical complete menu with all 352 commands.</span></p>
 
     <div class="mode-grid" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));">
       <div class="mode-card">
@@ -1457,6 +1539,141 @@
           <li>Changes are persistently saved</li>
           <li>Switchable anytime via M)</li>
         </ul>
+      </div>
+      <div class="mode-card">
+        <div class="mode-badge" style="background:rgba(255,159,10,0.15);color:#ff9f0a;">Complete Mode</div>
+        <div class="mode-title"><span class="lang-de">Alle 352 Befehle</span><span class="lang-en">All 352 Commands</span></div>
+        <p class="mode-text"><span class="lang-de">Hierarchische Vollansicht aller Menüs, Untermenüs und Aktionen — auf einen Blick, komplett navigierbar.</span><span class="lang-en">Hierarchical full view of all menus, submenus and actions — at a glance, fully navigable.</span></p>
+        <ul class="mode-items lang-de">
+          <li>352 Einträge aus allen 22 Themenbereichen</li>
+          <li>Struktur: Hauptmenü → Untermenü → Aktion</li>
+          <li>Alle Befehle direkt aufrufbar</li>
+          <li>Ideal für Entdeckung neuer Funktionen</li>
+          <li>Umschaltbar jederzeit via M)</li>
+        </ul>
+        <ul class="mode-items lang-en">
+          <li>352 entries from all 22 topic areas</li>
+          <li>Structure: main menu → submenu → action</li>
+          <li>All commands directly accessible</li>
+          <li>Ideal for discovering new features</li>
+          <li>Switchable anytime via M)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CUSTOM MENU COMMANDS -->
+<section id="custom-menu">
+  <div class="container">
+    <p class="section-eyebrow">Custom Menu</p>
+    <h2 class="gradient-text"><span class="lang-de">Dein Menü. Deine Regeln.</span><span class="lang-en">Your Menu. Your Rules.</span></h2>
+    <p class="section-desc">
+      <span class="lang-de">Das benutzerdefinierte Menü hat bis zu 20 Slots — frei belegbar mit Aktionen und Untermenüs aus allen 22 Themenbereichen. Einmal eingerichtet, jederzeit veränderbar.</span>
+      <span class="lang-en">The custom menu has up to 20 slots — freely assignable with actions and submenus from all 22 topic areas. Set up once, adjustable at any time.</span>
+    </p>
+
+    <div class="custom-menu-layout">
+
+      <!-- Left: Terminal mockups -->
+      <div>
+        <!-- Slot overview -->
+        <div class="terminal" style="border-radius:var(--radius-lg); margin-bottom:20px;">
+          <div class="terminal-header">
+            <div class="dot dot-red"></div><div class="dot dot-yellow"></div><div class="dot dot-green"></div>
+            <div class="terminal-title"><span class="lang-de">Slot-Übersicht — Taste Z</span><span class="lang-en">Slot Overview — Press Z</span></div>
+          </div>
+          <div class="terminal-body" style="font-size:12px;">
+<span class="t-row"><span class="t-dim">┌─────────────────────────────────────────────────┐</span></span>
+<span class="t-row"><span class="t-dim">│</span>  <span class="t-blue lang-de">BENUTZERDEFINIERTES MENÜ — SLOT-ÜBERSICHT</span><span class="t-blue lang-en">CUSTOM MENU — SLOT OVERVIEW</span>   <span class="t-dim">│</span></span>
+<span class="t-row"><span class="t-dim">└─────────────────────────────────────────────────┘</span></span>
+<span class="t-row"></span>
+<span class="t-row">  <span class="t-dim">01</span>  <span class="t-white">Build &amp; Run</span>                         <span class="t-green">✓</span></span>
+<span class="t-row">  <span class="t-dim">02</span>  <span class="t-white lang-de">Derived Data löschen</span><span class="t-white lang-en">Delete Derived Data</span>          <span class="t-green">✓</span></span>
+<span class="t-row">  <span class="t-dim">03</span>  <span class="t-white lang-de">Unit Tests ausführen</span><span class="t-white lang-en">Run Unit Tests</span>               <span class="t-green">✓</span></span>
+<span class="t-row">  <span class="t-dim">04</span>  <span class="t-white">SwiftLint</span>                           <span class="t-green">✓</span></span>
+<span class="t-row">  <span class="t-dim">05</span>  <span class="t-white">Git Status</span>                          <span class="t-green">✓</span></span>
+<span class="t-row">  <span class="t-dim">06</span>  <span class="t-white lang-de">Release-Checkliste</span><span class="t-white lang-en">Release Checklist</span>            <span class="t-green">✓</span></span>
+<span class="t-row">  <span class="t-dim">07</span>  <span class="t-white">Screenshot</span>                          <span class="t-orange lang-de">⚠ nicht verfügbar</span><span class="t-orange lang-en">⚠ unavailable</span></span>
+<span class="t-row">  <span class="t-dim">08</span>  <span class="t-dim">—</span>                                    <span class="t-dim lang-de">(leer)</span><span class="t-dim lang-en">(empty)</span></span>
+<span class="t-row">  <span class="t-dim">...</span></span>
+<span class="t-row">  <span class="t-dim">20</span>  <span class="t-dim">—</span>                                    <span class="t-dim lang-de">(leer)</span><span class="t-dim lang-en">(empty)</span></span>
+<span class="t-row"></span>
+<span class="t-row">  <span class="t-dim">────────────────────────────────────────────────</span></span>
+<span class="t-row">  <span class="t-gray lang-de">Befehle:</span><span class="t-gray lang-en">Commands:</span>  <span class="t-blue">delete5</span>  <span class="t-blue">move3to7</span>  <span class="t-blue">replace2to5</span>  <span class="t-blue">deleteall</span></span>
+          </div>
+        </div>
+        <!-- Assign example -->
+        <div class="terminal" style="border-radius:var(--radius-lg);">
+          <div class="terminal-header">
+            <div class="dot dot-red"></div><div class="dot dot-yellow"></div><div class="dot dot-green"></div>
+            <div class="terminal-title"><span class="lang-de">Eintrag zuweisen mit menu[n]to[m]</span><span class="lang-en">Assign entry with menu[n]to[m]</span></div>
+          </div>
+          <div class="terminal-body" style="font-size:12px;">
+<span class="t-row"><span class="t-dim lang-de"># Im Custom Menü: Eintrag 3 in Slot 7 kopieren</span><span class="t-dim lang-en"># In Custom Menu: copy entry 3 to slot 7</span></span>
+<span class="t-row"><span class="t-gray lang-de">Auswahl:</span><span class="t-gray lang-en">Choice:</span>  <span class="t-blue">menu3to7</span></span>
+<span class="t-row"></span>
+<span class="t-row"><span class="t-green lang-de">✓  Slot 7 belegt: Build &amp; Run</span><span class="t-green lang-en">✓  Slot 7 assigned: Build &amp; Run</span></span>
+<span class="t-row"></span>
+<span class="t-row"><span class="t-dim lang-de"># Aus einem Untermenü: Aktion 2 in Slot 1</span><span class="t-dim lang-en"># From a submenu: action 2 to slot 1</span></span>
+<span class="t-row"><span class="t-gray lang-de">Auswahl:</span><span class="t-gray lang-en">Choice:</span>  <span class="t-blue">menu2to1</span></span>
+<span class="t-row"></span>
+<span class="t-row"><span class="t-orange lang-de">⚠ Slot 1 belegt: "Delete Derived Data" — Überschreiben? (j/n):</span><span class="t-orange lang-en">⚠ Slot 1 assigned: "Delete Derived Data" — Overwrite? (y/n):</span>  <span class="t-white">j</span></span>
+<span class="t-row"><span class="t-green lang-de">✓  Slot 1 aktualisiert</span><span class="t-green lang-en">✓  Slot 1 updated</span></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Command reference -->
+      <div>
+        <!-- menu[n]to[m] -->
+        <div style="margin-bottom:28px;">
+          <div class="cmd-section-label lang-de">Zuweisen — aus dem aktuellen Menü</div>
+          <div class="cmd-section-label lang-en">Assigning — from current menu</div>
+          <div class="cmd-highlight-card">
+            <div class="cmd-syntax">menu<span class="cmd-var-orange">[n]</span>to<span class="cmd-var-purple">[m]</span></div>
+            <p class="cmd-desc">
+              <span class="lang-de">Kopiert Eintrag <strong class="cmd-var-orange">n</strong> des aktuellen Menüs in Slot <strong class="cmd-var-purple">m</strong>. Funktioniert aus jedem Untermenü heraus — auch im laufenden Betrieb. Ist der Ziel-Slot bereits belegt, fragt das Tool vor dem Überschreiben nach.</span>
+              <span class="lang-en">Copies entry <strong class="cmd-var-orange">n</strong> of the current menu into slot <strong class="cmd-var-purple">m</strong>. Works from any submenu — even while running. If the target slot is already occupied, the tool asks before overwriting.</span>
+            </p>
+            <div class="cmd-example"><span class="lang-de">Beispiel:</span><span class="lang-en">Example:</span> <span style="color:var(--text-primary);">menu3to7</span> <span class="lang-de">→ Eintrag 3 in Slot 7</span><span class="lang-en">→ entry 3 into slot 7</span></div>
+          </div>
+        </div>
+
+        <!-- Slot overview commands -->
+        <div>
+          <div class="cmd-section-label lang-de">Verwalten — in der Slot-Übersicht (Z)</div>
+          <div class="cmd-section-label lang-en">Managing — in slot overview (Z)</div>
+          <div style="display:flex;flex-direction:column;gap:10px;">
+            <div class="cmd-row">
+              <div class="cmd-mono">move<span class="cmd-var-orange">[x]</span>to<span class="cmd-var-purple">[y]</span></div>
+              <div class="cmd-row-desc"><span class="lang-de">Verschiebt Slot x nach y — Slot x wird leer.</span><span class="lang-en">Moves slot x to y — slot x becomes empty.</span></div>
+            </div>
+            <div class="cmd-row">
+              <div class="cmd-mono">replace<span class="cmd-var-orange">[x]</span>to<span class="cmd-var-purple">[y]</span></div>
+              <div class="cmd-row-desc"><span class="lang-de">Tauscht den Inhalt von Slot x und Slot y.</span><span class="lang-en">Swaps the contents of slot x and slot y.</span></div>
+            </div>
+            <div class="cmd-row">
+              <div class="cmd-mono">delete<span class="cmd-var-orange">[n]</span></div>
+              <div class="cmd-row-desc"><span class="lang-de">Löscht Slot n (mit Bestätigungsabfrage).</span><span class="lang-en">Removes slot n (with confirmation).</span></div>
+            </div>
+            <div class="cmd-row" style="border-color:rgba(255,69,58,0.25);">
+              <div class="cmd-mono" style="color:var(--red);">deleteall</div>
+              <div class="cmd-row-desc"><span class="lang-de">Löscht das gesamte Custom Menü (mit Bestätigung).</span><span class="lang-en">Clears the entire custom menu (with confirmation).</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Platform hint -->
+        <div style="background:rgba(10,132,255,0.08);border:1px solid rgba(10,132,255,0.2);border-radius:var(--radius-sm);padding:18px 20px;margin-top:20px;">
+          <div style="font-size:13px;font-weight:600;color:var(--accent);margin-bottom:8px;">
+            <span class="lang-de">Plattform-Filterung</span><span class="lang-en">Platform Filtering</span>
+          </div>
+          <p style="font-size:13px;color:var(--text-secondary);line-height:1.6;">
+            <span class="lang-de">Plattformspezifische Aktionen (z.B. Simulator-Funktionen bei macOS-nativen Projekten) werden in der Slot-Übersicht mit <span style="color:var(--orange)">⚠ nicht verfügbar</span> markiert, im aktiven Menü aber automatisch ausgeblendet — kein manuelles Aufräumen nötig.</span>
+            <span class="lang-en">Platform-specific actions (e.g. simulator functions on macOS-native targets) are marked <span style="color:var(--orange)">⚠ unavailable</span> in the slot overview, but automatically hidden from the active menu — no manual cleanup needed.</span>
+          </p>
+        </div>
       </div>
     </div>
   </div>
@@ -1958,10 +2175,10 @@
     <p class="section-eyebrow"><span class="lang-de">In Zahlen</span><span class="lang-en">By the Numbers</span></p>
     <h2 class="gradient-text"><span class="lang-de">Der Umfang spricht für sich.</span><span class="lang-en">The scope speaks for itself.</span></h2>
 
-    <div class="metrics-visual">
+    <div class="metrics-visual" style="grid-template-columns:repeat(auto-fit,minmax(160px,1fr));">
       <div class="metric-card blue">
-        <div class="metric-number"><span style="background:linear-gradient(135deg,var(--accent),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;">100+</span></div>
-        <div class="metric-label"><span class="lang-de">Aktionen & Features</span><span class="lang-en">Actions & Features</span></div>
+        <div class="metric-number"><span style="background:linear-gradient(135deg,var(--accent),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;">352</span></div>
+        <div class="metric-label"><span class="lang-de">Befehle (Complete Mode)</span><span class="lang-en">Commands (Complete Mode)</span></div>
       </div>
       <div class="metric-card green">
         <div class="metric-number"><span style="color:var(--green);">22</span></div>
@@ -1976,8 +2193,8 @@
         <div class="metric-label"><span class="lang-de">Git-Abfragen</span><span class="lang-en">Git Queries</span></div>
       </div>
       <div class="metric-card red">
-        <div class="metric-number"><span style="color:var(--red);">5</span></div>
-        <div class="metric-label"><span class="lang-de">Qualitäts-Scores</span><span class="lang-en">Quality Scores</span></div>
+        <div class="metric-number"><span style="color:var(--red);">20</span></div>
+        <div class="metric-label"><span class="lang-de">Custom Menu Slots</span><span class="lang-en">Custom Menu Slots</span></div>
       </div>
       <div class="metric-card cyan">
         <div class="metric-number"><span style="color:#5ce8e8;">0</span></div>
@@ -2078,6 +2295,7 @@
     <a href="#workflow">Workflow</a>
     <a href="#benefits"><span class="lang-de">Vorteile</span><span class="lang-en">Benefits</span></a>
     <a href="#audience"><span class="lang-de">Zielgruppe</span><span class="lang-en">Audience</span></a>
+    <a href="#custom-menu"><span class="lang-de">Custom Menü</span><span class="lang-en">Custom Menu</span></a>
     <a href="#demo">Terminal</a>
     <a href="https://github.com/drapatzc/toolbox" target="_blank" rel="noopener">GitHub</a>
   </div>
@@ -2122,7 +2340,7 @@ document.querySelectorAll([
   '.stat-item', '.problem-item', '.feature-card',
   '.benefit-card', '.workflow-step', '.audience-card',
   '.metric-card', '.mode-card', '.solution-terminal',
-  '.solution-points'
+  '.solution-points', '.cmd-highlight-card', '.cmd-row'
 ].join(',')).forEach(el => observer.observe(el));
 
 // Demo tabs
