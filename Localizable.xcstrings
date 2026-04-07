@@ -7697,6 +7697,38 @@
         }
       }
     },
+    "dir_project_selected": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Projektdatei gesetzt: %@"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Project file set: %@"
+          }
+        }
+      }
+    },
+    "dir_resolve_spm_question": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "SPM-Dependencies jetzt auflösen?"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Resolve SPM dependencies now?"
+          }
+        }
+      }
+    },
     "dir_select": {
       "localizations": {
         "de": {
@@ -7709,6 +7741,54 @@
           "stringUnit": {
             "state": "translated",
             "value": "Select"
+          }
+        }
+      }
+    },
+    "dir_select_scheme_now_question": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Schema jetzt auswählen?"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Select scheme now?"
+          }
+        }
+      }
+    },
+    "dir_settings_reset": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Einstellungen wurden zurückgesetzt"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Settings have been reset"
+          }
+        }
+      }
+    },
+    "dir_settings_reset_info": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Folgende Einstellungen wurden beim Projektwechsel zurückgesetzt:"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The following settings were reset on project change:"
           }
         }
       }
@@ -7773,6 +7853,22 @@
           "stringUnit": {
             "state": "translated",
             "value": "Directories"
+          }
+        }
+      }
+    },
+    "directory_changed": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Arbeitsverzeichnis geändert:"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Working directory changed:"
           }
         }
       }
@@ -19665,6 +19761,54 @@
         }
       }
     },
+    "resolve_spm_dependencies": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "SPM-Dependencies auflösen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Resolve SPM dependencies"
+          }
+        }
+      }
+    },
+    "resolve_spm_dependencies_confirm": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wirklich alle SPM-Packages auflösen?"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Really resolve all SPM packages?"
+          }
+        }
+      }
+    },
+    "resolve_spm_dependencies_description": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Löst alle SPM-Package-Abhängigkeiten des Projekts neu auf."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Resolves all SPM package dependencies of the project."
+          }
+        }
+      }
+    },
     "resolved_packages": {
       "localizations": {
         "de": {
@@ -21757,6 +21901,22 @@
           "stringUnit": {
             "state": "translated",
             "value": "select period"
+          }
+        }
+      }
+    },
+    "select_project_or_workspace": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Projektdatei oder Workspace wählen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Select project file or workspace"
           }
         }
       }
