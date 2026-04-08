@@ -2,6 +2,47 @@
 
 ---
 
+## Version 1.0.4 — 2026-04-08
+
+### Verbesserungen: Test-Menü (TestPlan & Test-Schema)
+
+- **Vollständige TestPlan-Erkennung** — TestPläne werden nun nicht mehr nur aus dem aktuell gewählten Schema gelesen, sondern bei Bedarf aus allen `.xcscheme`-Dateien des gesamten Projekts. Findet das aktuelle Schema keinen TestPlan, durchsucht das Tool alle anderen Schemas und zeigt die gefundenen Pläne mit ihrem Herkunfts-Schema an (z.B. `MyData  [bitone-MyData]`). Bei Auswahl wird das Test-Schema automatisch gewechselt, sodass xcodebuild den richtigen Plan findet.
+
+- **Automatischer Schema-Wechsel beim TestPlan** — Wird ein TestPlan aus einem anderen Schema gewählt, setzt das Tool `selectedTestScheme` auf das besitzende Schema. xcodebuild erhält damit das korrekte Schema+TestPlan-Kombination. Der Header zeigt `📋 MyData  [bitone-MyData]`, damit der Wechsel sichtbar bleibt.
+
+- **Korrekter Pre-Check für deaktivierte Test-Targets** — Der Test-Vorab-Check zählte bisher alle `TestableReference`-Einträge im Schema, auch deaktivierte (`skipped="YES"`). Diese werden nun korrekt herausgefiltert — ein Schema mit ausschließlich deaktivierten Test-Targets wird korrekt als „keine Tests vorhanden" erkannt.
+
+- **Hinweis bei `test-without-building`** — Vor dem Ausführen von Option 5 erscheint jetzt ein Hinweis, dass zuvor ein `build-for-testing`-Lauf (Option 4) erforderlich ist.
+
+- **Hinweis wenn TestPlan aktiv** — Bei Unit-Tests, UI-Tests, Coverage und `test-without-building` erscheint eine Info-Meldung, wenn ein TestPlan aktiv ist: der Plan überschreibt die Test-Target-Liste des Schemas vollständig.
+
+- **Warnung bei UI-Tests auf macOS-Ziel** — Wenn das aktuell gewählte Ziel `platform=macOS` ist, erscheint beim Start von UI-Tests eine Warnung, da UI-Tests in der Regel einen Simulator benötigen.
+
+- **Korrekte Plattformerkennung bei Test-Schema** — `detectSchemePlatforms()` und damit `buildDestination()` lesen die Plattform jetzt aus dem effektiven Test-Schema (`effectiveTestScheme()`), nicht mehr aus dem Build-Schema. Dadurch ist die `-destination` bei abweichendem Test-Schema immer korrekt.
+
+- **Schema-Dateisuche aus Projektverzeichnis** — Die Suche nach `.xcscheme`-Dateien erfolgt nun vom übergeordneten Projektverzeichnis aus (nicht mehr innerhalb des Workspace-Bundles). Damit werden auch Schemas in eingebetteten `.xcodeproj`-Dateien zuverlässig gefunden.
+
+### Neue Funktionen: Header
+
+- **Menü ein-/ausblenden** — Die Kopfzeile lässt sich nun per Tastendruck ein- und ausklappen. Taste `-` reduziert die Anzeige auf Systeminfo (Xcode, Swift, Projekt, Branch); Taste `+` blendet alle Einstellungszeilen wieder ein. Der Zustand wird persistent in `~/.xcode_toolbox_prefs.json` gespeichert, der Standard ist ausgeklappt. Die Versionzeile zeigt jeweils `[-] Reduzieren` bzw. `[+] Erweitern` als Hinweis. Ein Reset setzt den Zustand auf den Standard (ausgeklappt) zurück. Die Hilfe des Hauptmenüs enthält einen entsprechenden Hinweis.
+
+- **Branch-Anzeige auf eigener Zeile** — Projekt und Branch werden nun auf separaten Zeilen angezeigt, damit lange Branch-Namen das Rechteck nicht mehr zerstören.
+- **Automatische Kürzung langer Branch-Namen** — Ist ein Branch-Name zu lang für die Breite des Headers, wird er von links gekürzt und mit `...` eingeleitet. Das Ende des Branch-Namens bleibt dabei immer sichtbar (z.B. `...ios-wla-bankverbindung-dialog-unbekannter-fehler-zfa`).
+
+### Bugfixes & UX
+
+- **Doppelte Leerzeile vor Eingabe-Prompt behoben** — In mehreren Menüs (Extended-Hauptmenü, Standard-Hauptmenü, Einstellungen) erschienen zwei Leerzeilen zwischen dem letzten Menüeintrag und dem `▶ Auswahl:`-Prompt. Ursache war ein überflüssiges `print()` direkt vor `readMenuChoice()`, das nun entfernt wurde.
+
+---
+
+## Version 1.0.3 — 2026-04-08
+
+### Fehlerbehebungen
+
+- **TestPlan-Unterstützung korrigiert** — Die in Version 1.0.2 eingeführte Unterstützung für Xcode-TestPläne wurde überarbeitet und korrigiert. In der vorherigen Version gab es noch einen Fehler bei der Erkennung bzw. Verwendung von TestPlänen in bestimmten Projekt- und Scheme-Konstellationen. Dieses Verhalten wurde in Version 1.0.3 behoben, sodass TestPläne nun zuverlässiger verarbeitet werden.
+
+---
+
 ## Version 1.0.2 — 2026-04-08
 
 ### Neue Funktionen
