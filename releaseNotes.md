@@ -4,6 +4,10 @@
 
 ## Version 1.0.4 — 2026-04-08
 
+### Neue Funktionen: Onboarding
+
+- **Sprachauswahl vor der Einführung** — Beim ersten Programmstart erscheint jetzt vor der eigentlichen Onboarding-Tour ein Willkommens-Bildschirm mit Sprachauswahl. Alle 17 verfügbaren Sprachen werden in zwei Spalten aufgelistet (mit ihren nativen Namen). Die gewählte Sprache wird sofort gespeichert und für alle nachfolgenden Bildschirme verwendet. Die aktive Sprache ist mit `◀` markiert. Ein leeres Enter überspringt die Auswahl mit der aktuellen Sprache. Der Ablauf lautet nun: **Start → Sprachauswahl → Einführung (7 Seiten) → Hauptmenü**. Der Hinweis, dass die Sprache jederzeit im Hauptmenü mit `[L]` geändert werden kann, ist im Begrüßungstext enthalten.
+
 ### Verbesserungen: Test-Menü (TestPlan & Test-Schema)
 
 - **Vollständige TestPlan-Erkennung** — TestPläne werden nun nicht mehr nur aus dem aktuell gewählten Schema gelesen, sondern bei Bedarf aus allen `.xcscheme`-Dateien des gesamten Projekts. Findet das aktuelle Schema keinen TestPlan, durchsucht das Tool alle anderen Schemas und zeigt die gefundenen Pläne mit ihrem Herkunfts-Schema an (z.B. `MyData  [bitone-MyData]`). Bei Auswahl wird das Test-Schema automatisch gewechselt, sodass xcodebuild den richtigen Plan findet.
@@ -40,6 +44,16 @@
   - Sub-Testpläne sind vollständig ausführbar (xcodebuild findet sie per Name im Projektverzeichnis), genau wie in Xcode.
   - Pläne ohne existierende Datei werden nicht angezeigt.
   - **Bugfix**: CI-UnitTest erschien doppelt, weil der XML-Parser auch `BuildActionEntry`-Referenzen auswertete. Der Parser sucht nun ausschließlich in `<TestAction><TestPlans>`. Zusätzliche Deduplizierung innerhalb eines Schemes verhindert doppelte Einträge bei mehrfach referenzierten Plänen.
+
+### Verbesserungen: Unit-Test Ausgabe
+
+- **Build-Ausgabe-Modus überarbeitet** — Im Test-Menü verwendet der Build-Ausgabe-Modus (Option „1 – Build-Ausgabe") bei Unit Tests, UI Tests, Coverage und test-without-building jetzt `runTestsLiveParsed()` + `printTestSummary()` statt der bisherigen Build-Zusammenfassung. Die Ausgabe gliedert sich nun in:
+  - **Build-Phasen** (Init, Resolve, Compile, Link) — werden einmalig beim ersten Auftreten angezeigt
+  - **Bestandene Test-Klassen** — mit Gesamtanzahl je Klasse (`✓ MyTests  12/12`)
+  - **Fehlgeschlagene Test-Klassen** — mit Liste der fehlenden Tests und Fehlermeldungen (`✗ TestName → Fehlerbeschreibung`)
+  - **Einheitliches Ergebnis-Banner** (TEST SUCCEEDED / TEST FAILED)
+
+- **TestPlan Disk-Pläne via `-only-testing`** — Testpläne, die nur auf der Festplatte vorliegen und nicht im Scheme registriert sind (`selectedTestPlanIsFromScheme = false`), werden jetzt mit `-only-testing '<Target>'`-Flags ausgeführt. Die Ziel-Liste wird direkt aus der `.xctestplan`-Datei gelesen (`testTargets`-Array). Nur wenn die Datei nicht lesbar ist, fällt das Tool auf `-testPlan` zurück. Scheme-registrierte Pläne verwenden weiterhin `-testPlan 'Name'`.
 
 ### Bugfixes & UX
 
