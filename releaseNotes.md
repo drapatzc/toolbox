@@ -59,6 +59,27 @@
 
 - **Doppelte Leerzeile vor Eingabe-Prompt behoben** — In mehreren Menüs (Extended-Hauptmenü, Standard-Hauptmenü, Einstellungen) erschienen zwei Leerzeilen zwischen dem letzten Menüeintrag und dem `▶ Auswahl:`-Prompt. Ursache war ein überflüssiges `print()` direkt vor `readMenuChoice()`, das nun entfernt wurde.
 
+### Verbesserungen: Header-Darstellung
+
+- **Header-Breite auf 83 Zeichen erweitert** — Die innere Box-Breite wurde von 81 auf 83 Zeichen vergrößert, damit die URL-Zeile mit ausreichend Rand zentriert angezeigt wird.
+
+- **Titelzeile um Autorenangabe erweitert** — Der Titel lautet nun `X C O D E   D E V E L O P E R   T O O L B O X   by Christian Drapatz`. Der Zusatz `by Christian Drapatz` wird in Dunkelgrau dargestellt.
+
+- **URL-Zeile statt Copyright-Text** — Die zweite Header-Zeile zeigt jetzt die drei Websites des Autors: `https://christiandrapatz.de | https://betterlocale.com | https://atomiumgames.com`. Die Darstellung erfolgt in Dunkelgrau (`\u{1B}[90m`).
+
+- **Neue Farbe `darkGray`** — In `Color.swift` wurde `darkGray` (`\u{1B}[90m`, ANSI Bright Black) als neue Konstante ergänzt. Die Farbe ist auf hellem wie dunklem Terminal-Hintergrund gleichermaßen gut lesbar.
+
+### Neue Referenz-App: App3-iOS (Wetter-App)
+
+- **App3-iOS** — Dritte Referenz-Implementierung im Ordner `ReferenzApp/`. iOS-Wetter-App mit gemockten Daten, vollständig dokumentiert auf Deutsch.
+  - **Architektur**: MVVM + Service + Repository (identisches Muster wie App1-iOS)
+  - **Datenquelle**: `WeatherSampleRepository` mit deterministischen Beispieldaten für 10 Städte (Berlin, München, Hamburg, Wien, Zürich, Paris, London, New York, Tokio, Sydney)
+  - **Features**: Stadtsuche mit Filterfunktion, aktuelles Wetter (Temperatur, Luftfeuchtigkeit, Wind, Sichtweite, UV-Index), 7-Tage-Vorhersage
+  - **Unit-Tests**: 5 Test-Klassen mit ca. 75 positiven und negativen Tests (Swift Testing Framework), keine UI-Tests
+  - **Test-Mocks**: `MockWeatherRepository` und `MockWeatherService` mit vollständiger Aufruf-Aufzeichnung und konfigurierbaren Fehlerfällen
+  - **Testpläne**: 4 `.xctestplan`-Dateien — `AllTests` (Standard, ⌘U), `RepositoryTests`, `ServiceTests`, `ViewModelTests` — alle im Scheme referenziert; Komponentenpläne können separat ausgeführt werden
+  - **Copyright-Header** in allen Swift-Dateien: `// (C) Christian Drapatz  |  https://christiandrapatz.de | https://betterlocale.com | https://atomiumgames.com`
+
 ---
 
 ## Version 1.0.3 — 2026-04-08
