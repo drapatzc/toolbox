@@ -2,6 +2,22 @@
 
 ---
 
+## Version 1.0.2 — 2026-04-08
+
+### Neue Funktionen
+
+- **TestPlan-Unterstützung im Test-Menü** — Das Tool unterstützt nun zwei unterschiedliche Test-Verfahren, die über die Taste `T` ausgewählt werden:
+  - **Test-Schema** — Separates Test-Target als eigenes Scheme (z.B. `TargetATest`). xcodebuild verwendet das gewählte Schema direkt.
+  - **TestPlan** — Xcode-TestPlan (`.xctestplan`) der direkt aus der Scheme-Datei des aktuellen Schemas gelesen wird. Bei nur einem verknüpften TestPlan wird dieser automatisch übernommen, bei mehreren erscheint eine Auswahlliste mit Markierung des Default-Plans. xcodebuild erhält das Flag `-testPlan 'Name'`.
+  - Beide Einstellungen schließen sich gegenseitig aus — das Setzen des einen löscht das andere automatisch.
+
+- **Visuelles Icon im Header** — Die Zeile `[T]` zeigt drei unterschiedliche Icons je nach Zustand:
+  - `⬜` — noch kein Test-Ziel gewählt
+  - `🧪` — Test-Schema aktiv
+  - `📋` — TestPlan aktiv
+
+---
+
 ## Version 1.0.1 — 2026-04-07
 
 ### Neue Funktionen
