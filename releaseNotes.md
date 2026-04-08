@@ -33,6 +33,14 @@
 
 - **TestPläne aus dem Dateisystem** — Die TestPlan-Auswahl (`T`) findet nun zusätzlich alle `.xctestplan`-Dateien im Projektverzeichnis, die nicht in einem `.xcscheme` referenziert sind. Diese erscheinen in der Auswahlliste in einer separaten Gruppe mit `📁 Nur Datei`-Badge. Beim Auswählen eines solchen Plans bleibt das aktuelle Test-Schema unverändert.
 
+- **Darstellung an Xcode angeglichen** — Die TestPlan-Auswahlliste wurde grundlegend überarbeitet:
+  - Scheme-registrierte Pläne werden mit einem blauen **■** App-Icon dargestellt.
+  - Sub-Testpläne (auf Disk vorhanden, nicht im Scheme) zeigen ein gelbes **⚙** Zahnrad-Icon — wie Xcodes Scheme-Picker.
+  - Trennlinie zwischen beiden Gruppen.
+  - Sub-Testpläne sind vollständig ausführbar (xcodebuild findet sie per Name im Projektverzeichnis), genau wie in Xcode.
+  - Pläne ohne existierende Datei werden nicht angezeigt.
+  - **Bugfix**: CI-UnitTest erschien doppelt, weil der XML-Parser auch `BuildActionEntry`-Referenzen auswertete. Der Parser sucht nun ausschließlich in `<TestAction><TestPlans>`. Zusätzliche Deduplizierung innerhalb eines Schemes verhindert doppelte Einträge bei mehrfach referenzierten Plänen.
+
 ### Bugfixes & UX
 
 - **Doppelte Leerzeile vor Eingabe-Prompt behoben** — In mehreren Menüs (Extended-Hauptmenü, Standard-Hauptmenü, Einstellungen) erschienen zwei Leerzeilen zwischen dem letzten Menüeintrag und dem `▶ Auswahl:`-Prompt. Ursache war ein überflüssiges `print()` direkt vor `readMenuChoice()`, das nun entfernt wurde.
