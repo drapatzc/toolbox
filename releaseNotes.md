@@ -29,6 +29,10 @@
 - **Branch-Anzeige auf eigener Zeile** — Projekt und Branch werden nun auf separaten Zeilen angezeigt, damit lange Branch-Namen das Rechteck nicht mehr zerstören.
 - **Automatische Kürzung langer Branch-Namen** — Ist ein Branch-Name zu lang für die Breite des Headers, wird er von links gekürzt und mit `...` eingeleitet. Das Ende des Branch-Namens bleibt dabei immer sichtbar (z.B. `...ios-wla-bankverbindung-dialog-unbekannter-fehler-zfa`).
 
+### Verbesserungen: TestPlan-Auswahl
+
+- **TestPläne aus dem Dateisystem** — Die TestPlan-Auswahl (`T`) findet nun zusätzlich alle `.xctestplan`-Dateien im Projektverzeichnis, die nicht in einem `.xcscheme` referenziert sind. Diese erscheinen in der Auswahlliste in einer separaten Gruppe mit `📁 Nur Datei`-Badge. Beim Auswählen eines solchen Plans bleibt das aktuelle Test-Schema unverändert.
+
 ### Bugfixes & UX
 
 - **Doppelte Leerzeile vor Eingabe-Prompt behoben** — In mehreren Menüs (Extended-Hauptmenü, Standard-Hauptmenü, Einstellungen) erschienen zwei Leerzeilen zwischen dem letzten Menüeintrag und dem `▶ Auswahl:`-Prompt. Ursache war ein überflüssiges `print()` direkt vor `readMenuChoice()`, das nun entfernt wurde.
