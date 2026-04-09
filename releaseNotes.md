@@ -2,7 +2,7 @@
 
 ---
 
-## Version 1.0.4 — 2026-04-08
+## Version 1.0.4 — 2026-04-09
 
 ### Neue Funktionen: Onboarding
 
@@ -69,16 +69,70 @@
 
 - **Neue Farbe `darkGray`** — In `Color.swift` wurde `darkGray` (`\u{1B}[90m`, ANSI Bright Black) als neue Konstante ergänzt. Die Farbe ist auf hellem wie dunklem Terminal-Hintergrund gleichermaßen gut lesbar.
 
-### Neue Referenz-App: App3-iOS (Wetter-App)
+### Neue Funktionen: Git-Menü
+
+- **Git-Menü stark erweitert** — Neue Analysen und Aktionen:
+  - Commits nach Benutzer gefiltert anzeigen (heute, gestern, vorgestern, aktuelle Woche, letzte Woche, aktueller Monat, letzter Monat)
+  - In Commit-Nachrichten suchen
+  - Änderungen an einer bestimmten Datei in der Git-History suchen
+  - Stash-Verwaltung (Anzeigen, Anwenden, Löschen)
+  - Branch-Vergleich mit Basis-Branch
+  - Repository-Name wird in allen Ausgaben einheitlich angezeigt
+
+### Neue Funktionen: Build & Simulator
+
+- **Menü Build & Simulator erweitert** — Neun neue Aktionen:
+  - App erneut starten (ohne neuen Build)
+  - Simulator neu starten / stoppen (aktuelles Gerät)
+  - Pre-Build-Checks (SwiftLint + TODO/FIXME-Scan)
+  - Quick Reset Build (DerivedData löschen + neu bauen)
+  - Full Reset Build (alle Caches + SPM + DerivedData + neu bauen)
+  - App deinstallieren und frisch testen (Uninstall → Install → Start)
+  - Dark/Light Mode umschalten
+  - Screenshot auf Desktop speichern
+
+### Neue Funktionen: Simulator Extended
+
+- **Push-Benachrichtigungs-Templates** — 9 vordefinierte Payload-Vorlagen: Einfach, Strukturiert (Titel/Untertitel/Text), Kein Sound, Kritisch, Silent (`content-available`), Badge Only, Mit Antwort-Aktion, Ja/Nein-Aktion, Benutzerdefiniert.
+
+- **Standort-Auswahl aus Städteliste** — Simulierten GPS-Standort aus einer vordefinierten Stadtliste wählen oder manuell Koordinaten eingeben.
+
+### Neue Funktionen: Sicherheit & Keychain
+
+- **Keychain-Integration** — Der Benutzername (Git-Autor) wird jetzt sicher im macOS-Keychain gespeichert und geladen. Beim Starten wird der gespeicherte Wert automatisch übernommen. Keine Klartextspeicherung mehr in der Preferences-Datei.
+
+- **Sicherheitsmenü verbessert** — Zusätzliche Analysen und Darstellungsverbesserungen für alle acht Sicherheitsprüfungen. Einheitlicher Header und farbige Statusanzeige in allen Ausgaben.
+
+### Verbesserungen: Apps & Navigation
+
+- **Menü Apps öffnen** — `Xcodes.app` erscheint jetzt als erster Eintrag in der Xcode-Gruppe (vor Xcode). Neuer Eintrag „Finder → Projektordner" öffnet den aktuellen Projektordner direkt im Finder — auch im benutzerdefinierten Menü zuweisbar.
+
+- **Benutzerdefiniertes Menü verbessert** — Neue zuweisbare Aktionen (Finder → Projektordner, alle neuen Build- und Simulator-Aktionen). Verbesserte Übersicht und Belegungsanzeige.
+
+- **Schema/Device-Erkennung verbessert** — Zuverlässigere Erkennung von Schemas und Simulatoren in verschiedenen Projektkonfigurationen.
+
+- **Lokalisierung erweitert** — Ca. 1100 neue Lokalisierungskeys für alle neuen Funktionen (alle 17 Sprachen).
+
+### Neue Referenz-Apps
 
 - **App3-iOS** — Dritte Referenz-Implementierung im Ordner `ReferenzApp/`. iOS-Wetter-App mit gemockten Daten, vollständig dokumentiert auf Deutsch.
   - **Architektur**: MVVM + Service + Repository (identisches Muster wie App1-iOS)
   - **Datenquelle**: `WeatherSampleRepository` mit deterministischen Beispieldaten für 10 Städte (Berlin, München, Hamburg, Wien, Zürich, Paris, London, New York, Tokio, Sydney)
   - **Features**: Stadtsuche mit Filterfunktion, aktuelles Wetter (Temperatur, Luftfeuchtigkeit, Wind, Sichtweite, UV-Index), 7-Tage-Vorhersage
   - **Unit-Tests**: 5 Test-Klassen mit ca. 75 positiven und negativen Tests (Swift Testing Framework), keine UI-Tests
-  - **Test-Mocks**: `MockWeatherRepository` und `MockWeatherService` mit vollständiger Aufruf-Aufzeichnung und konfigurierbaren Fehlerfällen
-  - **Testpläne**: 4 `.xctestplan`-Dateien — `AllTests` (Standard, ⌘U), `RepositoryTests`, `ServiceTests`, `ViewModelTests` — alle im Scheme referenziert; Komponentenpläne können separat ausgeführt werden
-  - **Copyright-Header** in allen Swift-Dateien: `// (C) Christian Drapatz  |  https://christiandrapatz.de | https://betterlocale.com | https://atomiumgames.com`
+  - **Testpläne**: 4 `.xctestplan`-Dateien — `AllTests` (Standard, ⌘U), `RepositoryTests`, `ServiceTests`, `ViewModelTests`
+
+- **App4-iOS-UserManagement** — Vierte Referenz-Implementierung. iOS-App zur Benutzerverwaltung mit lokaler SQLite-Datenbank (ohne externe Abhängigkeiten).
+  - **Architektur**: MVVM + Service + Repository + Validation
+  - **Persistenz**: `DatabaseManager` mit SQLite direkt über C-API
+  - **Features**: Benutzerliste, Benutzer anlegen/bearbeiten/löschen, Formularvalidierung mit konfigurierbaren Regeln
+  - **Unit-Tests und UI-Tests** enthalten
+  - **Lokalisierung**: DE + EN
+
+- **App5-iOS-BeerMaps** — Fünfte Referenz-Implementierung. iOS-App zum Markieren von Biertrinker-Standorten auf einer Karte.
+  - **Features**: MapKit, Core Location, lokale Push-Benachrichtigungen, Keychain (Benutzername), Getränketyp-Auswahl
+  - **Unit-Tests**: `KeychainService`, `MapViewModel`, `UsernameGenerator`
+  - **Lokalisierung**: DE + EN
 
 ---
 
