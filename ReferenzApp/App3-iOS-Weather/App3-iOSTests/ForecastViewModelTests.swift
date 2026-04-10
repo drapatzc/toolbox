@@ -4,8 +4,8 @@ import Testing
 import Foundation
 @testable import App3_iOS
 
-/// Tests für `ForecastViewModel`.
-/// Prüft Ladezustand, korrekte Vorhersagedaten und Fehlerbehandlung.
+/// Tests for `ForecastViewModel`.
+/// Verifies loading state, correct forecast data, and error handling.
 struct ForecastViewModelTests {
 
     private func makeSUT() -> (viewModel: ForecastViewModel, service: MockWeatherService) {
@@ -14,13 +14,13 @@ struct ForecastViewModelTests {
         return (viewModel, service)
     }
 
-    private func testStadt() -> City {
+    private func testCity() -> City {
         City(name: "Vorhersagestadt", land: "Testland", latitude: 48.0, longitude: 11.0)
     }
 
-    private func testVorhersage(anzahlTage: Int = 7) -> WeeklyForecast {
+    private func testForecast(dayCount: Int = 7) -> WeeklyForecast {
         let basis = Date()
-        let tage = (0..<anzahlTage).map { offset in
+        let days = (0..<dayCount).map { offset in
             DailyForecast(
                 datum: basis.addingTimeInterval(Double(offset) * 86_400),
                 minTemperatur: Double(offset) + 10,
@@ -30,13 +30,13 @@ struct ForecastViewModelTests {
                 luftfeuchtigkeit: 50
             )
         }
-        return WeeklyForecast(city: testStadt(), vorhersagen: tage)
+        return WeeklyForecast(city: testCity(), vorhersagen: days)
     }
 
-    // MARK: - Initialzustand
+    // MARK: - Initial State
 
-    @Test("ViewModel hat korrekten Initialzustand")
-    func viewModelHatKorrektenInitialzustand() {
+    @Test("ViewModel has correct initial state")
+    func viewModelHasCorrectInitialState() {
         let (viewModel, _) = makeSUT()
         #expect(viewModel.wochenvorhersage == nil)
         #expect(viewModel.isLoading == false)
@@ -45,113 +45,113 @@ struct ForecastViewModelTests {
         #expect(viewModel.vorhersagen.isEmpty)
     }
 
-    // MARK: - vorhersageLaden (Positivpfade)
+    // MARK: - vorhersageLaden (happy path)
 
-    @Test("vorhersageLaden setzt wochenvorhersage nach Erfolg")
-    func vorhersageLadenSetztWochenvorhersage() async {
+    @Test("vorhersageLaden sets wochenvorhersage on success")
+    func vorhersageLadenSetsWeeklyForecastOnSuccess() async {
         let (viewModel, service) = makeSUT()
-        service.wochenvorhersageResult = testVorhersage()
-        await viewModel.vorhersageLaden(fuer: testStadt())
+        service.wochenvorhersageResult = testForecast()
+        await viewModel.vorhersageLaden(fuer: testCity())
         #expect(viewModel.wochenvorhersage != nil)
     }
 
-    @Test("vorhersageLaden: vorhersagen enthält sieben Tage")
-    func vorhersageLadenVorhersagenEnthältSiebenTage() async {
+    @Test("vorhersageLaden: vorhersagen contains seven days")
+    func vorhersageLadenForecastsContainSevenDays() async {
         let (viewModel, service) = makeSUT()
-        service.wochenvorhersageResult = testVorhersage()
-        await viewModel.vorhersageLaden(fuer: testStadt())
+        service.wochenvorhersageResult = testForecast()
+        await viewModel.vorhersageLaden(fuer: testCity())
         #expect(viewModel.vorhersagen.count == 7)
     }
 
-    @Test("vorhersageLaden setzt isLoading nach Abschluss auf false")
-    func vorhersageLadenSetztIsLoadingAufFalse() async {
+    @Test("vorhersageLaden sets isLoading to false after completion")
+    func vorhersageLadenSetsIsLoadingFalseAfterCompletion() async {
         let (viewModel, service) = makeSUT()
-        service.wochenvorhersageResult = testVorhersage()
-        await viewModel.vorhersageLaden(fuer: testStadt())
+        service.wochenvorhersageResult = testForecast()
+        await viewModel.vorhersageLaden(fuer: testCity())
         #expect(viewModel.isLoading == false)
     }
 
-    @Test("vorhersageLaden setzt fehlerMeldung auf nil bei Erfolg")
-    func vorhersageLadenSetzrFehlerMeldungNilBeiErfolg() async {
+    @Test("vorhersageLaden sets fehlerMeldung to nil on success")
+    func vorhersageLadenSetsErrorNilOnSuccess() async {
         let (viewModel, service) = makeSUT()
-        service.wochenvorhersageResult = testVorhersage()
-        await viewModel.vorhersageLaden(fuer: testStadt())
+        service.wochenvorhersageResult = testForecast()
+        await viewModel.vorhersageLaden(fuer: testCity())
         #expect(viewModel.fehlerMeldung == nil)
     }
 
-    @Test("vorhersagen ist leer wenn noch keine Vorhersage geladen wurde")
-    func vorhersagenIstLeerOhneGeladeneDaten() {
+    @Test("vorhersagen is empty when no forecast has been loaded yet")
+    func vorhersagenIsEmptyWithoutLoadedData() {
         let (viewModel, _) = makeSUT()
         #expect(viewModel.vorhersagen.isEmpty)
     }
 
-    @Test("vorhersageLaden übergibt die richtige Stadt an den Service")
-    func vorhersageLadenÜbergibtRichtigeStadt() async {
+    @Test("vorhersageLaden passes the correct city to the service")
+    func vorhersageLadenPassesCorrectCityToService() async {
         let (viewModel, service) = makeSUT()
-        service.wochenvorhersageResult = testVorhersage()
-        await viewModel.vorhersageLaden(fuer: testStadt())
+        service.wochenvorhersageResult = testForecast()
+        await viewModel.vorhersageLaden(fuer: testCity())
         #expect(service.wochenvorhersageAufrufe.first?.name == "Vorhersagestadt")
     }
 
-    @Test("vorhersagen enthält korrekte Temperaturdaten")
-    func vorhersagenEnthältKorrekteTemeraturdaten() async {
+    @Test("vorhersagen contains correct temperature data")
+    func vorhersagenContainsCorrectTemperatureData() async {
         let (viewModel, service) = makeSUT()
-        service.wochenvorhersageResult = testVorhersage()
-        await viewModel.vorhersageLaden(fuer: testStadt())
-        let erste = viewModel.vorhersagen.first
-        #expect(erste?.minTemperatur == 10.0)
-        #expect(erste?.maxTemperatur == 20.0)
+        service.wochenvorhersageResult = testForecast()
+        await viewModel.vorhersageLaden(fuer: testCity())
+        let first = viewModel.vorhersagen.first
+        #expect(first?.minTemperatur == 10.0)
+        #expect(first?.maxTemperatur == 20.0)
     }
 
-    // MARK: - vorhersageLaden (Fehlerpfade)
+    // MARK: - vorhersageLaden (error paths)
 
-    @Test("vorhersageLaden setzt fehlerMeldung bei stadtNichtGefunden")
-    func vorhersageLadenSetztFehlerBeiStadtNichtGefunden() async {
+    @Test("vorhersageLaden sets fehlerMeldung on stadtNichtGefunden")
+    func vorhersageLadenSetsErrorOnCityNotFound() async {
         let (viewModel, service) = makeSUT()
         service.wochenvorhersageFehler = .stadtNichtGefunden
-        await viewModel.vorhersageLaden(fuer: testStadt())
+        await viewModel.vorhersageLaden(fuer: testCity())
         #expect(viewModel.fehlerMeldung != nil)
     }
 
-    @Test("vorhersageLaden setzt fehlerMeldung bei datenNichtVerfügbar")
-    func vorhersageLadenSetztFehlerBeiDatenNichtVerfügbar() async {
+    @Test("vorhersageLaden sets fehlerMeldung on datenNichtVerfügbar")
+    func vorhersageLadenSetsErrorOnDataUnavailable() async {
         let (viewModel, service) = makeSUT()
         service.wochenvorhersageFehler = .datenNichtVerfügbar
-        await viewModel.vorhersageLaden(fuer: testStadt())
+        await viewModel.vorhersageLaden(fuer: testCity())
         #expect(viewModel.fehlerMeldung != nil)
     }
 
-    @Test("hatFehler ist true wenn fehlerMeldung gesetzt ist")
-    func hatFehlerIstTrueBeiGesetzterFehlerMeldung() async {
+    @Test("hatFehler is true when fehlerMeldung is set")
+    func hatFehlerIsTrueWhenErrorIsSet() async {
         let (viewModel, service) = makeSUT()
         service.wochenvorhersageFehler = .stadtNichtGefunden
-        await viewModel.vorhersageLaden(fuer: testStadt())
+        await viewModel.vorhersageLaden(fuer: testCity())
         #expect(viewModel.hatFehler == true)
     }
 
-    @Test("vorhersageLaden setzt isLoading nach Fehler auf false")
-    func vorhersageLadenSetztIsLoadingNachFehlerAufFalse() async {
+    @Test("vorhersageLaden sets isLoading to false after error")
+    func vorhersageLadenSetsIsLoadingFalseAfterError() async {
         let (viewModel, service) = makeSUT()
         service.wochenvorhersageFehler = .stadtNichtGefunden
-        await viewModel.vorhersageLaden(fuer: testStadt())
+        await viewModel.vorhersageLaden(fuer: testCity())
         #expect(viewModel.isLoading == false)
     }
 
-    @Test("vorhersagen ist leer wenn Fehler auftrat")
-    func vorhersagenIstLeerBeiLadefehler() async {
+    @Test("vorhersagen is empty when an error occurred")
+    func vorhersagenIsEmptyOnLoadError() async {
         let (viewModel, service) = makeSUT()
         service.wochenvorhersageFehler = .datenNichtVerfügbar
-        await viewModel.vorhersageLaden(fuer: testStadt())
+        await viewModel.vorhersageLaden(fuer: testCity())
         #expect(viewModel.vorhersagen.isEmpty)
     }
 
-    // MARK: - fehlerZurücksetzen
+    // MARK: - fehlerZurücksetzen (Reset Error)
 
-    @Test("fehlerZurücksetzen löscht fehlerMeldung")
-    func fehlerZurücksetzenLöschtFehlerMeldung() async {
+    @Test("fehlerZurücksetzen clears fehlerMeldung")
+    func fehlerZurücksetzenClearsErrorMessage() async {
         let (viewModel, service) = makeSUT()
         service.wochenvorhersageFehler = .stadtNichtGefunden
-        await viewModel.vorhersageLaden(fuer: testStadt())
+        await viewModel.vorhersageLaden(fuer: testCity())
         viewModel.fehlerZurücksetzen()
         #expect(viewModel.fehlerMeldung == nil)
         #expect(viewModel.hatFehler == false)

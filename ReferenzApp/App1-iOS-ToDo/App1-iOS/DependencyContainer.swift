@@ -1,7 +1,7 @@
 import Foundation
 
-/// Verwaltet alle Abhängigkeiten der App (Dependency Injection Container).
-/// Stellt vorkonfigurierte Instanzen von Services und Repositories bereit.
+/// Manages all app dependencies (Dependency Injection Container).
+/// Provides pre-configured instances of services and repositories.
 final class DependencyContainer {
 
     static let shared = DependencyContainer()

@@ -2,7 +2,7 @@ import Testing
 import Foundation
 @testable import App1_iOS
 
-/// Tests für die TodoService-Geschäftslogik.
+/// Tests for the TodoService business logic.
 struct TodoServiceTests {
 
     private func makeSUT() -> (service: TodoService, repository: MockTodoRepository) {
@@ -11,9 +11,9 @@ struct TodoServiceTests {
         return (service, repository)
     }
 
-    // MARK: - Laden
+    // MARK: - Loading
 
-    @Test("Todos werden korrekt aus dem Repository geladen")
+    @Test("Todos are loaded correctly from the repository")
     func todosAreLoadedFromRepository() {
         let (service, repository) = makeSUT()
         repository.storedTodos = [Todo(title: "Vorhanden")]
@@ -22,9 +22,9 @@ struct TodoServiceTests {
         #expect(todos.first?.title == "Vorhanden")
     }
 
-    // MARK: - Erstellen
+    // MARK: - Creating
 
-    @Test("Neues Todo wird mit bereinigtem Titel gespeichert")
+    @Test("New todo is saved with trimmed title")
     func newTodoIsSavedWithTrimmedTitle() throws {
         let (service, repository) = makeSUT()
         let todo = try service.createTodo(title: "  Mein Todo  ")
@@ -33,7 +33,7 @@ struct TodoServiceTests {
         #expect(repository.savedTodos.first?.title == "Mein Todo")
     }
 
-    @Test("Leerer Titel wirft TodoError.emptyTitle")
+    @Test("Empty title throws TodoError.emptyTitle")
     func emptyTitleThrowsTodoError() {
         let (service, _) = makeSUT()
         #expect(throws: TodoError.emptyTitle) {
@@ -41,7 +41,7 @@ struct TodoServiceTests {
         }
     }
 
-    @Test("Nur-Leerzeichen-Titel wirft Fehler")
+    @Test("Whitespace-only title throws error")
     func whitespaceOnlyTitleThrowsError() {
         let (service, _) = makeSUT()
         #expect(throws: TodoError.emptyTitle) {
@@ -49,7 +49,7 @@ struct TodoServiceTests {
         }
     }
 
-    @Test("Valider Titel erzeugt Todo ohne Fehler")
+    @Test("Valid title creates todo without error")
     func validTitleCreatesTodoWithoutError() throws {
         let (service, _) = makeSUT()
         let todo = try service.createTodo(title: "Valider Titel")
@@ -57,9 +57,9 @@ struct TodoServiceTests {
         #expect(todo.isCompleted == false)
     }
 
-    // MARK: - Status wechseln
+    // MARK: - Toggling Status
 
-    @Test("Erledigungsstatus wird über Repository aktualisiert")
+    @Test("Completion status is toggled via repository")
     func completionStatusIsToggledViaRepository() {
         let (service, repository) = makeSUT()
         let todo = Todo(title: "Toggle Test", isCompleted: false)
@@ -69,9 +69,9 @@ struct TodoServiceTests {
         #expect(repository.updatedTodos.first?.isCompleted == true)
     }
 
-    // MARK: - Löschen
+    // MARK: - Deleting
 
-    @Test("Todo wird korrekt über Repository gelöscht")
+    @Test("Todo is correctly deleted via repository")
     func todoIsDeletedViaRepository() {
         let (service, repository) = makeSUT()
         let todoID = UUID()

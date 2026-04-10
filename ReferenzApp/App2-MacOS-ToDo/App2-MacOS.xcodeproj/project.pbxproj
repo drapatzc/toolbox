@@ -25,6 +25,7 @@
 		A20200000000000000000011 /* AppStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20100000000000000000011 /* AppStoreTests.swift */; };
 		A20200000000000000000012 /* AppStateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20100000000000000000012 /* AppStateTests.swift */; };
 		A20200000000000000000013 /* App2_MacOSUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20100000000000000000013 /* App2_MacOSUITests.swift */; };
+		C62AB4D52F88D71500D653D1 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = C62AB4D22F88D71500D653D1 /* Localizable.strings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -67,6 +68,8 @@
 		A20100000000000000000020 /* App2-MacOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "App2-MacOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A20100000000000000000021 /* App2-MacOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "App2-MacOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A20100000000000000000022 /* App2-MacOSUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "App2-MacOSUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		C62AB4D32F88D71500D653D1 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
+		C62AB4D42F88D71500D653D1 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,6 +114,7 @@
 				A20300000000000000000003 /* Core */,
 				A20300000000000000000006 /* Features */,
 				A2010000000000000000000D /* Assets.xcassets */,
+				C62AB4D22F88D71500D653D1 /* Localizable.strings */,
 				A2010000000000000000000E /* App2_MacOS.entitlements */,
 			);
 			path = "App2-MacOS";
@@ -330,6 +334,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A2020000000000000000000D /* Assets.xcassets in Resources */,
+				C62AB4D52F88D71500D653D1 /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -388,6 +393,19 @@
 			targetProxy = A20A00000000000000000002 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		C62AB4D22F88D71500D653D1 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C62AB4D32F88D71500D653D1 /* de */,
+				C62AB4D42F88D71500D653D1 /* en */,
+			);
+			name = Localizable.strings;
+			path = Resources;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		A20600000000000000000001 /* Debug */ = {

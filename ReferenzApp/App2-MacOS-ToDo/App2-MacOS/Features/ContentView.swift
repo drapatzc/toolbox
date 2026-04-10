@@ -1,6 +1,6 @@
 import SwiftUI
 
-/// Hauptansicht der macOS-App: NavigationSplitView mit Aufgabenliste und Detailbereich.
+/// Main view of the macOS app: NavigationSplitView with task list and detail panel.
 struct ContentView: View {
 
     let store: AppStore
@@ -24,13 +24,13 @@ struct ContentView: View {
         .frame(minWidth: 700, minHeight: 450)
     }
 
-    // MARK: - Leer-Zustand Detailbereich
+    // MARK: - Empty Detail Panel
 
     private var emptyDetailView: some View {
         ContentUnavailableView(
-            "Keine Aufgabe ausgewählt",
+            String(localized: "no_task_selected"),
             systemImage: "checklist",
-            description: Text("Wähle eine Aufgabe aus der Liste oder erstelle eine neue mit ⌘N.")
+            description: Text(String(localized: "no_task_selected_hint"))
         )
     }
 }

@@ -59,7 +59,7 @@ final class UserListViewModelTests: XCTestCase {
         await sut.loadUsers()
 
         sut.searchText = ""
-        // Kurze Verzögerung für Debouncing abwarten
+        // Brief delay to wait for debouncing
         try? await Task.sleep(nanoseconds: 400_000_000)
         XCTAssertEqual(sut.users.count, 2)
     }

@@ -3,34 +3,34 @@
 import Foundation
 @testable import App3_iOS
 
-/// Test-Double für `WeatherServiceProtocol`.
-/// Zeichnet alle Methodenaufrufe auf und gibt konfigurierbare Testwerte zurück.
+/// Test double for `WeatherServiceProtocol`.
+/// Records all method calls and returns configurable test values.
 final class MockWeatherService: WeatherServiceProtocol {
 
-    // MARK: - Konfigurierbare Rückgabewerte
+    // MARK: - Configurable Return Values
 
-    /// Städte, die `alleCities()` zurückgibt.
+    /// Cities returned by `alleCities()`.
     var verfügbareCities: [City] = []
-    /// Wenn gesetzt, wirft `aktuellesWetter(fuer:)` diesen Fehler.
+    /// If set, `aktuellesWetter(fuer:)` throws this error.
     var aktuellesWetterFehler: WetterFehler?
-    /// Wenn gesetzt, wirft `wochenvorhersage(fuer:)` diesen Fehler.
+    /// If set, `wochenvorhersage(fuer:)` throws this error.
     var wochenvorhersageFehler: WetterFehler?
-    /// Rückgabewert für `aktuellesWetter(fuer:)`.
+    /// Return value for `aktuellesWetter(fuer:)`.
     var aktuellesWetterResult: CurrentWeather?
-    /// Rückgabewert für `wochenvorhersage(fuer:)`.
+    /// Return value for `wochenvorhersage(fuer:)`.
     var wochenvorhersageResult: WeeklyForecast?
-    /// Rückgabewert für `citiesSuchen(suchbegriff:)`; `nil` → gibt `verfügbareCities` zurück.
+    /// Return value for `citiesSuchen(suchbegriff:)`; `nil` → returns `verfügbareCities`.
     var suchenResult: [City]?
 
-    // MARK: - Aufruf-Aufzeichnung
+    // MARK: - Call Recording
 
-    /// Anzahl der `alleCities()`-Aufrufe.
+    /// Number of `alleCities()` calls.
     var alleCitiesAufrufe: Int = 0
-    /// Städte, für die `aktuellesWetter(fuer:)` aufgerufen wurde.
+    /// Cities for which `aktuellesWetter(fuer:)` was called.
     var aktuellesWetterAufrufe: [City] = []
-    /// Städte, für die `wochenvorhersage(fuer:)` aufgerufen wurde.
+    /// Cities for which `wochenvorhersage(fuer:)` was called.
     var wochenvorhersageAufrufe: [City] = []
-    /// Suchbegriffe, mit denen `citiesSuchen(suchbegriff:)` aufgerufen wurde.
+    /// Search terms passed to `citiesSuchen(suchbegriff:)`.
     var suchenAufrufe: [String] = []
 
     // MARK: - WeatherServiceProtocol

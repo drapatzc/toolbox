@@ -2,8 +2,8 @@
 
 import Foundation
 
-/// Konkrete Implementierung des Wetter-Services.
-/// Delegiert den Datenzugriff an das Repository und ergänzt Validierungslogik.
+/// Concrete implementation of the weather service.
+/// Delegates data access to the repository and adds validation logic.
 final class WeatherService: WeatherServiceProtocol {
 
     private let repository: WeatherRepositoryProtocol

@@ -2,8 +2,8 @@
 
 import SwiftUI
 
-/// Hauptansicht zur Stadtsuche und -auswahl.
-/// Zeigt alle verfügbaren Städte und ermöglicht die gefilterte Suche.
+/// Main view for city search and selection.
+/// Displays all available cities and enables filtered searching.
 struct CitySearchView: View {
 
     @State var viewModel: CitySearchViewModel
@@ -15,7 +15,7 @@ struct CitySearchView: View {
             }
             .accessibilityIdentifier("stadtZeile_\(stadt.name)")
         }
-        .navigationTitle("Wetter-App")
+        .navigationTitle(String(localized: "weather_app_title"))
         .navigationDestination(for: City.self) { stadt in
             CurrentWeatherView(
                 viewModel: DependencyContainer.shared.makeCurrentWeatherViewModel(),
@@ -23,7 +23,7 @@ struct CitySearchView: View {
                 stadt: stadt
             )
         }
-        .searchable(text: $viewModel.suchbegriff, prompt: "Stadt oder Land suchen")
+        .searchable(text: $viewModel.suchbegriff, prompt: String(localized: "search_prompt"))
         .onChange(of: viewModel.suchbegriff) { _, _ in
             Task { await viewModel.suchen() }
         }
@@ -35,18 +35,18 @@ struct CitySearchView: View {
                 LeerzustandAnsicht(suchbegriff: viewModel.suchbegriff)
             }
         }
-        .alert("Fehler", isPresented: Binding(
+        .alert(String(localized: "error_title"), isPresented: Binding(
             get: { viewModel.hatFehler },
             set: { if !$0 { viewModel.fehlerZurücksetzen() } }
         )) {
-            Button("OK") { viewModel.fehlerZurücksetzen() }
+            Button(String(localized: "ok")) { viewModel.fehlerZurücksetzen() }
         } message: {
             Text(viewModel.fehlerMeldung ?? "")
         }
     }
 }
 
-// MARK: - StadtZeile
+// MARK: - City Row
 
 private struct StadtZeile: View {
     let stadt: City
@@ -63,7 +63,7 @@ private struct StadtZeile: View {
     }
 }
 
-// MARK: - LeerzustandAnsicht
+// MARK: - Empty State View
 
 private struct LeerzustandAnsicht: View {
     let suchbegriff: String
@@ -74,8 +74,8 @@ private struct LeerzustandAnsicht: View {
                 .font(.system(size: 48))
                 .foregroundStyle(.secondary)
             Text(suchbegriff.isEmpty
-                 ? "Keine Städte verfügbar"
-                 : "Keine Treffer für \"\(suchbegriff)\"")
+                 ? String(localized: "no_cities_available")
+                 : String(format: String(localized: "no_results_for"), suchbegriff))
                 .font(.headline)
                 .foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)

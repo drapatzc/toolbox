@@ -2,7 +2,7 @@
 
 import SwiftUI
 
-/// Ansicht für die 7-Tage-Wettervorhersage einer Stadt.
+/// View for the 7-day weather forecast of a city.
 struct ForecastView: View {
 
     @State var viewModel: ForecastViewModel
@@ -11,10 +11,10 @@ struct ForecastView: View {
     var body: some View {
         Group {
             if viewModel.isLoading {
-                ProgressView("Vorhersage wird geladen…")
+                ProgressView(String(localized: "loading_forecast"))
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
             } else if viewModel.vorhersagen.isEmpty {
-                Text("Keine Vorhersage verfügbar.")
+                Text(String(localized: "no_forecast"))
                     .foregroundStyle(.secondary)
             } else {
                 List(viewModel.vorhersagen) { vorhersage in
@@ -22,23 +22,23 @@ struct ForecastView: View {
                 }
             }
         }
-        .navigationTitle("7-Tage-Vorhersage")
+        .navigationTitle(String(localized: "forecast_title"))
         .navigationBarTitleDisplayMode(.inline)
         .task {
             await viewModel.vorhersageLaden(fuer: stadt)
         }
-        .alert("Fehler", isPresented: Binding(
+        .alert(String(localized: "error_title"), isPresented: Binding(
             get: { viewModel.hatFehler },
             set: { if !$0 { viewModel.fehlerZurücksetzen() } }
         )) {
-            Button("OK") { viewModel.fehlerZurücksetzen() }
+            Button(String(localized: "ok")) { viewModel.fehlerZurücksetzen() }
         } message: {
             Text(viewModel.fehlerMeldung ?? "")
         }
     }
 }
 
-// MARK: - VorhersageZeile
+// MARK: - Forecast Row
 
 private struct VorhersageZeile: View {
     let vorhersage: DailyForecast

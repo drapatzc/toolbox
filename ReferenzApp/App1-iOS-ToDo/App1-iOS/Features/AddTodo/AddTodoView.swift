@@ -1,6 +1,6 @@
 import SwiftUI
 
-/// Eingabeformular zum Erstellen eines neuen Todos.
+/// Input form for creating a new todo.
 struct AddTodoView: View {
 
     @State private var viewModel: AddTodoViewModel
@@ -13,8 +13,8 @@ struct AddTodoView: View {
     var body: some View {
         NavigationStack {
             Form {
-                Section("Titel") {
-                    TextField("Todo eingeben…", text: $viewModel.title)
+                Section(String(localized: "section_title")) {
+                    TextField(String(localized: "todo_placeholder"), text: $viewModel.title)
                         .accessibilityIdentifier("todoTitleField")
                 }
 
@@ -25,16 +25,16 @@ struct AddTodoView: View {
                     }
                 }
             }
-            .navigationTitle("Neues Todo")
+            .navigationTitle(String(localized: "new_todo_title"))
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button("Abbrechen") {
+                    Button(String(localized: "cancel")) {
                         dismiss()
                     }
                 }
                 ToolbarItem(placement: .confirmationAction) {
-                    Button("Speichern") {
+                    Button(String(localized: "save")) {
                         viewModel.saveTodo()
                     }
                     .disabled(!viewModel.isTitleValid)

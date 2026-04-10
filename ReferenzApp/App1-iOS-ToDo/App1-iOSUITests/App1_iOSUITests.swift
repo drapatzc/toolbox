@@ -1,7 +1,7 @@
 import XCTest
 
-/// UI-Tests für die App1-iOS Todo-App.
-/// Prüft grundlegende Benutzerinteraktionen und Navigation.
+/// UI tests for the App1-iOS Todo app.
+/// Verifies basic user interactions and navigation.
 final class App1_iOSUITests: XCTestCase {
 
     private var app: XCUIApplication!
@@ -16,16 +16,16 @@ final class App1_iOSUITests: XCTestCase {
         app = nil
     }
 
-    // MARK: - App-Start
+    // MARK: - App Launch
 
     func testAppStartsSuccessfully() {
-        XCTAssert(app.state == .runningForeground, "Die App sollte im Vordergrund laufen.")
+        XCTAssert(app.state == .runningForeground, "The app should be running in the foreground.")
     }
 
     func testListViewIsVisible() {
         XCTAssertTrue(
             app.navigationBars["Meine Todos"].exists,
-            "Die Navigationsleiste mit 'Meine Todos' sollte sichtbar sein."
+            "The navigation bar with 'Meine Todos' should be visible."
         )
     }
 
@@ -33,11 +33,11 @@ final class App1_iOSUITests: XCTestCase {
 
     func testAddButtonNavigatesToAddTodoView() {
         let addButton = app.buttons["addTodoButton"]
-        XCTAssertTrue(addButton.exists, "Der Hinzufügen-Button sollte vorhanden sein.")
+        XCTAssertTrue(addButton.exists, "The add button should be present.")
         addButton.tap()
         XCTAssertTrue(
             app.navigationBars["Neues Todo"].waitForExistence(timeout: 2.0),
-            "Die Eingabeansicht sollte erscheinen."
+            "The add todo view should appear."
         )
     }
 
@@ -47,27 +47,27 @@ final class App1_iOSUITests: XCTestCase {
         app.buttons["Abbrechen"].tap()
         XCTAssertTrue(
             app.navigationBars["Meine Todos"].waitForExistence(timeout: 2.0),
-            "Die Liste sollte nach dem Abbrechen wieder sichtbar sein."
+            "The list should be visible again after cancelling."
         )
     }
 
-    // MARK: - Todo anlegen
+    // MARK: - Creating Todos
 
     func testNewTodoCanBeCreated() {
         app.buttons["addTodoButton"].tap()
 
         let titleField = app.textFields["todoTitleField"]
-        XCTAssertTrue(titleField.waitForExistence(timeout: 2.0), "Das Titelfeld sollte erscheinen.")
+        XCTAssertTrue(titleField.waitForExistence(timeout: 2.0), "The title field should appear.")
         titleField.tap()
         titleField.typeText("Mein erstes UI-Test-Todo")
 
         let saveButton = app.buttons["saveTodoButton"]
-        XCTAssertTrue(saveButton.isEnabled, "Der Speichern-Button sollte aktiv sein.")
+        XCTAssertTrue(saveButton.isEnabled, "The save button should be enabled.")
         saveButton.tap()
 
         XCTAssertTrue(
             app.staticTexts["Mein erstes UI-Test-Todo"].waitForExistence(timeout: 2.0),
-            "Das neue Todo sollte in der Liste erscheinen."
+            "The new todo should appear in the list."
         )
     }
 
@@ -77,7 +77,7 @@ final class App1_iOSUITests: XCTestCase {
         XCTAssertTrue(saveButton.waitForExistence(timeout: 2.0))
         XCTAssertFalse(
             saveButton.isEnabled,
-            "Der Speichern-Button sollte bei leerem Titel deaktiviert sein."
+            "The save button should be disabled when the title is empty."
         )
     }
 
@@ -93,7 +93,7 @@ final class App1_iOSUITests: XCTestCase {
             XCTAssertTrue(app.navigationBars["Meine Todos"].waitForExistence(timeout: 2.0))
         }
         for title in titles {
-            XCTAssertTrue(app.staticTexts[title].exists, "'\(title)' sollte in der Liste erscheinen.")
+            XCTAssertTrue(app.staticTexts[title].exists, "'\(title)' should appear in the list.")
         }
     }
 }

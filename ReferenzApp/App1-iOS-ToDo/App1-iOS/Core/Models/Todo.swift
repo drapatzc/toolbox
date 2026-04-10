@@ -1,6 +1,6 @@
 import Foundation
 
-/// Ein einzelnes TODO-Element mit eindeutiger Identifikation, Titel und Status.
+/// A single todo item with a unique identifier, title, and completion status.
 struct Todo: Identifiable, Equatable, Codable {
     let id: UUID
     var title: String

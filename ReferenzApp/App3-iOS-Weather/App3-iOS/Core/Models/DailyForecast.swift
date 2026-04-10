@@ -2,20 +2,20 @@
 
 import Foundation
 
-/// Wettervorhersage für einen einzelnen Tag.
+/// Weather forecast for a single day.
 struct DailyForecast: Identifiable, Equatable {
     let id: UUID
-    /// Datum des Vorhersagetags.
+    /// Date of the forecast day.
     let datum: Date
-    /// Minimale Tagestemperatur in Grad Celsius.
+    /// Minimum daily temperature in degrees Celsius.
     let minTemperatur: Double
-    /// Maximale Tagestemperatur in Grad Celsius.
+    /// Maximum daily temperature in degrees Celsius.
     let maxTemperatur: Double
-    /// Wetterbedingung des Tages.
+    /// Weather condition for the day.
     let bedingung: WeatherCondition
-    /// Regenwahrscheinlichkeit in Prozent (0–100).
+    /// Probability of rain in percent (0–100).
     let regenWahrscheinlichkeit: Int
-    /// Relative Luftfeuchtigkeit in Prozent (0–100).
+    /// Relative humidity in percent (0–100).
     let luftfeuchtigkeit: Int
 
     init(
@@ -36,19 +36,19 @@ struct DailyForecast: Identifiable, Equatable {
         self.luftfeuchtigkeit = luftfeuchtigkeit
     }
 
-    /// Vollständiger Tagesname auf Deutsch (z.B. "Montag").
+    /// Full day name localized to the current locale (e.g. "Monday").
     var tagesname: String {
         let formatter = DateFormatter()
         formatter.dateFormat = "EEEE"
-        formatter.locale = Locale(identifier: "de_DE")
+        formatter.locale = Locale.autoupdatingCurrent
         return formatter.string(from: datum)
     }
 
-    /// Kurze Datumsdarstellung (z.B. "Mo, 10. Apr").
+    /// Short date representation localized to the current locale (e.g. "Mon, Apr 10").
     var datumKurz: String {
         let formatter = DateFormatter()
         formatter.dateFormat = "EE, d. MMM"
-        formatter.locale = Locale(identifier: "de_DE")
+        formatter.locale = Locale.autoupdatingCurrent
         return formatter.string(from: datum)
     }
 }

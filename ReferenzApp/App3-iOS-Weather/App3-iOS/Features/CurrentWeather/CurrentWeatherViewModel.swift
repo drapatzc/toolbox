@@ -2,17 +2,17 @@
 
 import Foundation
 
-/// ViewModel für die Anzeige des aktuellen Wetters einer Stadt.
+/// ViewModel for displaying the current weather of a city.
 @Observable
 final class CurrentWeatherViewModel {
 
     private let service: WeatherServiceProtocol
 
-    /// Geladene Wetterdaten; `nil` solange noch keine Daten vorliegen.
+    /// Loaded weather data; `nil` while no data is available yet.
     var aktuellesWetter: CurrentWeather?
-    /// `true` während die Wetterdaten abgerufen werden.
+    /// `true` while weather data is being fetched.
     var isLoading: Bool = false
-    /// Fehlermeldung wenn der Abruf fehlschlug; sonst `nil`.
+    /// Error message if the fetch failed; otherwise `nil`.
     var fehlerMeldung: String?
 
     init(service: WeatherServiceProtocol) {
@@ -21,14 +21,14 @@ final class CurrentWeatherViewModel {
 
     // MARK: - Computed Properties
 
-    /// `true` wenn eine Fehlermeldung vorhanden ist.
+    /// `true` when an error message is present.
     var hatFehler: Bool {
         fehlerMeldung != nil
     }
 
-    // MARK: - Aktionen
+    // MARK: - Actions
 
-    /// Lädt das aktuelle Wetter für die angegebene Stadt.
+    /// Loads the current weather for the specified city.
     func wetterLaden(fuer city: City) async {
         isLoading = true
         fehlerMeldung = nil
@@ -37,12 +37,12 @@ final class CurrentWeatherViewModel {
         } catch let fehler as WetterFehler {
             fehlerMeldung = fehler.localizedDescription
         } catch {
-            fehlerMeldung = "Ein unbekannter Fehler ist aufgetreten."
+            fehlerMeldung = String(localized: "unknown_error")
         }
         isLoading = false
     }
 
-    /// Setzt die aktuelle Fehlermeldung zurück.
+    /// Resets the current error message.
     func fehlerZurücksetzen() {
         fehlerMeldung = nil
     }

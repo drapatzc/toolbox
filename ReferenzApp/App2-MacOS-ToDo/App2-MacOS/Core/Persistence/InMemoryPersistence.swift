@@ -1,7 +1,7 @@
 import Foundation
 
-/// In-Memory-Implementierung der Persistenzschicht.
-/// Speichert Tasks nur im Arbeitsspeicher – ideal für Tests und Prototypen.
+/// In-memory implementation of the persistence layer.
+/// Stores tasks in RAM only – ideal for tests and prototypes.
 final class InMemoryPersistence: PersistenceProtocol {
 
     private var tasks: [WorkTask] = []

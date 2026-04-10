@@ -2,8 +2,8 @@
 
 import SwiftUI
 
-/// Einstiegspunkt der App3-iOS Wetter-App.
-/// Richtet den Dependency-Container ein und startet die Hauptansicht.
+/// Entry point of the App3-iOS weather app.
+/// Sets up the dependency container and launches the main view.
 @main
 struct App3_iOSApp: App {
 

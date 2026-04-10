@@ -1,6 +1,6 @@
 import SwiftUI
 
-/// Hauptansicht der App: zeigt alle vorhandenen Todos als Liste.
+/// Main view of the app: displays all existing todos as a list.
 struct TodoListView: View {
 
     @State private var viewModel: TodoListViewModel
@@ -13,11 +13,11 @@ struct TodoListView: View {
         @Bindable var bindable = viewModel
         NavigationStack {
             contentView
-                .navigationTitle("Meine Todos")
+                .navigationTitle(String(localized: "todo_list_title"))
                 .toolbar {
                     ToolbarItem(placement: .primaryAction) {
                         Button(action: viewModel.showAddTodo) {
-                            Label("Hinzufügen", systemImage: "plus")
+                            Label(String(localized: "add_button_label"), systemImage: "plus")
                         }
                         .accessibilityIdentifier("addTodoButton")
                     }
@@ -32,7 +32,7 @@ struct TodoListView: View {
         }
     }
 
-    // MARK: - Unteransichten
+    // MARK: - Sub-Views
 
     @ViewBuilder
     private var contentView: some View {
@@ -58,17 +58,17 @@ struct TodoListView: View {
 
     private var emptyStateView: some View {
         ContentUnavailableView(
-            "Keine Todos vorhanden",
+            String(localized: "empty_title"),
             systemImage: "checkmark.circle",
-            description: Text("Tippe auf +, um ein neues Todo hinzuzufügen.")
+            description: Text(String(localized: "empty_description"))
         )
         .accessibilityIdentifier("emptyState")
     }
 }
 
-// MARK: - Todo-Zeile
+// MARK: - Todo Row
 
-/// Einzelne Zeile in der Todo-Liste.
+/// A single row in the todo list.
 private struct TodoRowView: View {
 
     let todo: Todo
@@ -95,6 +95,6 @@ private struct TodoRowView: View {
         }
         .accessibilityElement(children: .combine)
         .accessibilityLabel(todo.title)
-        .accessibilityValue(todo.isCompleted ? "Erledigt" : "Offen")
+        .accessibilityValue(todo.isCompleted ? String(localized: "status_completed") : String(localized: "status_open"))
     }
 }

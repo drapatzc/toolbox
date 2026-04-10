@@ -4,246 +4,246 @@ import Testing
 import Foundation
 @testable import App3_iOS
 
-/// Tests für `WeatherSampleRepository`.
-/// Prüft sowohl die Positivpfade (korrekte Rückgaben) als auch Fehlerfälle.
+/// Tests for `WeatherSampleRepository`.
+/// Verifies both the happy paths (correct returns) and error cases.
 struct WeatherRepositoryTests {
 
     private func makeSUT() -> WeatherSampleRepository {
         WeatherSampleRepository()
     }
 
-    /// Erstellt eine bekannte Berliner Teststadt (ID aus dem Repository).
+    /// Creates a known Berlin test city (ID from the repository).
     private func berlin() -> City {
         City(id: UUID(uuidString: "A3000000-0000-0000-0000-000000000001")!,
-             name: "Berlin", land: "Deutschland", latitude: 52.52, longitude: 13.40)
+             name: "Berlin", land: "Germany", latitude: 52.52, longitude: 13.40)
     }
 
-    /// Erstellt eine unbekannte Stadt, die nicht im Repository vorkommt.
-    private func unbekannteStadt() -> City {
+    /// Creates an unknown city that does not exist in the repository.
+    private func unknownCity() -> City {
         City(name: "Nirgendwo", land: "Unbekannt", latitude: 0, longitude: 0)
     }
 
     // MARK: - alleCities
 
-    @Test("alleCities gibt genau zehn Städte zurück")
-    func alleCitiesGibtZehnStädteZurück() {
+    @Test("alleCities returns exactly ten cities")
+    func alleCitiesReturnsTenCities() {
         let sut = makeSUT()
         #expect(sut.alleCities().count == 10)
     }
 
-    @Test("alleCities enthält Berlin")
-    func alleCitiesEnthältBerlin() {
+    @Test("alleCities contains Berlin")
+    func alleCitiesContainsBerlin() {
         let sut = makeSUT()
         #expect(sut.alleCities().contains { $0.name == "Berlin" })
     }
 
-    @Test("alleCities enthält München")
-    func alleCitiesEnthältMünchen() {
+    @Test("alleCities contains Munich")
+    func alleCitiesContainsMunich() {
         let sut = makeSUT()
-        #expect(sut.alleCities().contains { $0.name == "München" })
+        #expect(sut.alleCities().contains { $0.name == "Munich" })
     }
 
-    @Test("alleCities enthält keine Duplikate (eindeutige IDs)")
-    func alleCitiesEnthältKeineIdDuplikate() {
+    @Test("alleCities contains no duplicates (unique IDs)")
+    func alleCitiesContainsNoDuplicateIDs() {
         let sut = makeSUT()
         let ids = sut.alleCities().map(\.id)
         #expect(Set(ids).count == ids.count)
     }
 
-    @Test("alleCities enthält keine leeren Namen")
-    func alleCitiesEnthältKeineLeereNamen() {
+    @Test("alleCities contains no empty names")
+    func alleCitiesContainsNoEmptyNames() {
         let sut = makeSUT()
         #expect(sut.alleCities().allSatisfy { !$0.name.isEmpty })
     }
 
-    // MARK: - aktuellesWetter (Positivpfade)
+    // MARK: - aktuellesWetter (happy path)
 
-    @Test("aktuellesWetter gibt Wetter für Berlin zurück")
-    func aktuellesWetterGibtWetterFürBerlinZurück() throws {
+    @Test("aktuellesWetter returns weather for Berlin")
+    func aktuellesWetterReturnsWeatherForBerlin() throws {
         let sut = makeSUT()
         let wetter = try sut.aktuellesWetter(fuer: berlin())
         #expect(wetter.city.name == "Berlin")
     }
 
-    @Test("aktuellesWetter: Temperatur liegt in plausiblem Bereich (-30 bis 50 °C)")
-    func aktuellesWetterTemperaturInPlausiblemBereich() throws {
+    @Test("aktuellesWetter: temperature is in plausible range (-30 to 50 °C)")
+    func aktuellesWetterTemperatureInPlausibleRange() throws {
         let sut = makeSUT()
         let wetter = try sut.aktuellesWetter(fuer: berlin())
         #expect(wetter.temperatur >= -30 && wetter.temperatur <= 50)
     }
 
-    @Test("aktuellesWetter: gefühlte Temperatur liegt in plausiblem Bereich")
-    func aktuellesWetterGefühlteTemperaturInPlausiblemBereich() throws {
+    @Test("aktuellesWetter: feels-like temperature is in plausible range")
+    func aktuellesWetterFeelsLikeTemperatureInPlausibleRange() throws {
         let sut = makeSUT()
         let wetter = try sut.aktuellesWetter(fuer: berlin())
         #expect(wetter.gefuehlteTemperatur >= -40 && wetter.gefuehlteTemperatur <= 55)
     }
 
-    @Test("aktuellesWetter: Luftfeuchtigkeit liegt zwischen 0 und 100 Prozent")
-    func aktuellesWetterLuftfeuchtigkeitInGültigemBereich() throws {
+    @Test("aktuellesWetter: humidity is between 0 and 100 percent")
+    func aktuellesWetterHumidityInValidRange() throws {
         let sut = makeSUT()
         let wetter = try sut.aktuellesWetter(fuer: berlin())
         #expect(wetter.luftfeuchtigkeit >= 0 && wetter.luftfeuchtigkeit <= 100)
     }
 
-    @Test("aktuellesWetter: Windgeschwindigkeit ist nicht negativ")
-    func aktuellesWetterWindgeschwindigkeitNichtNegativ() throws {
+    @Test("aktuellesWetter: wind speed is not negative")
+    func aktuellesWetterWindSpeedNotNegative() throws {
         let sut = makeSUT()
         let wetter = try sut.aktuellesWetter(fuer: berlin())
         #expect(wetter.windgeschwindigkeit >= 0)
     }
 
-    @Test("aktuellesWetter: Sichtweite ist positiv")
-    func aktuellesWetterSichtweitePositiv() throws {
+    @Test("aktuellesWetter: visibility is positive")
+    func aktuellesWetterVisibilityIsPositive() throws {
         let sut = makeSUT()
         let wetter = try sut.aktuellesWetter(fuer: berlin())
         #expect(wetter.sichtweite > 0)
     }
 
-    @Test("aktuellesWetter: UV-Index liegt zwischen 0 und 11")
-    func aktuellesWetterUvIndexInGültigemBereich() throws {
+    @Test("aktuellesWetter: UV index is between 0 and 11")
+    func aktuellesWetterUvIndexInValidRange() throws {
         let sut = makeSUT()
         let wetter = try sut.aktuellesWetter(fuer: berlin())
         #expect(wetter.uvIndex >= 0 && wetter.uvIndex <= 11)
     }
 
-    @Test("aktuellesWetter: Windrichtung ist nicht leer")
-    func aktuellesWetterWindrichtungNichtLeer() throws {
+    @Test("aktuellesWetter: wind direction is not empty")
+    func aktuellesWetterWindDirectionNotEmpty() throws {
         let sut = makeSUT()
         let wetter = try sut.aktuellesWetter(fuer: berlin())
         #expect(!wetter.windrichtung.isEmpty)
     }
 
-    @Test("aktuellesWetter: Sonnenaufgang liegt vor Sonnenuntergang")
-    func aktuellesWetterSonnenaufgangVorSonnenuntergang() throws {
+    @Test("aktuellesWetter: sunrise is before sunset")
+    func aktuellesWetterSunriseBeforeSunset() throws {
         let sut = makeSUT()
         let wetter = try sut.aktuellesWetter(fuer: berlin())
         #expect(wetter.sonnenaufgang < wetter.sonnenuntergang)
     }
 
-    @Test("aktuellesWetter liefert deterministisch gleiches Ergebnis für dieselbe Stadt")
-    func aktuellesWetterIstDeterministisch() throws {
+    @Test("aktuellesWetter returns deterministic result for the same city")
+    func aktuellesWetterIsDeterministic() throws {
         let sut = makeSUT()
-        let ersteAbfrage = try sut.aktuellesWetter(fuer: berlin())
-        let zweiteAbfrage = try sut.aktuellesWetter(fuer: berlin())
-        #expect(ersteAbfrage.temperatur == zweiteAbfrage.temperatur)
-        #expect(ersteAbfrage.bedingung == zweiteAbfrage.bedingung)
+        let firstQuery = try sut.aktuellesWetter(fuer: berlin())
+        let secondQuery = try sut.aktuellesWetter(fuer: berlin())
+        #expect(firstQuery.temperatur == secondQuery.temperatur)
+        #expect(firstQuery.bedingung == secondQuery.bedingung)
     }
 
-    // MARK: - aktuellesWetter (Fehlerpfade)
+    // MARK: - aktuellesWetter (error paths)
 
-    @Test("aktuellesWetter wirft stadtNichtGefunden für unbekannte Stadt")
-    func aktuellesWetterWirftFehlerFürUnbekannteStadt() {
+    @Test("aktuellesWetter throws stadtNichtGefunden for unknown city")
+    func aktuellesWetterThrowsErrorForUnknownCity() {
         let sut = makeSUT()
         #expect(throws: WetterFehler.stadtNichtGefunden) {
-            try sut.aktuellesWetter(fuer: unbekannteStadt())
+            try sut.aktuellesWetter(fuer: unknownCity())
         }
     }
 
-    @Test("aktuellesWetter wirft Fehler wenn Stadt-ID nicht existiert")
-    func aktuellesWetterWirftFehlerBeiUnbekannterID() {
+    @Test("aktuellesWetter throws error when city ID does not exist")
+    func aktuellesWetterThrowsErrorForUnknownID() {
         let sut = makeSUT()
-        let fremdStadt = City(id: UUID(), name: "Berlin", land: "Deutschland", latitude: 52.52, longitude: 13.40)
+        let foreignCity = City(id: UUID(), name: "Berlin", land: "Germany", latitude: 52.52, longitude: 13.40)
         #expect(throws: WetterFehler.stadtNichtGefunden) {
-            try sut.aktuellesWetter(fuer: fremdStadt)
+            try sut.aktuellesWetter(fuer: foreignCity)
         }
     }
 
-    // MARK: - wochenvorhersage (Positivpfade)
+    // MARK: - wochenvorhersage (happy path)
 
-    @Test("wochenvorhersage gibt sieben Tagesvorhersagen zurück")
-    func wochenvorhersageGibtSiebenTageZurück() throws {
+    @Test("wochenvorhersage returns seven daily forecasts")
+    func wochenvorhersageReturnsSevenDays() throws {
         let sut = makeSUT()
-        let vorhersage = try sut.wochenvorhersage(fuer: berlin())
-        #expect(vorhersage.vorhersagen.count == 7)
+        let forecast = try sut.wochenvorhersage(fuer: berlin())
+        #expect(forecast.vorhersagen.count == 7)
     }
 
-    @Test("wochenvorhersage: Minimaltemperatur <= Maximaltemperatur an jedem Tag")
-    func wochenvorhersageMinTempKleinerGleichMaxTemp() throws {
+    @Test("wochenvorhersage: min temperature <= max temperature on each day")
+    func wochenvorhersageMinTempLessOrEqualMaxTemp() throws {
         let sut = makeSUT()
-        let vorhersage = try sut.wochenvorhersage(fuer: berlin())
-        #expect(vorhersage.vorhersagen.allSatisfy { $0.minTemperatur <= $0.maxTemperatur })
+        let forecast = try sut.wochenvorhersage(fuer: berlin())
+        #expect(forecast.vorhersagen.allSatisfy { $0.minTemperatur <= $0.maxTemperatur })
     }
 
-    @Test("wochenvorhersage: Regenwahrscheinlichkeit zwischen 0 und 100")
-    func wochenvorhersageRegenWahrscheinlichkeitInGültigemBereich() throws {
+    @Test("wochenvorhersage: rain probability between 0 and 100")
+    func wochenvorhersageRainProbabilityInValidRange() throws {
         let sut = makeSUT()
-        let vorhersage = try sut.wochenvorhersage(fuer: berlin())
-        #expect(vorhersage.vorhersagen.allSatisfy {
+        let forecast = try sut.wochenvorhersage(fuer: berlin())
+        #expect(forecast.vorhersagen.allSatisfy {
             $0.regenWahrscheinlichkeit >= 0 && $0.regenWahrscheinlichkeit <= 100
         })
     }
 
-    @Test("wochenvorhersage: Luftfeuchtigkeit aller Tage zwischen 0 und 100")
-    func wochenvorhersageLuftfeuchtigkeitAllerTageGültig() throws {
+    @Test("wochenvorhersage: humidity of all days between 0 and 100")
+    func wochenvorhersageHumidityOfAllDaysValid() throws {
         let sut = makeSUT()
-        let vorhersage = try sut.wochenvorhersage(fuer: berlin())
-        #expect(vorhersage.vorhersagen.allSatisfy {
+        let forecast = try sut.wochenvorhersage(fuer: berlin())
+        #expect(forecast.vorhersagen.allSatisfy {
             $0.luftfeuchtigkeit >= 0 && $0.luftfeuchtigkeit <= 100
         })
     }
 
-    @Test("wochenvorhersage: Daten gehören zur angefragten Stadt")
-    func wochenvorhersageGehörtZurAngefragtenStadt() throws {
+    @Test("wochenvorhersage: data belongs to the requested city")
+    func wochenvorhersageBelongsToRequestedCity() throws {
         let sut = makeSUT()
-        let vorhersage = try sut.wochenvorhersage(fuer: berlin())
-        #expect(vorhersage.city.name == "Berlin")
+        let forecast = try sut.wochenvorhersage(fuer: berlin())
+        #expect(forecast.city.name == "Berlin")
     }
 
-    // MARK: - wochenvorhersage (Fehlerpfade)
+    // MARK: - wochenvorhersage (error paths)
 
-    @Test("wochenvorhersage wirft stadtNichtGefunden für unbekannte Stadt")
-    func wochenvorhersageWirftFehlerFürUnbekannteStadt() {
+    @Test("wochenvorhersage throws stadtNichtGefunden for unknown city")
+    func wochenvorhersageThrowsErrorForUnknownCity() {
         let sut = makeSUT()
         #expect(throws: WetterFehler.stadtNichtGefunden) {
-            try sut.wochenvorhersage(fuer: unbekannteStadt())
+            try sut.wochenvorhersage(fuer: unknownCity())
         }
     }
 
-    // MARK: - citiesSuchen (Positivpfade)
+    // MARK: - citiesSuchen (happy path)
 
-    @Test("citiesSuchen mit leerem Begriff gibt alle Städte zurück")
-    func citiesSuchenMitLeeremBegriffGibtAlleStädte() {
+    @Test("citiesSuchen with empty term returns all cities")
+    func citiesSuchenWithEmptyTermReturnsAllCities() {
         let sut = makeSUT()
         #expect(sut.citiesSuchen(suchbegriff: "").count == 10)
     }
 
-    @Test("citiesSuchen findet Berlin nach Name")
-    func citiesSuchenFindetBerlinNachName() {
+    @Test("citiesSuchen finds Berlin by name")
+    func citiesSuchenFindsBerlinByName() {
         let sut = makeSUT()
-        let ergebnis = sut.citiesSuchen(suchbegriff: "Berlin")
-        #expect(ergebnis.count == 1)
-        #expect(ergebnis.first?.name == "Berlin")
+        let result = sut.citiesSuchen(suchbegriff: "Berlin")
+        #expect(result.count == 1)
+        #expect(result.first?.name == "Berlin")
     }
 
-    @Test("citiesSuchen findet deutsche Städte nach Landname")
-    func citiesSuchenFindetStädteNachLand() {
+    @Test("citiesSuchen finds German cities by country name")
+    func citiesSuchenFindsCitiesByCountry() {
         let sut = makeSUT()
-        let ergebnis = sut.citiesSuchen(suchbegriff: "Deutschland")
-        #expect(ergebnis.count == 3) // Berlin, München, Hamburg
+        let result = sut.citiesSuchen(suchbegriff: "Germany")
+        #expect(result.count == 3) // Berlin, Munich, Hamburg
     }
 
-    @Test("citiesSuchen ist Groß-/Kleinschreibungs-unabhängig")
-    func citiesSuchenIstCaseInsensitiv() {
+    @Test("citiesSuchen is case-insensitive")
+    func citiesSuchenIsCaseInsensitive() {
         let sut = makeSUT()
-        let groß = sut.citiesSuchen(suchbegriff: "BERLIN")
-        let klein = sut.citiesSuchen(suchbegriff: "berlin")
-        #expect(groß.count == klein.count)
-        #expect(groß.first?.name == klein.first?.name)
+        let upper = sut.citiesSuchen(suchbegriff: "BERLIN")
+        let lower = sut.citiesSuchen(suchbegriff: "berlin")
+        #expect(upper.count == lower.count)
+        #expect(upper.first?.name == lower.first?.name)
     }
 
-    @Test("citiesSuchen mit Nur-Leerzeichen-Begriff gibt alle Städte zurück")
-    func citiesSuchenMitNurLeerzeichenGibtAlleStädte() {
+    @Test("citiesSuchen with whitespace-only term returns all cities")
+    func citiesSuchenWithWhitespaceOnlyReturnsAllCities() {
         let sut = makeSUT()
         #expect(sut.citiesSuchen(suchbegriff: "   ").count == 10)
     }
 
-    // MARK: - citiesSuchen (Fehlerpfade)
+    // MARK: - citiesSuchen (error paths)
 
-    @Test("citiesSuchen gibt leere Liste für nicht existierende Stadt zurück")
-    func citiesSuchenGibtLeereListeFürNichtExistierendeStadt() {
+    @Test("citiesSuchen returns empty list for non-existent city")
+    func citiesSuchenReturnsEmptyListForNonExistentCity() {
         let sut = makeSUT()
-        let ergebnis = sut.citiesSuchen(suchbegriff: "ZZZNichtVorhandenXXX")
-        #expect(ergebnis.isEmpty)
+        let result = sut.citiesSuchen(suchbegriff: "ZZZNichtVorhandenXXX")
+        #expect(result.isEmpty)
     }
 }

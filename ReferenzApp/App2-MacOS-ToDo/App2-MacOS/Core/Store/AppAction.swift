@@ -1,7 +1,7 @@
 import Foundation
 
-/// Alle möglichen Aktionen, die den Anwendungszustand verändern können.
-/// Im Redux-Muster werden Aktionen an den Store dispatcht, der den Reducer aufruft.
+/// All possible actions that can change the application state.
+/// In the Redux pattern, actions are dispatched to the store, which calls the reducer.
 enum AppAction: Equatable {
     case addTask(title: String, description: String, priority: TaskPriority)
     case updateTaskStatus(id: UUID, newStatus: TaskStatus)

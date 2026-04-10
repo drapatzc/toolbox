@@ -1,22 +1,22 @@
 import Foundation
 import SQLite3
 
-/// SQLite3-Datenbankmanager — verwaltet Verbindung und Schema
+/// SQLite3 database manager — manages connection and schema
 final class DatabaseManager {
 
     private var db: OpaquePointer?
     private let dbPath: String
 
-    // MARK: - Initialisierung
+    // MARK: - Initialization
 
-    /// Produktions-Initialisierung — verwendet Documents-Verzeichnis
+    /// Production initialization — uses Documents directory
     convenience init() throws {
         let docs = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
         let path = docs.appendingPathComponent("users.sqlite").path
         try self.init(path: path)
     }
 
-    /// Initialisierung mit explizitem Pfad (auch `:memory:` für Tests)
+    /// Initialization with explicit path (also `:memory:` for tests)
     init(path: String) throws {
         self.dbPath = path
         try openDatabase()
@@ -29,7 +29,7 @@ final class DatabaseManager {
         }
     }
 
-    // MARK: - Datenbankverbindung
+    // MARK: - Database Connection
 
     private func openDatabase() throws {
         let flags = SQLITE_OPEN_CREATE | SQLITE_OPEN_READWRITE | SQLITE_OPEN_FULLMUTEX
@@ -38,7 +38,7 @@ final class DatabaseManager {
             let msg = String(cString: sqlite3_errmsg(db))
             throw AppError.databaseOpenFailed(msg)
         }
-        // WAL-Modus für bessere Concurrency
+        // WAL mode for better concurrency
         sqlite3_exec(db, "PRAGMA journal_mode=WAL;", nil, nil, nil)
     }
 
@@ -212,7 +212,7 @@ final class DatabaseManager {
         return users
     }
 
-    // MARK: - Hilfsmethoden
+    // MARK: - Helpers
 
     // MARK: - Debug
 

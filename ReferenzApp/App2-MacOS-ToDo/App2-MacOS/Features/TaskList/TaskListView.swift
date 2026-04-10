@@ -1,6 +1,6 @@
 import SwiftUI
 
-/// Seitenleiste der macOS-App: zeigt alle Aufgaben mit Filter- und Sortierfunktion.
+/// Sidebar of the macOS app: displays all tasks with filter and sort functionality.
 struct TaskListView: View {
 
     let store: AppStore
@@ -14,7 +14,7 @@ struct TaskListView: View {
                 .tag(task.id)
         }
         .listStyle(.sidebar)
-        .navigationTitle("Aufgaben")
+        .navigationTitle(String(localized: "tasks_nav_title"))
         .toolbar {
             ToolbarItemGroup {
                 filterMenuButton
@@ -29,47 +29,47 @@ struct TaskListView: View {
         }
     }
 
-    // MARK: - Toolbar-Elemente
+    // MARK: - Toolbar Items
 
     private var addTaskButton: some View {
         Button(action: { store.dispatch(.showAddTask) }) {
-            Label("Neue Aufgabe", systemImage: "plus")
+            Label(String(localized: "new_task"), systemImage: "plus")
         }
         .accessibilityIdentifier("addTaskButton")
-        .help("Neue Aufgabe anlegen (⌘N)")
+        .help(String(localized: "new_task_tooltip"))
     }
 
     private var filterMenuButton: some View {
         Menu {
-            Button("Alle anzeigen") {
+            Button(String(localized: "show_all")) {
                 store.dispatch(.setFilter(status: nil))
             }
             Divider()
             ForEach(TaskStatus.allCases, id: \.self) { status in
-                Button(status.rawValue) {
+                Button(status.localizedName) {
                     store.dispatch(.setFilter(status: status))
                 }
             }
         } label: {
-            Label("Filter", systemImage: "line.3.horizontal.decrease.circle")
+            Label(String(localized: "filter"), systemImage: "line.3.horizontal.decrease.circle")
         }
-        .help("Aufgaben filtern")
+        .help(String(localized: "filter_tasks_tooltip"))
     }
 
-    // MARK: - Leer-Zustand
+    // MARK: - Empty State
 
     private var emptyStateView: some View {
         ContentUnavailableView(
-            "Keine Aufgaben",
+            String(localized: "no_tasks"),
             systemImage: "tray",
-            description: Text("Erstelle eine neue Aufgabe mit ⌘N.")
+            description: Text(String(localized: "no_tasks_hint"))
         )
     }
 }
 
-// MARK: - Task-Zeile
+// MARK: - Task Row
 
-/// Einzelne Zeile in der Aufgaben-Seitenleiste.
+/// A single row in the task sidebar.
 private struct TaskRowView: View {
 
     let task: WorkTask
@@ -82,13 +82,18 @@ private struct TaskRowView: View {
                     .font(.headline)
                     .lineLimit(1)
             }
-            Text(task.status.rawValue)
+            Text(task.status.localizedName)
                 .font(.caption)
                 .foregroundStyle(.secondary)
         }
         .padding(.vertical, 2)
         .accessibilityElement(children: .combine)
-        .accessibilityLabel("\(task.title), Priorität \(task.priority.rawValue), \(task.status.rawValue)")
+        .accessibilityLabel(
+            String(format: String(localized: "accessibility_task_label"),
+                   task.title,
+                   task.priority.localizedName,
+                   task.status.localizedName)
+        )
     }
 
     private var priorityDot: some View {
@@ -98,7 +103,7 @@ private struct TaskRowView: View {
     }
 }
 
-// MARK: - Erweiterungen für Darstellung
+// MARK: - Display Extensions
 
 private extension TaskPriority {
     var color: Color {
