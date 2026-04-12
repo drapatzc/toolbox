@@ -1,0 +1,42 @@
+Xcode Developer Toolbox License
+
+Copyright (c) 2026 Christian Drapatz
+
+1. Grant of Use
+
+This software is provided free of charge for personal and commercial development purposes.
+
+The software is distributed solely as a compiled executable (binary). No source code is provided.
+
+2. Permitted Use
+
+You are allowed to:
+- use the software for personal and commercial development purposes
+- use the software within your organization
+
+3. Restrictions
+
+You are NOT allowed to:
+- sell this software
+- redistribute this software as a standalone product
+- sublicense, resell, or distribute this software in any form
+- include this software in paid products or services without explicit written permission from the author
+- modify, reverse engineer, decompile, or attempt to extract the source code of this software
+
+4. Ownership
+
+This software is licensed, not sold. All rights remain with the author.
+
+5. Disclaimer of Warranty
+
+This software is provided "as is", without warranty of any kind, express or implied, including but not limited to the warranties of merchantability, fitness for a particular purpose, and non-infringement.
+
+6. Limitation of Liability
+
+The use of this software is at your own risk.
+
+In no event shall the author be liable for any damages whatsoever, including but not limited to direct, indirect, incidental, consequential, or special damages, arising out of or in connection with the use or inability to use this software.
+
+7. Acceptance
+
+By using this software, you agree to the terms of this license.
