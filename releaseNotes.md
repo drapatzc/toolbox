@@ -42,6 +42,57 @@
 - **Auto-Build: interval default after reset** — After resetting settings, `autoBuildIntervalHours` was incorrectly set to `0.0` (invalid), causing no interval to appear as active. After reset, the default value of **2 hours** is now correctly restored.
   - Safety net in `loadPreferences()`: if an invalid value ≤ 0 is loaded on startup, the 2-hour default kicks in automatically. The state "no interval set" can no longer occur.
 
+### Menus Released from Beta
+
+- **Four menus have left Beta** — After extensive testing, the following submenus are now part of the stable feature set and no longer marked with `(Beta)`: **Binary Analysis**, **Security & Privacy**, **Dependencies**, and **Version Management**. They are available in both the simple and the extended main menu.
+
+### Menu Structure
+
+- **Simple ↔ Extended swapped (`M`)** — The order of the two main menu modes has been swapped. What used to be **M2 (Simple)** is now **M1**, and the previous **M1 (Extended)** is now **M2**. This matches the "Simple first" default for new users.
+
+- **Dependencies menu reworked** — Swift Package Manager packages are now listed directly under the Dependencies menu alongside CocoaPods and Carthage. Each package manager has its own structured section with list, resolve, update, and clean actions. The main menu was also restructured to surface Dependencies as a first-class menu.
+
+- **`MenuCompleteTree`** — New dedicated tree renderer for the complete menu overview, used to print the full menu hierarchy in a single, consistent format.
+
+### Auto-Build: Test Class Detection
+
+- **No false failures for targets without tests** — Auto-Build now checks whether the selected test target actually contains any test classes before running `xcodebuild test`. If no test classes exist, the run is no longer reported as failed — only the pure build result is used. Previously, Auto-Build would mark an otherwise green run as broken whenever `xcodebuild test` had nothing to execute.
+
+### Header Layout
+
+- **Header revised** — Spacing, line breaks, and the position of the settings block in the header have been reworked for a cleaner overall look. Existing collapse/expand behavior (`[-]`/`[+]`) is preserved.
+
+### Security & Keychain
+
+- **`kSecAttrAccessibleAfterFirstUnlock`** — All Keychain entries written by the toolbox (username / Git author) and by the reference apps now use the `kSecAttrAccessibleAfterFirstUnlock` accessibility class, so the entries become available after the first device unlock following a reboot.
+
+### New Reference Apps
+
+- **App8-iOS-xcworkspace** — New reference implementation as a fully fledged `.xcworkspace` with an embedded project. Used to demonstrate workspace handling, scheme/destination detection, and multi-project builds. The app is runnable with its unit tests; the build settings have been reviewed and trimmed to a minimal working configuration.
+
+- **App8-cocoapods** — Reference app for the CocoaPods workflow, used to exercise `Podfile` resolution and the Dependencies → CocoaPods view.
+
+- **App9-spm** — Reference app for Swift Package Manager, used to verify SPM resolution, listing, and updating from the new Dependencies → SPM view.
+
+- **App10-carthage** — Reference app for Carthage, used to verify the Carthage integration flow supported by the Dependencies menu.
+
+### Homepage
+
+- **Brand-new project homepage** at [toolbox.betterlocale.com](https://toolbox.betterlocale.com) — The site has been fully redesigned in a clean Apple-inspired style. The previous version has been archived in the repository.
+  - **SEO** — Open Graph, Twitter Card, multi-type JSON-LD (SoftwareApplication / WebSite / Person), canonical URL, `hreflang`, `robots.txt`, `sitemap.xml`, and a dedicated `og-image.svg` social card.
+  - **Animations** — Terminal typing cycle, count-up hero stats with `easeOutCubic`, scroll progress bar, hero gradient drift, card tilt/glow on hover.
+  - **Smart language detection** — Language is chosen in order: `?lang=` URL parameter → `localStorage` → browser language (`de` → DE, everything else → EN).
+
+### Configuration & Scripts
+
+- **`senior.conf` updated** — The pre-built "senior" configuration profile has been updated to reflect the new menu structure and the four newly released menus.
+
+- **`build.sh` / `copy.sh`** — Both deployment scripts now additionally copy `README_DE.md` alongside `README_EN.md` into the target directory.
+
+- **README files extended** — Both `README_DE.md` and `README_EN.md` now contain new sections for the project **Homepage**, **Support the developer** (PayPal), and **Developer** (Portfolio, AI apps, Games, Apps) — matching the new homepage layout.
+
+- **Repository cleanup** — Unused legacy files have been removed from the repository to reduce clone size.
+
 ### Localization
 
 - All new Auto-Build strings and phase descriptions localized (DE + EN, all 17 languages where possible).

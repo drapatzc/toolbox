@@ -200,6 +200,79 @@ toolbox
 
 ---
 
+## Homepage
+
+The official project website with all features, screenshots and the full installation guide is available at:
+
+**[toolbox.betterlocale.com](https://toolbox.betterlocale.com)**
+
+There you'll find every menu, the spotlight features (Auto-Build, Multi-Simulator, Code Quality), a complete feature overview and the path to the source code. The site is available in English and German.
+
+---
+
+## Support the developer
+
+**Like it? Help keep it alive.**
+
+The Xcode Developer Toolbox is free — and stays free. If it saves you time in your daily workflow, a small contribution is very welcome. Every donation goes straight into new features, improvements and ongoing maintenance.
+
+→ **[Support via PayPal](https://www.paypal.com/donate/?business=c.drapatz%40gmx.de&currency_code=EUR&item_name=Xcode+Developer+Toolbox)**
+
+More on the homepage: [toolbox.betterlocale.com/#support](https://toolbox.betterlocale.com/#support)
+
+---
+
+## Developer
+
+I build software for the Apple ecosystem — native iOS and macOS apps, my own games and AI-powered developer tools. My focus is on products that are technically clean, practical in everyday use and able to stand on their own.
+
+### Portfolio
+
+**[christiandrapatz.de](https://christiandrapatz.de)**
+
+Personal site, projects, contact and background on my development work.
+
+---
+
+### AI apps
+
+**[betterlocale.com](https://betterlocale.com)**
+
+AI-powered macOS tools for iOS and macOS developers — designed to plug into the daily workflow.
+
+- [BetterLocale Crash](https://betterlocale.com/en-crash/)
+- [BetterLocale Code](https://betterlocale.com/en-code/)
+- [BetterLocale Store](https://betterlocale.com/en-store/)
+- [BetterLocale Doc](https://betterlocale.com/en-doc/)
+- [BetterLocale MarkDown](https://betterlocale.com/en-markdown/)
+
+---
+
+### Games
+
+**[atomiumgames.com](https://atomiumgames.com)**
+
+Independent iOS games — built inside the Apple ecosystem, developed and published in-house.
+
+- [crazy-monsters.com](https://crazy-monsters.com)
+- [tower-arena.com](https://tower-arena.com)
+- [strategy-war.com](https://strategy-war.com)
+- [battle-alliance.com](https://battle-alliance.com)
+
+---
+
+### Apps
+
+**[onetwoapps.de](https://www.onetwoapps.de)**
+
+Practical apps for iOS and macOS — clear concepts, standalone products.
+
+- [scanbox-app.de](https://scanbox-app.de)
+- [meinhaushaltsbuch.app](https://meinhaushaltsbuch.app)
+- [My Budget Book](https://www.onetwoapps.de/english/my-budget-book/)
+
+---
+
 ## Author
 
 Christian Drapatz — [christiandrapatz.de](https://christiandrapatz.de) — 2026
