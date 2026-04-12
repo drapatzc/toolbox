@@ -22,7 +22,7 @@ final class UserListUITests: XCTestCase {
     }
 
     func test_emptyState_isVisible_whenNoUsers() {
-        // Nach Launch mit frischer DB sollte Empty State sichtbar sein
+        // After launch with fresh DB the empty state should be visible
         let emptyImage = app.images["person.3"]
         XCTAssertTrue(emptyImage.waitForExistence(timeout: 3))
     }
@@ -39,14 +39,14 @@ final class UserListUITests: XCTestCase {
         XCTAssertTrue(app.buttons["btn_save"].exists)
     }
 
-    // MARK: - Suche
+    // MARK: - Search
 
     func test_searchBar_existsAndAcceptsInput() {
         let searchField = app.searchFields.firstMatch
         XCTAssertTrue(searchField.waitForExistence(timeout: 3))
         searchField.tap()
-        searchField.typeText("Müller")
-        XCTAssertEqual(searchField.value as? String, "Müller")
+        searchField.typeText("Mueller")
+        XCTAssertEqual(searchField.value as? String, "Mueller")
     }
 
     func test_searchBar_cancelClearsInput() {
@@ -54,7 +54,7 @@ final class UserListUITests: XCTestCase {
         XCTAssertTrue(searchField.waitForExistence(timeout: 3))
         searchField.tap()
         searchField.typeText("Test")
-        // Cancel-Button der Suchleiste antippen
+        // Tap the search bar cancel button
         let cancelSearch = app.buttons["Cancel"]
         if cancelSearch.exists {
             cancelSearch.tap()
@@ -62,7 +62,7 @@ final class UserListUITests: XCTestCase {
         XCTAssertFalse(app.buttons["btn_cancel"].exists) // nicht Formular-Cancel
     }
 
-    // MARK: - Benutzer anlegen und in Liste prüfen
+    // MARK: - Creating Users and Verifying in List
 
     func test_createdUser_appearsInList() throws {
         createTestUser(firstName: "Anna", lastName: "Beispiel")
@@ -93,7 +93,7 @@ final class UserListUITests: XCTestCase {
 
         let list = app.collectionViews["userList"]
         XCTAssertTrue(list.waitForExistence(timeout: 2))
-        // Nur der gefilterte Benutzer sollte sichtbar sein
+        // Only the filtered user should be visible
         XCTAssertEqual(list.cells.count, 1)
     }
 
@@ -124,17 +124,17 @@ final class UserListUITests: XCTestCase {
         firstCell.swipeLeft()
         app.buttons["Delete"].tap()
 
-        // Sicherheitsabfrage erscheint — Abbrechen
+        // Confirmation dialog appears — cancel
         let cancelBtn = app.buttons.matching(identifier: "Cancel").firstMatch
         if cancelBtn.waitForExistence(timeout: 2) {
             cancelBtn.tap()
         }
 
-        // Benutzer soll noch da sein
+        // User should still be present
         XCTAssertEqual(list.cells.count, cellCount)
     }
 
-    // MARK: - Hilfsmethoden
+    // MARK: - Helpers
 
     @discardableResult
     private func createTestUser(
@@ -167,14 +167,14 @@ final class UserListUITests: XCTestCase {
         }
         if field.waitForExistence(timeout: 2) {
             field.tap()
-            // Bestehenden Text löschen
+            // Delete existing text
             field.clearText()
             field.typeText(text)
         }
     }
 }
 
-// MARK: - XCUIElement Hilfsmethoden
+// MARK: - XCUIElement Helpers
 
 extension XCUIElement {
     func clearText() {

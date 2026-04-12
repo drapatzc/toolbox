@@ -32,6 +32,7 @@
 		A30200000000000000000017 /* CurrentWeatherViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A30100000000000000000017 /* CurrentWeatherViewModelTests.swift */; };
 		A30200000000000000000018 /* ForecastViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A30100000000000000000018 /* ForecastViewModelTests.swift */; };
 		A30200000000000000000019 /* CitySearchViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A30100000000000000000019 /* CitySearchViewModelTests.swift */; };
+		C662C0472F88D7630072BDDD /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = C662C0442F88D7630072BDDD /* Localizable.strings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -76,6 +77,8 @@
 		A3010000000000000000001D /* ViewModelTests.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = ViewModelTests.xctestplan; sourceTree = "<group>"; };
 		A30100000000000000000020 /* App3-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "App3-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A30100000000000000000021 /* App3-iOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "App3-iOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		C662C0452F88D7630072BDDD /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
+		C662C0462F88D7630072BDDD /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -114,6 +117,7 @@
 				A30300000000000000000003 /* Core */,
 				A30300000000000000000007 /* Features */,
 				A30100000000000000000012 /* Assets.xcassets */,
+				C662C0442F88D7630072BDDD /* Localizable.strings */,
 			);
 			path = "App3-iOS";
 			sourceTree = "<group>";
@@ -319,6 +323,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A30200000000000000000012 /* Assets.xcassets in Resources */,
+				C662C0472F88D7630072BDDD /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -372,6 +377,19 @@
 			targetProxy = A30A00000000000000000001 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		C662C0442F88D7630072BDDD /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C662C0452F88D7630072BDDD /* de */,
+				C662C0462F88D7630072BDDD /* en */,
+			);
+			name = Localizable.strings;
+			path = Resources;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		A30600000000000000000001 /* Debug */ = {

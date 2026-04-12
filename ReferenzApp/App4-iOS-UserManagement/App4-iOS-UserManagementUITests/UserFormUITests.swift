@@ -16,7 +16,7 @@ final class UserFormUITests: XCTestCase {
         app = nil
     }
 
-    // MARK: - Setup-Hilfsmethode
+    // MARK: - Setup Helper
 
     private func openNewUserForm() {
         let newUserBtn = app.buttons["btn_newUser"]
@@ -52,7 +52,7 @@ final class UserFormUITests: XCTestCase {
     }
 
     func test_formHasCountryField() {
-        // Scrolle zum Ende des Formulars
+        // Scroll to the bottom of the form
         app.swipeUp()
         XCTAssertTrue(app.textFields["tf_country"].waitForExistence(timeout: 2))
     }
@@ -61,7 +61,7 @@ final class UserFormUITests: XCTestCase {
 
     func test_cancelButton_dismissesForm() {
         app.buttons["btn_cancel"].tap()
-        // Formular ist weg, Listenbutton wieder sichtbar
+        // Form is dismissed, list button visible again
         XCTAssertTrue(app.buttons["btn_newUser"].waitForExistence(timeout: 3))
         XCTAssertFalse(app.buttons["btn_cancel"].exists)
     }
@@ -69,16 +69,16 @@ final class UserFormUITests: XCTestCase {
     // MARK: - Validierung: Leeres Formular
 
     func test_saveEmptyForm_doesNotDismiss() {
-        // Formular ist leer, Speichern antippen
+        // Form is empty, tap save
         app.buttons["btn_save"].tap()
-        // Formular bleibt offen (Cancel-Button noch sichtbar)
+        // Form stays open (cancel button still visible)
         XCTAssertTrue(app.buttons["btn_cancel"].waitForExistence(timeout: 2))
     }
 
     func test_saveEmptyForm_showsValidationErrors() {
         app.buttons["btn_save"].tap()
-        // Mindestens eine Fehlermeldung sollte erscheinen
-        // Validierung zeigt Fehlertexte neben den Feldern
+        // At least one error message should appear
+        // Validation shows error texts next to the fields
         let errorTexts = app.staticTexts.matching(NSPredicate(format: "label CONTAINS[c] 'required' OR label CONTAINS[c] 'Pflicht'"))
         XCTAssertTrue(errorTexts.count > 0 || app.buttons["btn_cancel"].exists)
     }
@@ -90,7 +90,7 @@ final class UserFormUITests: XCTestCase {
         field.tap()
         field.typeText("   ")
         app.buttons["btn_save"].tap()
-        // Formular bleibt offen
+        // Form stays open
         XCTAssertTrue(app.buttons["btn_cancel"].exists)
     }
 
@@ -115,7 +115,7 @@ final class UserFormUITests: XCTestCase {
             emailField.typeText("kein-at-zeichen")
         }
         app.buttons["btn_save"].tap()
-        // Formular bleibt offen wegen ungültiger E-Mail
+        // Form stays open due to invalid email
         XCTAssertTrue(app.buttons["btn_cancel"].exists)
     }
 
@@ -128,7 +128,7 @@ final class UserFormUITests: XCTestCase {
             emailField.typeText("test@example.de")
         }
         app.buttons["btn_save"].tap()
-        // Formular schließt sich
+        // Form closes
         XCTAssertTrue(app.buttons["btn_newUser"].waitForExistence(timeout: 5))
     }
 
@@ -146,12 +146,12 @@ final class UserFormUITests: XCTestCase {
         let countryField = app.textFields["tf_country"]
         if countryField.waitForExistence(timeout: 2) {
             let value = countryField.value as? String ?? ""
-            // Entweder "Deutschland" oder "Germany" (je nach Gerätesprache)
-            XCTAssertFalse(value.isEmpty, "Land sollte vorausgefüllt sein")
+            // Either "Deutschland" or "Germany" (depending on device language)
+            XCTAssertFalse(value.isEmpty, "Country should be pre-filled")
         }
     }
 
-    // MARK: - Hilfsmethoden
+    // MARK: - Helpers
 
     private func fillAllRequiredFields() {
         fillFormField("tf_firstName", text: "Max")
@@ -161,7 +161,7 @@ final class UserFormUITests: XCTestCase {
         app.swipeUp()
         fillFormField("tf_postalCode", text: "12345")
         fillFormField("tf_city", text: "Berlin")
-        // tf_country ist vorausgefüllt
+        // tf_country is pre-filled
     }
 
     private func fillRequiredFieldsExcept(_ skippedIdentifier: String) {

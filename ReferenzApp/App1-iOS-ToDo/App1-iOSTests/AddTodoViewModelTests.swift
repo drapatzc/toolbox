@@ -2,7 +2,7 @@ import Testing
 import Foundation
 @testable import App1_iOS
 
-/// Tests für das AddTodoViewModel.
+/// Tests for AddTodoViewModel.
 struct AddTodoViewModelTests {
 
     private func makeSUT() -> (viewModel: AddTodoViewModel, service: MockTodoService) {
@@ -11,32 +11,32 @@ struct AddTodoViewModelTests {
         return (viewModel, service)
     }
 
-    // MARK: - Validierung
+    // MARK: - Validation
 
-    @Test("Leerer Titel ist ungültig")
+    @Test("Empty title is invalid")
     func emptyTitleIsInvalid() {
         let (viewModel, _) = makeSUT()
         viewModel.title = ""
         #expect(viewModel.isTitleValid == false)
     }
 
-    @Test("Leerzeichen-Titel ist ungültig")
+    @Test("Whitespace-only title is invalid")
     func whitespaceOnlyTitleIsInvalid() {
         let (viewModel, _) = makeSUT()
         viewModel.title = "   "
         #expect(viewModel.isTitleValid == false)
     }
 
-    @Test("Nicht-leerer Titel ist gültig")
+    @Test("Non-empty title is valid")
     func nonEmptyTitleIsValid() {
         let (viewModel, _) = makeSUT()
         viewModel.title = "Mein Todo"
         #expect(viewModel.isTitleValid == true)
     }
 
-    // MARK: - Speichern (Erfolgspfad)
+    // MARK: - Saving (Happy Path)
 
-    @Test("Erfolgreiches Speichern setzt isSaved auf true")
+    @Test("Successful save sets isSaved to true")
     func successfulSaveSetsIsSavedToTrue() {
         let (viewModel, _) = makeSUT()
         viewModel.title = "Gültiges Todo"
@@ -44,7 +44,7 @@ struct AddTodoViewModelTests {
         #expect(viewModel.isSaved == true)
     }
 
-    @Test("Erfolgreiches Speichern setzt keine Fehlermeldung")
+    @Test("Successful save does not set an error message")
     func successfulSaveDoesNotSetErrorMessage() {
         let (viewModel, _) = makeSUT()
         viewModel.title = "Gültiges Todo"
@@ -52,7 +52,7 @@ struct AddTodoViewModelTests {
         #expect(viewModel.errorMessage == nil)
     }
 
-    @Test("Erfolgreiches Speichern delegiert an Service")
+    @Test("Successful save delegates to service")
     func successfulSaveDelegatesToService() {
         let (viewModel, service) = makeSUT()
         viewModel.title = "Service-Test"
@@ -60,9 +60,9 @@ struct AddTodoViewModelTests {
         #expect(service.createCallCount == 1)
     }
 
-    // MARK: - Speichern (Fehlerpfad)
+    // MARK: - Saving (Error Path)
 
-    @Test("Speichern bei Fehler setzt Fehlermeldung")
+    @Test("Saving with error sets error message")
     func savingWithErrorSetsErrorMessage() {
         let (viewModel, service) = makeSUT()
         service.createShouldThrow = true

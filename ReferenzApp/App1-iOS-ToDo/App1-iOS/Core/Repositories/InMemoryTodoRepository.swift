@@ -1,7 +1,7 @@
 import Foundation
 
-/// In-Memory-Implementierung des Todo-Repositories.
-/// Dient als einfache, testbare Datenhaltung ohne externe Abhängigkeiten.
+/// In-memory implementation of the todo repository.
+/// Serves as a simple, testable data store without external dependencies.
 final class InMemoryTodoRepository: TodoRepositoryProtocol {
 
     private var todos: [Todo] = []

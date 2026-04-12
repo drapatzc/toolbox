@@ -65,7 +65,7 @@ struct UserDetailView: View {
         } message: {
             Text(String(localized: "delete_confirmation_message"))
         }
-        // Benutzer wurde extern gelöscht (z. B. via Swipe in der Liste auf iPad)
+        // User was deleted externally (e.g. via swipe in the list on iPad)
         .onChange(of: listViewModel.users) { _, updatedUsers in
             if !updatedUsers.contains(where: { $0.id == currentUser.id }) {
                 showEditSheet = false
@@ -160,9 +160,9 @@ struct UserDetailView: View {
             try await service.deleteUser(id: currentUser.id)
             showEditSheet = false
             listViewModel.users.removeAll { $0.id == currentUser.id }
-            // onDeleted() wird durch .onChange(of: listViewModel.users) ausgelöst
+            // onDeleted() is triggered by .onChange(of: listViewModel.users)
         } catch {
-            // Fehlerbehandlung im ViewModel
+            // Error handling in the ViewModel
         }
     }
 }

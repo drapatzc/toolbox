@@ -2,7 +2,7 @@ import Testing
 import Foundation
 @testable import App2_MacOS
 
-/// Tests für den AppStore.
+/// Tests for the AppStore.
 struct AppStoreTests {
 
     private func makeSUT(initialTasks: [WorkTask] = []) -> (store: AppStore, persistence: MockPersistence) {
@@ -12,9 +12,9 @@ struct AppStoreTests {
         return (store, persistence)
     }
 
-    // MARK: - Initialisierung
+    // MARK: - Initialization
 
-    @Test("Store lädt Tasks beim Start aus der Persistenz")
+    @Test("Store loads tasks from persistence on init")
     func storeLoadsTasksOnInit() {
         let task = WorkTask(title: "Persistierter Task")
         let (store, _) = makeSUT(initialTasks: [task])
@@ -22,7 +22,7 @@ struct AppStoreTests {
         #expect(store.state.tasks.first?.title == "Persistierter Task")
     }
 
-    @Test("Initialer State hat korrekten Standardwert")
+    @Test("Initial state has correct default values")
     func initialStateHasCorrectDefaults() {
         let (store, _) = makeSUT()
         #expect(store.state.selectedTaskID == nil)
@@ -33,7 +33,7 @@ struct AppStoreTests {
 
     // MARK: - Dispatch
 
-    @Test("Dispatch einer Aktion aktualisiert den State")
+    @Test("Dispatching an action updates the state")
     func dispatchingActionUpdatesState() {
         let (store, _) = makeSUT()
         store.dispatch(.addTask(title: "Neuer Task", description: "", priority: .medium))
@@ -41,7 +41,7 @@ struct AppStoreTests {
         #expect(store.state.tasks.first?.title == "Neuer Task")
     }
 
-    @Test("Dispatch speichert Tasks in der Persistenz")
+    @Test("Dispatch saves tasks to persistence")
     func dispatchSavesTasksToPersistence() {
         let (store, persistence) = makeSUT()
         store.dispatch(.addTask(title: "Test", description: "", priority: .low))
@@ -49,7 +49,7 @@ struct AppStoreTests {
         #expect(persistence.lastSavedTasks.count == 1)
     }
 
-    @Test("Mehrere Dispatches stapeln sich korrekt")
+    @Test("Multiple dispatches stack correctly")
     func multipleDispatchesStackCorrectly() {
         let (store, _) = makeSUT()
         store.dispatch(.addTask(title: "Erste", description: "", priority: .high))
@@ -57,14 +57,14 @@ struct AppStoreTests {
         #expect(store.state.tasks.count == 2)
     }
 
-    @Test("showAddTask aktualisiert State über Dispatch")
+    @Test("showAddTask updates state via dispatch")
     func showAddTaskUpdatesState() {
         let (store, _) = makeSUT()
         store.dispatch(.showAddTask)
         #expect(store.state.isAddTaskPresented == true)
     }
 
-    @Test("Löschen eines Tasks aktualisiert Persistenz")
+    @Test("Deleting a task updates persistence")
     func deletingTaskUpdatesPersistence() {
         let task = WorkTask(title: "Zu löschen")
         let (store, persistence) = makeSUT(initialTasks: [task])
@@ -72,7 +72,7 @@ struct AppStoreTests {
         #expect(persistence.lastSavedTasks.isEmpty)
     }
 
-    @Test("Reducer-Fehler (leerer Titel) landet im State")
+    @Test("Reducer error (empty title) lands in state")
     func reducerErrorLandsInState() {
         let (store, _) = makeSUT()
         store.dispatch(.addTask(title: "  ", description: "", priority: .medium))

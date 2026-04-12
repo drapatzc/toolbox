@@ -2,12 +2,12 @@ import Testing
 import Foundation
 @testable import App2_MacOS
 
-/// Tests für berechnete Eigenschaften des AppState.
+/// Tests for computed properties of AppState.
 struct AppStateTests {
 
     // MARK: - filteredTasks
 
-    @Test("Ohne Filter werden alle Tasks zurückgegeben")
+    @Test("All tasks are returned without a filter")
     func allTasksReturnedWithoutFilter() {
         var state = AppState()
         state.tasks = [
@@ -17,7 +17,7 @@ struct AppStateTests {
         #expect(state.filteredTasks.count == 2)
     }
 
-    @Test("Filter nach Status gibt nur passende Tasks zurück")
+    @Test("Filter by status returns only matching tasks")
     func filterByStatusReturnsMatchingTasksOnly() {
         var state = AppState()
         state.tasks = [
@@ -30,7 +30,7 @@ struct AppStateTests {
         #expect(state.filteredTasks.first?.title == "Offen")
     }
 
-    @Test("Leere Liste bei passendem Filter gibt leeres Array zurück")
+    @Test("Empty result for non-matching filter")
     func emptyResultForNonMatchingFilter() {
         var state = AppState()
         state.tasks = [WorkTask(title: "Offen", status: .todo)]
@@ -38,9 +38,9 @@ struct AppStateTests {
         #expect(state.filteredTasks.isEmpty)
     }
 
-    // MARK: - Sortierung
+    // MARK: - Sorting
 
-    @Test("filteredTasks sortiert nach Priorität (Hoch zuerst)")
+    @Test("filteredTasks sorts by priority (high first)")
     func filteredTasksSortsByPriorityHighFirst() {
         var state = AppState()
         state.tasks = [
@@ -56,21 +56,21 @@ struct AppStateTests {
 
     // MARK: - selectedTask
 
-    @Test("selectedTask gibt nil zurück wenn keine ID gesetzt ist")
+    @Test("selectedTask returns nil when no ID is set")
     func selectedTaskReturnsNilWithoutSelection() {
         let state = AppState()
         #expect(state.selectedTask == nil)
     }
 
-    @Test("selectedTask gibt nil zurück wenn ID nicht vorhanden ist")
+    @Test("selectedTask returns nil when ID is not found")
     func selectedTaskReturnsNilForUnknownID() {
         var state = AppState()
         state.tasks = [WorkTask(title: "Vorhandener Task")]
-        state.selectedTaskID = UUID() // unbekannte ID
+        state.selectedTaskID = UUID() // unknown ID
         #expect(state.selectedTask == nil)
     }
 
-    @Test("selectedTask gibt den korrekten Task zurück")
+    @Test("selectedTask returns the correct task")
     func selectedTaskReturnsCorrectTask() {
         var state = AppState()
         let task = WorkTask(title: "Ausgewählter Task")

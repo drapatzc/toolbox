@@ -49,7 +49,7 @@ final class UserFormViewModel: ObservableObject {
         self.service = service
         self.isEditing = true
         self.existingUser = user
-        // Felder befüllen
+        // Populate fields
         salutation = user.salutation
         firstName = user.firstName
         lastName = user.lastName

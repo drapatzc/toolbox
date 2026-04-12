@@ -1,9 +1,9 @@
 import Foundation
 
-/// Validierungslogik für Benutzerdaten
+/// Validation logic for user data
 struct UserValidator {
 
-    // MARK: - Maximallängen
+    // MARK: - Maximum Lengths
     static let maxNameLength = 100
     static let maxStreetLength = 200
     static let maxPostalCodeLength = 10
@@ -12,52 +12,52 @@ struct UserValidator {
     static let maxCountryLength = 100
     static let maxEmailLength = 254
 
-    // MARK: - Hauptvalidierung
+    // MARK: - Main Validation
 
     func validate(_ user: User) -> ValidationResult {
         var errors: [ValidationFieldError] = []
 
-        // Anrede
+        // Salutation
         if let error = validateSalutation(user.salutation) {
             errors.append(error)
         }
 
-        // Vorname
+        // First name
         if let error = validateFirstName(user.firstName) {
             errors.append(error)
         }
 
-        // Nachname
+        // Last name
         if let error = validateLastName(user.lastName) {
             errors.append(error)
         }
 
-        // Straße
+        // Street
         if let error = validateStreet(user.street) {
             errors.append(error)
         }
 
-        // Hausnummer
+        // House number
         if let error = validateHouseNumber(user.houseNumber) {
             errors.append(error)
         }
 
-        // PLZ
+        // Postal code
         if let error = validatePostalCode(user.postalCode) {
             errors.append(error)
         }
 
-        // Stadt
+        // City
         if let error = validateCity(user.city) {
             errors.append(error)
         }
 
-        // Land
+        // Country
         if let error = validateCountry(user.country) {
             errors.append(error)
         }
 
-        // E-Mail (optional — nur validieren wenn nicht leer)
+        // Email (optional — only validate when not empty)
         if let error = validateEmail(user.email) {
             errors.append(error)
         }
@@ -65,10 +65,10 @@ struct UserValidator {
         return errors.isEmpty ? .valid : .invalid(errors)
     }
 
-    // MARK: - Einzelfeldvalidierungen
+    // MARK: - Individual Field Validations
 
     func validateSalutation(_ salutation: Salutation) -> ValidationFieldError? {
-        // Salutation ist ein Enum — immer gültig
+        // Salutation is an enum — always valid
         return nil
     }
 
@@ -142,7 +142,7 @@ struct UserValidator {
                 message: String(localized: "validation_required_postal_code")
             )
         }
-        // Nur Ziffern
+        // Digits only
         let digitsOnly = CharacterSet.decimalDigits
         if !trimmed.unicodeScalars.allSatisfy({ digitsOnly.contains($0) }) {
             return ValidationFieldError(
@@ -150,7 +150,7 @@ struct UserValidator {
                 message: String(localized: "validation_postal_code_digits_only")
             )
         }
-        // Länge 3–10
+        // Length 3–10
         if trimmed.count < Self.minPostalCodeLength || trimmed.count > Self.maxPostalCodeLength {
             return ValidationFieldError(
                 field: .postalCode,
@@ -197,7 +197,7 @@ struct UserValidator {
 
     func validateEmail(_ email: String) -> ValidationFieldError? {
         let trimmed = email.trimmingCharacters(in: .whitespaces)
-        // E-Mail ist optional — kein Fehler wenn leer
+        // Email is optional — no error when empty
         if trimmed.isEmpty { return nil }
 
         if trimmed.count > Self.maxEmailLength {
@@ -207,7 +207,7 @@ struct UserValidator {
             )
         }
 
-        // RFC-konformes Regex-Muster
+        // RFC-compliant regex pattern
         let emailPattern = #"^[A-Za-z0-9._%+\-]+@[A-Za-z0-9.\-]+\.[A-Za-z]{2,}$"#
         let regex = try? NSRegularExpression(pattern: emailPattern)
         let range = NSRange(trimmed.startIndex..., in: trimmed)

@@ -2,17 +2,17 @@
 
 import Foundation
 
-/// ViewModel für die 7-Tage-Wettervorhersage einer Stadt.
+/// ViewModel for the 7-day weather forecast of a city.
 @Observable
 final class ForecastViewModel {
 
     private let service: WeatherServiceProtocol
 
-    /// Geladene Wochenvorhersage; `nil` solange noch keine Daten vorliegen.
+    /// Loaded weekly forecast; `nil` while no data is available yet.
     var wochenvorhersage: WeeklyForecast?
-    /// `true` während die Vorhersage abgerufen wird.
+    /// `true` while the forecast is being fetched.
     var isLoading: Bool = false
-    /// Fehlermeldung wenn der Abruf fehlschlug; sonst `nil`.
+    /// Error message if the fetch failed; otherwise `nil`.
     var fehlerMeldung: String?
 
     init(service: WeatherServiceProtocol) {
@@ -21,19 +21,19 @@ final class ForecastViewModel {
 
     // MARK: - Computed Properties
 
-    /// Tagesvorhersagen der geladenen Wochenvorhersage, oder leer wenn keine Daten vorliegen.
+    /// Daily forecasts from the loaded weekly forecast, or empty if no data is available.
     var vorhersagen: [DailyForecast] {
         wochenvorhersage?.vorhersagen ?? []
     }
 
-    /// `true` wenn eine Fehlermeldung vorhanden ist.
+    /// `true` when an error message is present.
     var hatFehler: Bool {
         fehlerMeldung != nil
     }
 
-    // MARK: - Aktionen
+    // MARK: - Actions
 
-    /// Lädt die 7-Tage-Vorhersage für die angegebene Stadt.
+    /// Loads the 7-day forecast for the specified city.
     func vorhersageLaden(fuer city: City) async {
         isLoading = true
         fehlerMeldung = nil
@@ -42,12 +42,12 @@ final class ForecastViewModel {
         } catch let fehler as WetterFehler {
             fehlerMeldung = fehler.localizedDescription
         } catch {
-            fehlerMeldung = "Ein unbekannter Fehler ist aufgetreten."
+            fehlerMeldung = String(localized: "unknown_error")
         }
         isLoading = false
     }
 
-    /// Setzt die aktuelle Fehlermeldung zurück.
+    /// Resets the current error message.
     func fehlerZurücksetzen() {
         fehlerMeldung = nil
     }

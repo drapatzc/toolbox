@@ -1,7 +1,7 @@
 import SwiftUI
 
-/// Eingabeformular für neue Aufgaben.
-/// Wird als Sheet präsentiert und dispatcht eine addTask-Aktion an den Store.
+/// Input form for new tasks.
+/// Presented as a sheet and dispatches an addTask action to the store.
 struct AddTaskView: View {
 
     let store: AppStore
@@ -15,20 +15,20 @@ struct AddTaskView: View {
             headerBar
             Divider()
             Form {
-                Section("Titel *") {
-                    TextField("Aufgabentitel eingeben…", text: $title)
+                Section(String(localized: "section_title_required")) {
+                    TextField(String(localized: "task_title_placeholder"), text: $title)
                         .accessibilityIdentifier("taskTitleField")
                 }
 
-                Section("Beschreibung") {
+                Section(String(localized: "section_description")) {
                     TextEditor(text: $taskDescription)
                         .frame(minHeight: 80)
                 }
 
-                Section("Priorität") {
-                    Picker("Priorität", selection: $priority) {
+                Section(String(localized: "section_priority")) {
+                    Picker(String(localized: "section_priority"), selection: $priority) {
                         ForEach(TaskPriority.allCases, id: \.self) { prio in
-                            Text(prio.rawValue).tag(prio)
+                            Text(prio.localizedName).tag(prio)
                         }
                     }
                     .pickerStyle(.segmented)
@@ -55,19 +55,19 @@ struct AddTaskView: View {
 
     private var headerBar: some View {
         HStack {
-            Button("Abbrechen") {
+            Button(String(localized: "cancel")) {
                 store.dispatch(.hideAddTask)
             }
             .keyboardShortcut(.cancelAction)
 
             Spacer()
 
-            Text("Neue Aufgabe")
+            Text(String(localized: "new_task"))
                 .font(.headline)
 
             Spacer()
 
-            Button("Hinzufügen") {
+            Button(String(localized: "add")) {
                 store.dispatch(.addTask(
                     title: title,
                     description: taskDescription,

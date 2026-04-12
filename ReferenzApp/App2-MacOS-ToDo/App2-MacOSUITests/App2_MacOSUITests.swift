@@ -1,7 +1,7 @@
 import XCTest
 
-/// UI-Tests für die App2-MacOS Aufgabenverwaltung.
-/// Prüft grundlegende Benutzerinteraktionen und Navigation.
+/// UI tests for the App2-MacOS task management app.
+/// Verifies basic user interactions and navigation.
 final class App2_MacOSUITests: XCTestCase {
 
     private var app: XCUIApplication!
@@ -10,7 +10,7 @@ final class App2_MacOSUITests: XCTestCase {
         continueAfterFailure = false
         app = XCUIApplication()
         app.launch()
-        // Warten bis das Hauptfenster und die Toolbar vollständig geladen sind
+        // Wait until the main window and toolbar are fully loaded
         _ = app.windows.firstMatch.waitForExistence(timeout: 5.0)
     }
 
@@ -18,32 +18,32 @@ final class App2_MacOSUITests: XCTestCase {
         app = nil
     }
 
-    // MARK: - App-Start
+    // MARK: - App Launch
 
     func testAppStartsSuccessfully() {
-        XCTAssert(app.state == .runningForeground, "Die App sollte im Vordergrund laufen.")
+        XCTAssert(app.state == .runningForeground, "The app should be running in the foreground.")
     }
 
     func testTaskListIsVisible() {
         let taskList = app.outlines["taskList"].firstMatch
         XCTAssertTrue(
             taskList.exists || app.tables["taskList"].exists,
-            "Die Aufgabenliste sollte in der Seitenleiste sichtbar sein."
+            "The task list should be visible in the sidebar."
         )
     }
 
     func testWindowTitleIsVisible() {
         XCTAssertTrue(
             app.windows.firstMatch.exists,
-            "Das Hauptfenster sollte vorhanden sein."
+            "The main window should be present."
         )
     }
 
-    // MARK: - Neue Aufgabe
+    // MARK: - New Task
 
     func testAddTaskButtonIsVisible() {
         let addButton = app.buttons["addTaskButton"]
-        XCTAssertTrue(addButton.waitForExistence(timeout: 5.0), "Der Hinzufügen-Button sollte sichtbar sein.")
+        XCTAssertTrue(addButton.waitForExistence(timeout: 5.0), "The add button should be visible.")
     }
 
     func testNewTaskCanBeCreated() {
@@ -51,17 +51,17 @@ final class App2_MacOSUITests: XCTestCase {
         app.buttons["addTaskButton"].click()
 
         let titleField = app.textFields["taskTitleField"]
-        XCTAssertTrue(titleField.waitForExistence(timeout: 3.0), "Das Titelfeld sollte erscheinen.")
+        XCTAssertTrue(titleField.waitForExistence(timeout: 3.0), "The title field should appear.")
         titleField.click()
         titleField.typeText("Meine Test-Aufgabe")
 
         let confirmButton = app.buttons["addTaskConfirmButton"]
-        XCTAssertTrue(confirmButton.isEnabled, "Der Hinzufügen-Button sollte aktiv sein.")
+        XCTAssertTrue(confirmButton.isEnabled, "The add button should be enabled.")
         confirmButton.click()
 
         XCTAssertTrue(
             app.staticTexts["Meine Test-Aufgabe"].waitForExistence(timeout: 2.0),
-            "Die neue Aufgabe sollte in der Liste erscheinen."
+            "The new task should appear in the list."
         )
     }
 
@@ -72,7 +72,7 @@ final class App2_MacOSUITests: XCTestCase {
         XCTAssertTrue(confirmButton.waitForExistence(timeout: 3.0))
         XCTAssertFalse(
             confirmButton.isEnabled,
-            "Der Bestätigen-Button sollte bei leerem Titel deaktiviert sein."
+            "The confirm button should be disabled when the title is empty."
         )
     }
 
@@ -83,14 +83,14 @@ final class App2_MacOSUITests: XCTestCase {
         app.buttons["Abbrechen"].click()
         XCTAssertFalse(
             app.textFields["taskTitleField"].waitForExistence(timeout: 1.0),
-            "Das Eingabeformular sollte nach Abbrechen verschwinden."
+            "The input form should disappear after cancelling."
         )
     }
 
-    // MARK: - Aufgabe auswählen
+    // MARK: - Selecting a Task
 
     func testSelectingTaskShowsDetailView() {
-        // Aufgabe anlegen
+        // Create a task
         XCTAssertTrue(app.buttons["addTaskButton"].waitForExistence(timeout: 5.0))
         app.buttons["addTaskButton"].click()
         let titleField = app.textFields["taskTitleField"]
@@ -99,14 +99,14 @@ final class App2_MacOSUITests: XCTestCase {
         titleField.typeText("Detail-Test-Aufgabe")
         app.buttons["addTaskConfirmButton"].click()
 
-        // Aufgabe auswählen
+        // Select the task
         XCTAssertTrue(app.staticTexts["Detail-Test-Aufgabe"].waitForExistence(timeout: 2.0))
         app.staticTexts["Detail-Test-Aufgabe"].click()
 
-        // Detailbereich prüfen
+        // Verify the detail area
         XCTAssertTrue(
             app.buttons["deleteTaskButton"].waitForExistence(timeout: 2.0),
-            "Der Löschen-Button sollte im Detailbereich sichtbar sein."
+            "The delete button should be visible in the detail area."
         )
     }
 }

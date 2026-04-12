@@ -2,21 +2,21 @@
 
 import Foundation
 
-/// ViewModel für die Stadtsuche und -auswahl.
+/// ViewModel for city search and selection.
 @Observable
 final class CitySearchViewModel {
 
     private let service: WeatherServiceProtocol
 
-    /// Alle bekannten Städte (initial geladen).
+    /// All known cities (loaded initially).
     var alleStaedte: [City] = []
-    /// Suchergebnisse nach aktuellem Suchbegriff.
+    /// Search results based on the current search term.
     var suchergebnisse: [City] = []
-    /// Aktueller Suchtext.
+    /// Current search text.
     var suchbegriff: String = ""
-    /// Gibt an, ob gerade eine Suchanfrage läuft.
+    /// Indicates whether a search request is in progress.
     var isLoading: Bool = false
-    /// Fehlermeldung bei Problemen.
+    /// Error message when a problem occurs.
     var fehlerMeldung: String?
 
     init(service: WeatherServiceProtocol) {
@@ -25,25 +25,25 @@ final class CitySearchViewModel {
 
     // MARK: - Computed Properties
 
-    /// Zeigt Suchergebnisse wenn ein Suchbegriff gesetzt ist, sonst alle Städte.
+    /// Shows search results when a search term is set, otherwise all cities.
     var angezeigteStädte: [City] {
         suchbegriff.isEmpty ? alleStaedte : suchergebnisse
     }
 
-    /// `true` wenn eine Fehlermeldung vorhanden ist.
+    /// `true` when an error message is present.
     var hatFehler: Bool {
         fehlerMeldung != nil
     }
 
-    // MARK: - Aktionen
+    // MARK: - Actions
 
-    /// Lädt alle verfügbaren Städte vom Service.
+    /// Loads all available cities from the service.
     func alleStaedteLaden() async {
         alleStaedte = service.alleCities()
         suchergebnisse = alleStaedte
     }
 
-    /// Führt eine Stadtsuche mit dem aktuellen `suchbegriff` durch.
+    /// Performs a city search with the current `suchbegriff`.
     func suchen() async {
         isLoading = true
         fehlerMeldung = nil
@@ -51,7 +51,7 @@ final class CitySearchViewModel {
         isLoading = false
     }
 
-    /// Setzt die aktuelle Fehlermeldung zurück.
+    /// Resets the current error message.
     func fehlerZurücksetzen() {
         fehlerMeldung = nil
     }

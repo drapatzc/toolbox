@@ -1,16 +1,16 @@
 import Foundation
 @testable import App2_MacOS
 
-/// Test-Double für die Persistenzschicht.
-/// Erlaubt das Testen des Stores ohne echte Datenspeicherung.
+/// Test double for the persistence layer.
+/// Allows testing the store without real data storage.
 final class MockPersistence: PersistenceProtocol {
 
-    // MARK: - Gespeicherte Aufrufe
+    // MARK: - Recorded Calls
 
     private(set) var saveCallCount: Int = 0
     private(set) var lastSavedTasks: [WorkTask] = []
 
-    // MARK: - Konfigurierbarer Zustand
+    // MARK: - Configurable State
 
     var tasksToLoad: [WorkTask] = []
 

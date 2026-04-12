@@ -8,7 +8,7 @@ final class UserRepositoryTests: XCTestCase {
 
     override func setUp() async throws {
         try await super.setUp()
-        // In-Memory-Datenbank für Tests
+        // In-memory database for tests
         dbManager = try DatabaseManager(path: ":memory:")
         sut = UserRepository(db: dbManager)
     }

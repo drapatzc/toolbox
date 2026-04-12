@@ -2,329 +2,436 @@
 
 ---
 
+## Version 1.0.6 — 2026-04-12
+
+### New Feature: Auto-Build
+
+- **Live Mode `[J]`** — Starts a continuously running build and test cycle with a configurable interval (1 minute to 24 hours, or manually via `∞`). The live screen shows a countdown, the last result, and the path to the log file.
+
+- **Interval selection** — 12 levels selectable directly in the menu or adjustable with `[+]`/`[-]` in live mode. Default: 2 hours. The "Off" entry has been removed.
+
+- **Multiple devices & configurations** — Any number of additional devices and build configurations can be defined alongside the base device and base configuration (settings `[E]`). All are listed one below the other in the live screen.
+
+- **Device × configuration matrix** — Every device–configuration combination is built and tested automatically. The total number of combinations is shown in the settings menu.
+
+- **Log file** — A complete log of every run is automatically saved to the Desktop (`AutoBuild_YYYY-MM-DD_HH-mm-ss.txt`). The path is shown in the live screen and in the menu; `[F]` opens the file in Finder.
+
+### New Feature: Build Timing — Phase Legend
+
+- **Xcode phase legend** — After the total time in the "Build with Timing Report" menu, a legend of all phase abbreviations is now displayed: `Ld` (Linker), `CompileSwift`, `CompileC / ObjC`, `CompileAssetCatalog`, `CodeSign`, `PhaseScript`, `GenerateDSYMFile`, `MergeSwiftModule`, `Validate`, `Process`, `Copy`, `Touch`. Fully localized.
+
+### Architecture & Refactoring
+
+- **`AppContext`** — All mutable app state has been moved into a dedicated `AppContext` class. Global computed properties in `State.swift` forward all accesses transparently — existing code remains unchanged.
+
+- **`UIDashboard`** — Dashboard rendering extracted into its own file.
+
+- **`MenuRegistry`** — Central menu item registry for consistent tracking of all displayed entries.
+
+- **`XCResultParser`** — xcresult parsing extracted into its own unit.
+
+- **New specializations** — `ProjectValidator`, `TestPlanResolver`, `ShellPatterns`.
+
+- **Menus split further** — `MenuCodeQuality`, `MenuMetrics`, `MenuProjectAnalysis`, `MenuCI`, `MenuCodeQualityActions_Classic`, `MenuCodeQualityActions_SwiftLint`, `MenuCodeQualityActions_SwiftUI`, and others.
+
+### Bug Fixes & Improvements
+
+- **Test parser: Swift Testing / Parallel Runner format** — The test result parser now recognizes the lowercase format used by the parallel runner and Swift Testing framework (`Test suite`, `Test case` with slash separator `Suite/testName()`). Previously "Tests examined: 0" was shown even though all tests ran correctly.
+  - New helper function `xcbTestSuite()` extracts the suite name directly from the test case line — correct attribution even when multiple test classes run in parallel.
+
+- **Auto-Build: interval default after reset** — After resetting settings, `autoBuildIntervalHours` was incorrectly set to `0.0` (invalid), causing no interval to appear as active. After reset, the default value of **2 hours** is now correctly restored.
+  - Safety net in `loadPreferences()`: if an invalid value ≤ 0 is loaded on startup, the 2-hour default kicks in automatically. The state "no interval set" can no longer occur.
+
+### Menus Released from Beta
+
+- **Four menus have left Beta** — After extensive testing, the following submenus are now part of the stable feature set and no longer marked with `(Beta)`: **Binary Analysis**, **Security & Privacy**, **Dependencies**, and **Version Management**. They are available in both the simple and the extended main menu.
+
+### Menu Structure
+
+- **Simple ↔ Extended swapped (`M`)** — The order of the two main menu modes has been swapped. What used to be **M2 (Simple)** is now **M1**, and the previous **M1 (Extended)** is now **M2**. This matches the "Simple first" default for new users.
+
+- **Dependencies menu reworked** — Swift Package Manager packages are now listed directly under the Dependencies menu alongside CocoaPods and Carthage. Each package manager has its own structured section with list, resolve, update, and clean actions. The main menu was also restructured to surface Dependencies as a first-class menu.
+
+- **`MenuCompleteTree`** — New dedicated tree renderer for the complete menu overview, used to print the full menu hierarchy in a single, consistent format.
+
+### Auto-Build: Test Class Detection
+
+- **No false failures for targets without tests** — Auto-Build now checks whether the selected test target actually contains any test classes before running `xcodebuild test`. If no test classes exist, the run is no longer reported as failed — only the pure build result is used. Previously, Auto-Build would mark an otherwise green run as broken whenever `xcodebuild test` had nothing to execute.
+
+### Header Layout
+
+- **Header revised** — Spacing, line breaks, and the position of the settings block in the header have been reworked for a cleaner overall look. Existing collapse/expand behavior (`[-]`/`[+]`) is preserved.
+
+### Security & Keychain
+
+- **`kSecAttrAccessibleAfterFirstUnlock`** — All Keychain entries written by the toolbox (username / Git author) and by the reference apps now use the `kSecAttrAccessibleAfterFirstUnlock` accessibility class, so the entries become available after the first device unlock following a reboot.
+
+### New Reference Apps
+
+- **App8-iOS-xcworkspace** — New reference implementation as a fully fledged `.xcworkspace` with an embedded project. Used to demonstrate workspace handling, scheme/destination detection, and multi-project builds. The app is runnable with its unit tests; the build settings have been reviewed and trimmed to a minimal working configuration.
+
+- **App8-cocoapods** — Reference app for the CocoaPods workflow, used to exercise `Podfile` resolution and the Dependencies → CocoaPods view.
+
+- **App9-spm** — Reference app for Swift Package Manager, used to verify SPM resolution, listing, and updating from the new Dependencies → SPM view.
+
+- **App10-carthage** — Reference app for Carthage, used to verify the Carthage integration flow supported by the Dependencies menu.
+
+### Homepage
+
+- **Brand-new project homepage** at [toolbox.betterlocale.com](https://toolbox.betterlocale.com) — The site has been fully redesigned in a clean Apple-inspired style. The previous version has been archived in the repository.
+  - **SEO** — Open Graph, Twitter Card, multi-type JSON-LD (SoftwareApplication / WebSite / Person), canonical URL, `hreflang`, `robots.txt`, `sitemap.xml`, and a dedicated `og-image.svg` social card.
+  - **Animations** — Terminal typing cycle, count-up hero stats with `easeOutCubic`, scroll progress bar, hero gradient drift, card tilt/glow on hover.
+  - **Smart language detection** — Language is chosen in order: `?lang=` URL parameter → `localStorage` → browser language (`de` → DE, everything else → EN).
+
+### Configuration & Scripts
+
+- **`senior.conf` updated** — The pre-built "senior" configuration profile has been updated to reflect the new menu structure and the four newly released menus.
+
+- **`build.sh` / `copy.sh`** — Both deployment scripts now additionally copy `README_DE.md` alongside `README_EN.md` into the target directory.
+
+- **README files extended** — Both `README_DE.md` and `README_EN.md` now contain new sections for the project **Homepage**, **Support the developer** (PayPal), and **Developer** (Portfolio, AI apps, Games, Apps) — matching the new homepage layout.
+
+- **Repository cleanup** — Unused legacy files have been removed from the repository to reduce clone size.
+
+### Localization
+
+- All new Auto-Build strings and phase descriptions localized (DE + EN, all 17 languages where possible).
+
+### Reference App BKKAtomium (App7)
+
+- **Static Analyzer demo** — New file `Utilities/InsuranceCalculator.swift` with 8 intentional analyzer findings as a test baseline for the Toolbox analyzer integration: Dead Store, Force Cast, Force Unwrap, unreachable code after `return`, memory leak (`UnsafeMutablePointer` without `deallocate()`), always-true condition (`UInt >= 0`), redundant nil comparison, and `== ""` instead of `.isEmpty`.
+
+- **BIC validation tests corrected** — `"TOOSHORT"` (8 characters, valid BIC format) was incorrectly expected to fail, causing a test failure. Replaced with actually invalid values (5, 6, 9 and 10 characters). Outdated BIC `DRESDEFF` (Dresdner Bank, no longer active) replaced with `BELADEBE` (Berliner Sparkasse). Two new positive test cases added.
+
+- **UI Tests: parallel execution disabled** — UI tests were running on 3 simulators simultaneously (`parallelizable = YES`), which could cause race conditions during SwiftData seeding. Now `parallelizable = NO` — sequential execution on a single simulator.
+
+- **Login syntax error fixed** — SourceKit error in `LoginView.swift` caused by a misplaced modifier chain fixed. `.ignoresSafeArea(.keyboard)`, `.onChange` and `.onAppear` correctly moved inside the GeometryReader closure.
+
+---
+
 ## Version 1.0.5 — 2026-04-09
 
-### Neue Funktionen: Goodbye-Bildschirm
+### New Features: Goodbye Screen
 
-- **Goodbye-Bildschirm beim Beenden** — Beim Drücken von `Q` erscheint jetzt ein formatierter Abschiedsbildschirm (`printGoodbyeScreen()` in `UI.swift`) statt einer einzelnen Zeile. Der Bildschirm enthält eine lokalisierte Danknachricht, einen Feedback-Hinweis sowie Links zur offiziellen Homepage (`https://toolbox.betterlocale.com`), `https://christiandrapatz.de`, `https://betterlocale.com` und `https://atomiumgames.com`. Wird aus allen Menüs aufgerufen (Hauptmenü, Einstellungen, einfaches Menü u.a.).
+- **Goodbye screen on exit** — Pressing `Q` now displays a formatted farewell screen (`printGoodbyeScreen()` in `UI.swift`) instead of a single line. The screen contains a localized thank-you message, a feedback note, and links to the official homepage (`https://toolbox.betterlocale.com`), `https://christiandrapatz.de`, `https://betterlocale.com`, and `https://atomiumgames.com`. Called from all menus (main menu, settings, simple menu, etc.).
 
-### Neue Funktionen: Onboarding
+### New Features: Onboarding
 
-- **Datenschutz-Seite** — Die Onboarding-Tour wurde um eine neue Seite 3 „Datenschutz & Transparenz" (`onboarding_privacy_title`) erweitert. Alle bisherigen Seiten 3–7 wurden auf 4–8 verschoben. Die Tour umfasst jetzt **8 Seiten**.
+- **Privacy page** — The onboarding tour has been extended with a new page 3 "Privacy & Transparency" (`onboarding_privacy_title`). All previous pages 3–7 have been shifted to 4–8. The tour now contains **8 pages**.
 
-### Neue Funktionen: Binäranalyse
+### New Features: Binary Analysis
 
-- **App einmalig wählen, für alle Aktionen merken** — Beim Öffnen des Binäranalyse-Menüs wird die App einmalig über den Datei-Browser gewählt (`pickAppBundle()`). Der App-Name wird im Menü-Header angezeigt. Alle neun Analysen verwenden den gemerkten Pfad — keine wiederholte Suche pro Aktion mehr.
+- **Select app once, remember for all actions** — When opening the binary analysis menu, the app is selected once via the file browser (`pickAppBundle()`). The app name is displayed in the menu header. All nine analyses use the remembered path — no repeated selection per action anymore.
 
-- **Neuer Eintrag [0] „App wechseln"** — Ermöglicht das Wechseln der analysierten App ohne das Menü zu verlassen.
+- **New entry [0] "Switch App"** — Allows switching the analyzed app without leaving the menu.
 
-- **Verbesserte App-Auswahl** — `pickAppBundle()` sortiert neueste Apps zuerst (via `stat -f '%m'`) und filtert Test-Targets automatisch heraus (`*UITests*`, `*Tests-Runner*`, `*XCTest*`).
+- **Improved app selection** — `pickAppBundle()` sorts newest apps first (via `stat -f '%m'`) and automatically filters out test targets (`*UITests*`, `*Tests-Runner*`, `*XCTest*`).
 
-- **Linked Frameworks neu gestaltet** — Klare Trennung in zwei Gruppen: **Custom / Third-Party** (gelb hervorgehoben, mit vollem Pfad) und **System Frameworks** (gedimmt). Anzahl-Summary am Ende.
+- **Linked Frameworks redesigned** — Clear separation into two groups: **Custom / Third-Party** (highlighted in yellow, with full path) and **System Frameworks** (dimmed). Count summary at the end.
 
-- **Segment Sizes verbessert** — Abschnitt-Header (`▸ Segment`), einheitliche Spaltenbreite für Sections, Total-Zeile am Ende hervorgehoben.
+- **Segment Sizes improved** — Section headers (`▸ Segment`), uniform column width for sections, total line highlighted at the end.
 
-- **Entitlements verbessert** — Schlüssel werden als `▸ Key`-Header dargestellt. `true` grün, `false` rot. Strukturelle XML-Tags (array, dict) werden ausgeblendet.
+- **Entitlements improved** — Keys are displayed as `▸ Key` headers. `true` shown in green, `false` in red. Structural XML tags (array, dict) are hidden.
 
-- **`printAnalyzedApp()`** — Neuer Info-Block am Anfang jeder Analyse mit dem App-Namen.
+- **`printAnalyzedApp()`** — New info block at the beginning of every analysis showing the app name.
 
-### Neue Funktionen: Distribution & Code Signing
+### New Features: Distribution & Code Signing
 
-- **IPA Export — Datei-Browser für Archive** — Statt manueller Pfadeingabe öffnet sich ein Datei-Browser direkt auf `~/Library/Developer/Xcode/Archives`. Nur `.xcarchive`-Bundles werden angezeigt und sind wählbar.
+- **IPA Export — File browser for archives** — Instead of manual path entry, a file browser opens directly at `~/Library/Developer/Xcode/Archives`. Only `.xcarchive` bundles are displayed and selectable.
 
-- **IPA Export — Finder öffnen nach Export** — Nach erfolgreichem Export erscheint der Hinweis `▸ + drücken um Finder zu öffnen`. Drücken von `+` öffnet den Exportordner direkt in Finder.
+- **IPA Export — Open Finder after export** — After a successful export, the hint `▸ Press + to open Finder` appears. Pressing `+` opens the export folder directly in Finder.
 
-- **Signing-Identitäten mit Ablaufdatum** — Ablaufdatum wird über `security find-certificate | openssl x509 -enddate` aus dem Keychain gelesen. Anzeige farbig: grün (gültig), rot (abgelaufen). Abgelaufene Zertifikate werden mit `⚠ abgelaufen` markiert.
+- **Signing identities with expiry date** — Expiry date is read from the Keychain via `security find-certificate | openssl x509 -enddate`. Color-coded display: green (valid), red (expired). Expired certificates are marked with `⚠ expired`.
 
-- **Provisioning Profiles komplett neu** — Früher Shell-Skript, jetzt vollständig in Swift mit `PropertyListSerialization`. Jedes Profil zeigt: Name, Team, App-ID, Plattform, Ablaufdatum. Abgelaufene Profile rot hervorgehoben, Zähler am Ende.
+- **Provisioning Profiles completely rebuilt** — Previously a shell script, now fully implemented in Swift using `PropertyListSerialization`. Each profile shows: name, team, App ID, platform, expiry date. Expired profiles highlighted in red, counter at the end.
 
-### Neue Funktionen: Einfaches Menü
+### New Features: Simple Menu
 
-- **Erweiterte Aktionen im einfachen Menü** — Neue Items für den täglichen Gebrauch:
-  - `07` — App erneut starten (ohne neuen Build)
+- **Extended actions in simple menu** — New items for daily use:
+  - `07` — Relaunch app (without new build)
   - `08` — Quick Reset Build (DerivedData → Build → Start)
-  - `09` — Unit Tests ausführen
-  - `10` — UI Tests ausführen
-  - `11` — Alle Tests ausführen
-  - `12` — Simulator stoppen
-  - `13` — Simulator zurücksetzen
-  - `14` — Screenshot auf Desktop speichern
-  - `15` — Video-Aufzeichnung starten
-  - `16` — Dark/Light Mode umschalten
-  - `17` — Xcode schließen
-  - `18` — Projekt in Xcode öffnen
-  - `19` — Apps öffnen (Untermenü)
+  - `09` — Run Unit Tests
+  - `10` — Run UI Tests
+  - `11` — Run All Tests
+  - `12` — Stop Simulator
+  - `13` — Reset Simulator
+  - `14` — Save screenshot to Desktop
+  - `15` — Start video recording
+  - `16` — Toggle Dark/Light Mode
+  - `17` — Close Xcode
+  - `18` — Open project in Xcode
+  - `19` — Open Apps (submenu)
 
-### Verbesserungen: Simulator-Filter
+### Improvements: Simulator Filter
 
-- **Standard-Filter „Verfügbar"** — Der Simulator-Filter startet jetzt mit `"available"` (nur verfügbare Simulatoren) statt `"all"`. `[+]` zeigt alle inkl. nicht verfügbarer an, `[-]` kehrt zur Verfügbar-Ansicht zurück. Reihenfolge der Hinweise in der Legende entsprechend angepasst.
+- **Default filter "Available"** — The simulator filter now starts with `"available"` (only available simulators) instead of `"all"`. `[+]` shows all including unavailable ones, `[-]` returns to the available view. The order of hints in the legend has been adjusted accordingly.
 
-### Verbesserungen: Einstellungen
+### Improvements: Settings
 
-- **Export — Finder öffnen** — Nach erfolgreichem Export der Einstellungsdatei auf den Desktop erscheint der Hinweis `▸ + drücken um Finder zu öffnen`. Drücken von `+` öffnet den Desktop-Ordner in Finder.
+- **Export — Open Finder** — After successfully exporting the settings file to the Desktop, the hint `▸ Press + to open Finder` appears. Pressing `+` opens the Desktop folder in Finder.
 
-### Verbesserungen: Arbeitsverzeichnis wählen (A)
+### Improvements: Working Directory Selection (A)
 
-- **Geführter Clean-Flow beim Projektwechsel** — Nach der Projektdatei-Auswahl werden jetzt zwei neue Fragen gestellt:
-  1. „Weitere Caches löschen (ohne SPM)?" — löscht DerivedData, ModuleCache, CoreSimulator-Cache und Xcode-Cache
-  2. „SPM Cache löschen?"
-  3. SPM-Auflösung: automatisch wenn SPM gelöscht wurde, sonst als optionale Frage
-  Die Checkliste zu Beginn zeigt alle fünf Schritte.
+- **Guided clean flow on project switch** — After selecting the project file, two new questions are now asked:
+  1. "Delete additional caches (without SPM)?" — deletes DerivedData, ModuleCache, CoreSimulator cache, and Xcode cache
+  2. "Delete SPM cache?"
+  3. SPM resolution: automatically if SPM was deleted, otherwise as an optional question
+  The checklist at the beginning shows all five steps.
 
-### Verbesserungen: Clean-Menü
+### Improvements: Clean Menu
 
-- **Neues Item 14 „Geführtes Clean"** — Interaktiver Schritt-für-Schritt-Flow: DerivedData → weitere Caches → SPM-Cache → SPM auflösen. SPM wird automatisch neu aufgelöst, wenn der SPM-Cache im vorherigen Schritt gelöscht wurde.
+- **New item 14 "Guided Clean"** — Interactive step-by-step flow: DerivedData → additional caches → SPM cache → resolve SPM. SPM is automatically re-resolved if the SPM cache was deleted in the previous step.
 
-### Lokalisierung
+### Localization
 
-- **Ca. 300 neue Lokalisierungskeys** für alle neuen Funktionen und Texte (alle 17 Sprachen).
+- **Approx. 300 new localization keys** for all new features and texts (all 17 languages).
 
 ---
 
 ## Version 1.0.4 — 2026-04-09
 
-### Neue Funktionen: Onboarding
+### New Features: Onboarding
 
-- **Sprachauswahl vor der Einführung** — Beim ersten Programmstart erscheint jetzt vor der eigentlichen Onboarding-Tour ein Willkommens-Bildschirm mit Sprachauswahl. Alle 17 verfügbaren Sprachen werden in zwei Spalten aufgelistet (mit ihren nativen Namen). Die gewählte Sprache wird sofort gespeichert und für alle nachfolgenden Bildschirme verwendet. Die aktive Sprache ist mit `◀` markiert. Ein leeres Enter überspringt die Auswahl mit der aktuellen Sprache. Der Ablauf lautet nun: **Start → Sprachauswahl → Einführung (7 Seiten) → Hauptmenü**. Der Hinweis, dass die Sprache jederzeit im Hauptmenü mit `[L]` geändert werden kann, ist im Begrüßungstext enthalten.
+- **Language selection before the tour** — On first launch, a welcome screen with language selection now appears before the actual onboarding tour. All 17 available languages are listed in two columns (with their native names). The selected language is saved immediately and used for all subsequent screens. The active language is marked with `◀`. An empty Enter skips the selection with the current language. The flow is now: **Start → Language Selection → Tour (7 pages) → Main Menu**. A note that the language can be changed at any time in the main menu with `[L]` is included in the welcome text.
 
-### Verbesserungen: Test-Menü (TestPlan & Test-Schema)
+### Improvements: Test Menu (TestPlan & Test Scheme)
 
-- **Vollständige TestPlan-Erkennung** — TestPläne werden nun nicht mehr nur aus dem aktuell gewählten Schema gelesen, sondern bei Bedarf aus allen `.xcscheme`-Dateien des gesamten Projekts. Findet das aktuelle Schema keinen TestPlan, durchsucht das Tool alle anderen Schemas und zeigt die gefundenen Pläne mit ihrem Herkunfts-Schema an (z.B. `MyData  [bitone-MyData]`). Bei Auswahl wird das Test-Schema automatisch gewechselt, sodass xcodebuild den richtigen Plan findet.
+- **Comprehensive TestPlan detection** — TestPlans are no longer read only from the currently selected scheme, but if needed from all `.xcscheme` files in the entire project. If the current scheme finds no TestPlan, the tool searches all other schemes and displays the found plans with their source scheme (e.g. `MyData  [bitone-MyData]`). When selected, the test scheme is automatically switched so that xcodebuild finds the correct plan.
 
-- **Automatischer Schema-Wechsel beim TestPlan** — Wird ein TestPlan aus einem anderen Schema gewählt, setzt das Tool `selectedTestScheme` auf das besitzende Schema. xcodebuild erhält damit das korrekte Schema+TestPlan-Kombination. Der Header zeigt `📋 MyData  [bitone-MyData]`, damit der Wechsel sichtbar bleibt.
+- **Automatic scheme switch for TestPlan** — If a TestPlan from another scheme is selected, the tool sets `selectedTestScheme` to the owning scheme. xcodebuild then receives the correct scheme+TestPlan combination. The header shows `📋 MyData  [bitone-MyData]` so the switch remains visible.
 
-- **Korrekter Pre-Check für deaktivierte Test-Targets** — Der Test-Vorab-Check zählte bisher alle `TestableReference`-Einträge im Schema, auch deaktivierte (`skipped="YES"`). Diese werden nun korrekt herausgefiltert — ein Schema mit ausschließlich deaktivierten Test-Targets wird korrekt als „keine Tests vorhanden" erkannt.
+- **Correct pre-check for disabled test targets** — The test pre-check previously counted all `TestableReference` entries in the scheme, including disabled ones (`skipped="YES"`). These are now correctly filtered out — a scheme with exclusively disabled test targets is correctly recognized as "no tests available".
 
-- **Hinweis bei `test-without-building`** — Vor dem Ausführen von Option 5 erscheint jetzt ein Hinweis, dass zuvor ein `build-for-testing`-Lauf (Option 4) erforderlich ist.
+- **Note for `test-without-building`** — Before executing option 5, a note now appears that a prior `build-for-testing` run (option 4) is required.
 
-- **Hinweis wenn TestPlan aktiv** — Bei Unit-Tests, UI-Tests, Coverage und `test-without-building` erscheint eine Info-Meldung, wenn ein TestPlan aktiv ist: der Plan überschreibt die Test-Target-Liste des Schemas vollständig.
+- **Note when TestPlan is active** — For unit tests, UI tests, coverage, and `test-without-building`, an info message appears when a TestPlan is active: the plan completely overrides the test target list of the scheme.
 
-- **Warnung bei UI-Tests auf macOS-Ziel** — Wenn das aktuell gewählte Ziel `platform=macOS` ist, erscheint beim Start von UI-Tests eine Warnung, da UI-Tests in der Regel einen Simulator benötigen.
+- **Warning for UI tests on macOS target** — If the currently selected target is `platform=macOS`, a warning appears when starting UI tests, as UI tests generally require a simulator.
 
-- **Korrekte Plattformerkennung bei Test-Schema** — `detectSchemePlatforms()` und damit `buildDestination()` lesen die Plattform jetzt aus dem effektiven Test-Schema (`effectiveTestScheme()`), nicht mehr aus dem Build-Schema. Dadurch ist die `-destination` bei abweichendem Test-Schema immer korrekt.
+- **Correct platform detection for test scheme** — `detectSchemePlatforms()` and thus `buildDestination()` now read the platform from the effective test scheme (`effectiveTestScheme()`), no longer from the build scheme. This ensures the `-destination` is always correct for a diverging test scheme.
 
-- **Schema-Dateisuche aus Projektverzeichnis** — Die Suche nach `.xcscheme`-Dateien erfolgt nun vom übergeordneten Projektverzeichnis aus (nicht mehr innerhalb des Workspace-Bundles). Damit werden auch Schemas in eingebetteten `.xcodeproj`-Dateien zuverlässig gefunden.
+- **Scheme file search from project directory** — The search for `.xcscheme` files now takes place from the parent project directory (no longer inside the workspace bundle). This ensures schemas in embedded `.xcodeproj` files are also reliably found.
 
-### Neue Funktionen: Header
+### New Features: Header
 
-- **Menü ein-/ausblenden** — Die Kopfzeile lässt sich nun per Tastendruck ein- und ausklappen. Taste `-` reduziert die Anzeige auf Systeminfo (Xcode, Swift, Projekt, Branch); Taste `+` blendet alle Einstellungszeilen wieder ein. Der Zustand wird persistent in `~/.xcode_toolbox_prefs.json` gespeichert, der Standard ist ausgeklappt. Die Versionzeile zeigt jeweils `[-] Reduzieren` bzw. `[+] Erweitern` als Hinweis. Ein Reset setzt den Zustand auf den Standard (ausgeklappt) zurück. Die Hilfe des Hauptmenüs enthält einen entsprechenden Hinweis.
+- **Toggle menu visibility** — The header can now be collapsed and expanded with a keystroke. `-` reduces the display to system info (Xcode, Swift, project, branch); `+` shows all settings lines again. The state is persistently stored in `~/.xcode_toolbox_prefs.json`, the default is expanded. The version line shows `[-] Collapse` and `[+] Expand` respectively as a hint. A reset restores the state to the default (expanded). The main menu help contains a corresponding note.
 
-- **Branch-Anzeige auf eigener Zeile** — Projekt und Branch werden nun auf separaten Zeilen angezeigt, damit lange Branch-Namen das Rechteck nicht mehr zerstören.
-- **Automatische Kürzung langer Branch-Namen** — Ist ein Branch-Name zu lang für die Breite des Headers, wird er von links gekürzt und mit `...` eingeleitet. Das Ende des Branch-Namens bleibt dabei immer sichtbar (z.B. `...ios-wla-bankverbindung-dialog-unbekannter-fehler-zfa`).
+- **Branch display on its own line** — Project and branch are now displayed on separate lines so that long branch names no longer break the box layout.
+- **Automatic truncation of long branch names** — If a branch name is too long for the header width, it is truncated from the left and preceded by `...`. The end of the branch name always remains visible (e.g. `...ios-wla-bankverbindung-dialog-unbekannter-fehler-zfa`).
 
-### Verbesserungen: TestPlan-Auswahl
+### Improvements: TestPlan Selection
 
-- **TestPläne aus dem Dateisystem** — Die TestPlan-Auswahl (`T`) findet nun zusätzlich alle `.xctestplan`-Dateien im Projektverzeichnis, die nicht in einem `.xcscheme` referenziert sind. Diese erscheinen in der Auswahlliste in einer separaten Gruppe mit `📁 Nur Datei`-Badge. Beim Auswählen eines solchen Plans bleibt das aktuelle Test-Schema unverändert.
+- **TestPlans from the file system** — The TestPlan selection (`T`) now additionally finds all `.xctestplan` files in the project directory that are not referenced in any `.xcscheme`. These appear in the selection list in a separate group with a `📁 File Only` badge. When such a plan is selected, the current test scheme remains unchanged.
 
-- **Darstellung an Xcode angeglichen** — Die TestPlan-Auswahlliste wurde grundlegend überarbeitet:
-  - Scheme-registrierte Pläne werden mit einem blauen **■** App-Icon dargestellt.
-  - Sub-Testpläne (auf Disk vorhanden, nicht im Scheme) zeigen ein gelbes **⚙** Zahnrad-Icon — wie Xcodes Scheme-Picker.
-  - Trennlinie zwischen beiden Gruppen.
-  - Sub-Testpläne sind vollständig ausführbar (xcodebuild findet sie per Name im Projektverzeichnis), genau wie in Xcode.
-  - Pläne ohne existierende Datei werden nicht angezeigt.
-  - **Bugfix**: CI-UnitTest erschien doppelt, weil der XML-Parser auch `BuildActionEntry`-Referenzen auswertete. Der Parser sucht nun ausschließlich in `<TestAction><TestPlans>`. Zusätzliche Deduplizierung innerhalb eines Schemes verhindert doppelte Einträge bei mehrfach referenzierten Plänen.
+- **Display aligned with Xcode** — The TestPlan selection list has been fundamentally revised:
+  - Scheme-registered plans are displayed with a blue **■** app icon.
+  - Sub-test plans (present on disk, not in scheme) show a yellow **⚙** gear icon — like Xcode's scheme picker.
+  - Divider line between both groups.
+  - Sub-test plans are fully executable (xcodebuild finds them by name in the project directory), just like in Xcode.
+  - Plans without an existing file are not displayed.
+  - **Bugfix**: CI-UnitTest appeared twice because the XML parser also evaluated `BuildActionEntry` references. The parser now searches exclusively in `<TestAction><TestPlans>`. Additional deduplication within a scheme prevents duplicate entries for plans referenced multiple times.
 
-### Verbesserungen: Unit-Test Ausgabe
+### Improvements: Unit Test Output
 
-- **Build-Ausgabe-Modus überarbeitet** — Im Test-Menü verwendet der Build-Ausgabe-Modus (Option „1 – Build-Ausgabe") bei Unit Tests, UI Tests, Coverage und test-without-building jetzt `runTestsLiveParsed()` + `printTestSummary()` statt der bisherigen Build-Zusammenfassung. Die Ausgabe gliedert sich nun in:
-  - **Build-Phasen** (Init, Resolve, Compile, Link) — werden einmalig beim ersten Auftreten angezeigt
-  - **Bestandene Test-Klassen** — mit Gesamtanzahl je Klasse (`✓ MyTests  12/12`)
-  - **Fehlgeschlagene Test-Klassen** — mit Liste der fehlenden Tests und Fehlermeldungen (`✗ TestName → Fehlerbeschreibung`)
-  - **Einheitliches Ergebnis-Banner** (TEST SUCCEEDED / TEST FAILED)
+- **Build output mode revised** — In the test menu, build output mode (option "1 – Build Output") for unit tests, UI tests, coverage, and test-without-building now uses `runTestsLiveParsed()` + `printTestSummary()` instead of the previous build summary. The output is now structured as:
+  - **Build phases** (Init, Resolve, Compile, Link) — displayed once on first occurrence
+  - **Passed test classes** — with total count per class (`✓ MyTests  12/12`)
+  - **Failed test classes** — with list of failing tests and error messages (`✗ TestName → Error description`)
+  - **Unified result banner** (TEST SUCCEEDED / TEST FAILED)
 
-- **TestPlan Disk-Pläne via `-only-testing`** — Testpläne, die nur auf der Festplatte vorliegen und nicht im Scheme registriert sind (`selectedTestPlanIsFromScheme = false`), werden jetzt mit `-only-testing '<Target>'`-Flags ausgeführt. Die Ziel-Liste wird direkt aus der `.xctestplan`-Datei gelesen (`testTargets`-Array). Nur wenn die Datei nicht lesbar ist, fällt das Tool auf `-testPlan` zurück. Scheme-registrierte Pläne verwenden weiterhin `-testPlan 'Name'`.
+- **TestPlan disk plans via `-only-testing`** — Test plans that are only on disk and not registered in the scheme (`selectedTestPlanIsFromScheme = false`) are now executed with `-only-testing '<Target>'` flags. The target list is read directly from the `.xctestplan` file (`testTargets` array). Only if the file cannot be read does the tool fall back to `-testPlan`. Scheme-registered plans continue to use `-testPlan 'Name'`.
 
-### Bugfixes & UX
+### Bug Fixes & UX
 
-- **Doppelte Leerzeile vor Eingabe-Prompt behoben** — In mehreren Menüs (Extended-Hauptmenü, Standard-Hauptmenü, Einstellungen) erschienen zwei Leerzeilen zwischen dem letzten Menüeintrag und dem `▶ Auswahl:`-Prompt. Ursache war ein überflüssiges `print()` direkt vor `readMenuChoice()`, das nun entfernt wurde.
+- **Double blank line before input prompt fixed** — In several menus (extended main menu, standard main menu, settings) two blank lines appeared between the last menu entry and the `▶ Selection:` prompt. The cause was a redundant `print()` directly before `readMenuChoice()`, which has now been removed.
 
-### Verbesserungen: Header-Darstellung
+### Improvements: Header Display
 
-- **Header-Breite auf 83 Zeichen erweitert** — Die innere Box-Breite wurde von 81 auf 83 Zeichen vergrößert, damit die URL-Zeile mit ausreichend Rand zentriert angezeigt wird.
+- **Header width extended to 83 characters** — The inner box width has been increased from 81 to 83 characters so that the URL line is displayed centered with sufficient margin.
 
-- **Titelzeile um Autorenangabe erweitert** — Der Titel lautet nun `X C O D E   D E V E L O P E R   T O O L B O X   by Christian Drapatz`. Der Zusatz `by Christian Drapatz` wird in Dunkelgrau dargestellt.
+- **Title line extended with author credit** — The title now reads `X C O D E   D E V E L O P E R   T O O L B O X   by Christian Drapatz`. The `by Christian Drapatz` addition is displayed in dark gray.
 
-- **URL-Zeile statt Copyright-Text** — Die zweite Header-Zeile zeigt jetzt die drei Websites des Autors: `https://christiandrapatz.de | https://betterlocale.com | https://atomiumgames.com`. Die Darstellung erfolgt in Dunkelgrau (`\u{1B}[90m`).
+- **URL line instead of copyright text** — The second header line now shows the author's three websites: `https://christiandrapatz.de | https://betterlocale.com | https://atomiumgames.com`. Displayed in dark gray (`\u{1B}[90m`).
 
-- **Neue Farbe `darkGray`** — In `Color.swift` wurde `darkGray` (`\u{1B}[90m`, ANSI Bright Black) als neue Konstante ergänzt. Die Farbe ist auf hellem wie dunklem Terminal-Hintergrund gleichermaßen gut lesbar.
+- **New color `darkGray`** — In `Color.swift`, `darkGray` (`\u{1B}[90m`, ANSI Bright Black) has been added as a new constant. The color is equally readable on both light and dark terminal backgrounds.
 
-### Neue Funktionen: Git-Menü
+### New Features: Git Menu
 
-- **Git-Menü stark erweitert** — Neue Analysen und Aktionen:
-  - Commits nach Benutzer gefiltert anzeigen (heute, gestern, vorgestern, aktuelle Woche, letzte Woche, aktueller Monat, letzter Monat)
-  - In Commit-Nachrichten suchen
-  - Änderungen an einer bestimmten Datei in der Git-History suchen
-  - Stash-Verwaltung (Anzeigen, Anwenden, Löschen)
-  - Branch-Vergleich mit Basis-Branch
-  - Repository-Name wird in allen Ausgaben einheitlich angezeigt
+- **Git menu greatly extended** — New analyses and actions:
+  - View commits filtered by user (today, yesterday, the day before yesterday, current week, last week, current month, last month)
+  - Search in commit messages
+  - Search changes to a specific file in Git history
+  - Stash management (show, apply, delete)
+  - Branch comparison with base branch
+  - Repository name is uniformly displayed in all outputs
 
-### Neue Funktionen: Build & Simulator
+### New Features: Build & Simulator
 
-- **Menü Build & Simulator erweitert** — Neun neue Aktionen:
-  - App erneut starten (ohne neuen Build)
-  - Simulator neu starten / stoppen (aktuelles Gerät)
-  - Pre-Build-Checks (SwiftLint + TODO/FIXME-Scan)
-  - Quick Reset Build (DerivedData löschen + neu bauen)
-  - Full Reset Build (alle Caches + SPM + DerivedData + neu bauen)
-  - App deinstallieren und frisch testen (Uninstall → Install → Start)
-  - Dark/Light Mode umschalten
-  - Screenshot auf Desktop speichern
+- **Build & Simulator menu extended** — Nine new actions:
+  - Relaunch app (without new build)
+  - Restart / stop simulator (current device)
+  - Pre-build checks (SwiftLint + TODO/FIXME scan)
+  - Quick Reset Build (delete DerivedData + rebuild)
+  - Full Reset Build (all caches + SPM + DerivedData + rebuild)
+  - Uninstall and fresh test (Uninstall → Install → Start)
+  - Toggle Dark/Light Mode
+  - Save screenshot to Desktop
 
-### Neue Funktionen: Simulator Extended
+### New Features: Simulator Extended
 
-- **Push-Benachrichtigungs-Templates** — 9 vordefinierte Payload-Vorlagen: Einfach, Strukturiert (Titel/Untertitel/Text), Kein Sound, Kritisch, Silent (`content-available`), Badge Only, Mit Antwort-Aktion, Ja/Nein-Aktion, Benutzerdefiniert.
+- **Push notification templates** — 9 predefined payload templates: Simple, Structured (title/subtitle/body), No Sound, Critical, Silent (`content-available`), Badge Only, With Reply Action, Yes/No Action, Custom.
 
-- **Standort-Auswahl aus Städteliste** — Simulierten GPS-Standort aus einer vordefinierten Stadtliste wählen oder manuell Koordinaten eingeben.
+- **Location selection from city list** — Choose simulated GPS location from a predefined city list or enter coordinates manually.
 
-### Neue Funktionen: Sicherheit & Keychain
+### New Features: Security & Keychain
 
-- **Keychain-Integration** — Der Benutzername (Git-Autor) wird jetzt sicher im macOS-Keychain gespeichert und geladen. Beim Starten wird der gespeicherte Wert automatisch übernommen. Keine Klartextspeicherung mehr in der Preferences-Datei.
+- **Keychain integration** — The username (Git author) is now securely stored and loaded from the macOS Keychain. On startup, the stored value is automatically applied. No more plain-text storage in the preferences file.
 
-- **Sicherheitsmenü verbessert** — Zusätzliche Analysen und Darstellungsverbesserungen für alle acht Sicherheitsprüfungen. Einheitlicher Header und farbige Statusanzeige in allen Ausgaben.
+- **Security menu improved** — Additional analyses and display improvements for all eight security checks. Unified header and color-coded status display in all outputs.
 
-### Verbesserungen: Apps & Navigation
+### Improvements: Apps & Navigation
 
-- **Menü Apps öffnen** — `Xcodes.app` erscheint jetzt als erster Eintrag in der Xcode-Gruppe (vor Xcode). Neuer Eintrag „Finder → Projektordner" öffnet den aktuellen Projektordner direkt im Finder — auch im benutzerdefinierten Menü zuweisbar.
+- **Open Apps menu** — `Xcodes.app` now appears as the first entry in the Xcode group (before Xcode). New entry "Finder → Project Folder" opens the current project folder directly in Finder — also assignable in the custom menu.
 
-- **Benutzerdefiniertes Menü verbessert** — Neue zuweisbare Aktionen (Finder → Projektordner, alle neuen Build- und Simulator-Aktionen). Verbesserte Übersicht und Belegungsanzeige.
+- **Custom menu improved** — New assignable actions (Finder → Project Folder, all new build and simulator actions). Improved overview and slot assignment display.
 
-- **Schema/Device-Erkennung verbessert** — Zuverlässigere Erkennung von Schemas und Simulatoren in verschiedenen Projektkonfigurationen.
+- **Scheme/Device detection improved** — More reliable detection of schemes and simulators in various project configurations.
 
-- **Lokalisierung erweitert** — Ca. 1100 neue Lokalisierungskeys für alle neuen Funktionen (alle 17 Sprachen).
+- **Localization extended** — Approx. 1100 new localization keys for all new features (all 17 languages).
 
-### Neue Referenz-Apps
+### New Reference Apps
 
-- **App3-iOS** — Dritte Referenz-Implementierung im Ordner `ReferenzApp/`. iOS-Wetter-App mit gemockten Daten, vollständig dokumentiert auf Deutsch.
-  - **Architektur**: MVVM + Service + Repository (identisches Muster wie App1-iOS)
-  - **Datenquelle**: `WeatherSampleRepository` mit deterministischen Beispieldaten für 10 Städte (Berlin, München, Hamburg, Wien, Zürich, Paris, London, New York, Tokio, Sydney)
-  - **Features**: Stadtsuche mit Filterfunktion, aktuelles Wetter (Temperatur, Luftfeuchtigkeit, Wind, Sichtweite, UV-Index), 7-Tage-Vorhersage
-  - **Unit-Tests**: 5 Test-Klassen mit ca. 75 positiven und negativen Tests (Swift Testing Framework), keine UI-Tests
-  - **Testpläne**: 4 `.xctestplan`-Dateien — `AllTests` (Standard, ⌘U), `RepositoryTests`, `ServiceTests`, `ViewModelTests`
+- **App3-iOS** — Third reference implementation in the `ReferenzApp/` folder. iOS weather app with mocked data, fully documented in German.
+  - **Architecture**: MVVM + Service + Repository (identical pattern to App1-iOS)
+  - **Data source**: `WeatherSampleRepository` with deterministic sample data for 10 cities (Berlin, Munich, Hamburg, Vienna, Zurich, Paris, London, New York, Tokyo, Sydney)
+  - **Features**: City search with filter function, current weather (temperature, humidity, wind, visibility, UV index), 7-day forecast
+  - **Unit tests**: 5 test classes with approx. 75 positive and negative tests (Swift Testing Framework), no UI tests
+  - **Test plans**: 4 `.xctestplan` files — `AllTests` (default, ⌘U), `RepositoryTests`, `ServiceTests`, `ViewModelTests`
 
-- **App4-iOS-UserManagement** — Vierte Referenz-Implementierung. iOS-App zur Benutzerverwaltung mit lokaler SQLite-Datenbank (ohne externe Abhängigkeiten).
-  - **Architektur**: MVVM + Service + Repository + Validation
-  - **Persistenz**: `DatabaseManager` mit SQLite direkt über C-API
-  - **Features**: Benutzerliste, Benutzer anlegen/bearbeiten/löschen, Formularvalidierung mit konfigurierbaren Regeln
-  - **Unit-Tests und UI-Tests** enthalten
-  - **Lokalisierung**: DE + EN
+- **App4-iOS-UserManagement** — Fourth reference implementation. iOS app for user management with a local SQLite database (no external dependencies).
+  - **Architecture**: MVVM + Service + Repository + Validation
+  - **Persistence**: `DatabaseManager` with SQLite directly via C API
+  - **Features**: User list, create/edit/delete users, form validation with configurable rules
+  - **Unit tests and UI tests** included
+  - **Localization**: DE + EN
 
-- **App5-iOS-BeerMaps** — Fünfte Referenz-Implementierung. iOS-App zum Markieren von Biertrinker-Standorten auf einer Karte.
-  - **Features**: MapKit, Core Location, lokale Push-Benachrichtigungen, Keychain (Benutzername), Getränketyp-Auswahl
-  - **Unit-Tests**: `KeychainService`, `MapViewModel`, `UsernameGenerator`
-  - **Lokalisierung**: DE + EN
+- **App5-iOS-BeerMaps** — Fifth reference implementation. iOS app for marking beer drinker locations on a map.
+  - **Features**: MapKit, Core Location, local push notifications, Keychain (username), drink type selection
+  - **Unit tests**: `KeychainService`, `MapViewModel`, `UsernameGenerator`
+  - **Localization**: DE + EN
 
 ---
 
 ## Version 1.0.3 — 2026-04-08
 
-### Fehlerbehebungen
+### Bug Fixes
 
-- **TestPlan-Unterstützung korrigiert** — Die in Version 1.0.2 eingeführte Unterstützung für Xcode-TestPläne wurde überarbeitet und korrigiert. In der vorherigen Version gab es noch einen Fehler bei der Erkennung bzw. Verwendung von TestPlänen in bestimmten Projekt- und Scheme-Konstellationen. Dieses Verhalten wurde in Version 1.0.3 behoben, sodass TestPläne nun zuverlässiger verarbeitet werden.
+- **TestPlan support corrected** — The TestPlan support introduced in version 1.0.2 has been revised and corrected. In the previous version there was still an error in the detection or use of TestPlans in certain project and scheme constellations. This behavior has been fixed in version 1.0.3 so that TestPlans are now processed more reliably.
 
 ---
 
 ## Version 1.0.2 — 2026-04-08
 
-### Neue Funktionen
+### New Features
 
-- **TestPlan-Unterstützung im Test-Menü** — Das Tool unterstützt nun zwei unterschiedliche Test-Verfahren, die über die Taste `T` ausgewählt werden:
-  - **Test-Schema** — Separates Test-Target als eigenes Scheme (z.B. `TargetATest`). xcodebuild verwendet das gewählte Schema direkt.
-  - **TestPlan** — Xcode-TestPlan (`.xctestplan`) der direkt aus der Scheme-Datei des aktuellen Schemas gelesen wird. Bei nur einem verknüpften TestPlan wird dieser automatisch übernommen, bei mehreren erscheint eine Auswahlliste mit Markierung des Default-Plans. xcodebuild erhält das Flag `-testPlan 'Name'`.
-  - Beide Einstellungen schließen sich gegenseitig aus — das Setzen des einen löscht das andere automatisch.
+- **TestPlan support in the test menu** — The tool now supports two different test methods, selectable via the `T` key:
+  - **Test Scheme** — Separate test target as its own scheme (e.g. `TargetATest`). xcodebuild uses the selected scheme directly.
+  - **TestPlan** — Xcode TestPlan (`.xctestplan`) read directly from the scheme file of the current scheme. If only one linked TestPlan exists, it is automatically applied; if there are multiple, a selection list appears with the default plan marked. xcodebuild receives the flag `-testPlan 'Name'`.
+  - Both settings are mutually exclusive — setting one automatically clears the other.
 
-- **Visuelles Icon im Header** — Die Zeile `[T]` zeigt drei unterschiedliche Icons je nach Zustand:
-  - `⬜` — noch kein Test-Ziel gewählt
-  - `🧪` — Test-Schema aktiv
-  - `📋` — TestPlan aktiv
+- **Visual icon in the header** — The `[T]` line shows three different icons depending on the state:
+  - `⬜` — no test target selected yet
+  - `🧪` — test scheme active
+  - `📋` — TestPlan active
 
 ---
 
 ## Version 1.0.1 — 2026-04-07
 
-### Neue Funktionen
+### New Features
 
-- **Onboarding-Tour** — Beim ersten Programmstart wird automatisch eine mehrseitige interaktive Einführung angezeigt (7 Seiten: Willkommen, Leistungsübersicht, Bedienung, Hauptbereiche, Alltagsworkflow, Benutzerdefiniertes Menü & Hotkeys, Abschluss). Vollständig lokalisiert in allen 17 Sprachen.
+- **Onboarding tour** — On first launch, a multi-page interactive introduction is automatically displayed (7 pages: Welcome, Feature Overview, Controls, Main Areas, Daily Workflow, Custom Menu & Hotkeys, Closing). Fully localized in all 17 languages.
 
-- **Neues Menü: Sicherheit & Datenschutz (22)** — Acht Analysefunktionen (read-only) für sicherheitsrelevante Projektbereiche:
-  - ATS-Konfiguration prüfen (`NSAppTransportSecurity`)
-  - App-Berechtigungen prüfen (`NS*UsageDescription`)
-  - Info.plist-Sicherheitscheck
-  - Secrets-Scan (API-Keys, Tokens, Passwörter im Quellcode)
-  - Hardcodierte IPs finden (IPv4 / IPv6)
-  - Entitlements-Übersicht (`.entitlements`)
-  - Privacy Manifest prüfen (`PrivacyInfo.xcprivacy`)
-  - xcconfig-Dateien analysieren
+- **New menu: Security & Privacy (22)** — Eight analysis functions (read-only) for security-relevant project areas:
+  - Check ATS configuration (`NSAppTransportSecurity`)
+  - Check app permissions (`NS*UsageDescription`)
+  - Info.plist security check
+  - Secrets scan (API keys, tokens, passwords in source code)
+  - Find hardcoded IPs (IPv4 / IPv6)
+  - Entitlements overview (`.entitlements`)
+  - Check Privacy Manifest (`PrivacyInfo.xcprivacy`)
+  - Analyze xcconfig files
 
-- **Neues Menü: CI/CD & Tools Integration (23)** — 15 Aktionen rund um Continuous Integration und Entwicklungswerkzeuge:
-  - **GitHub Actions** (via `gh` CLI): Runs auflisten, PR-Status, PR-Liste, Workflows auflisten, Run beobachten
-  - **Fastlane**: Lanes anzeigen, Lane ausführen (kontextabhängig — nur wenn Fastfile vorhanden)
-  - **Tuist** und **XcodeGen**: Projektgenerierung (kontextabhängig — nur wenn Konfigurationsdatei vorhanden)
-  - **Git Worktrees**: Auflisten, Hinzufügen, Entfernen
-  - **Conventional Commits**: Commit-Assistent, nächste semantische Version ermitteln, `.gitignore` prüfen
+- **New menu: CI/CD & Tools Integration (23)** — 15 actions around continuous integration and development tools:
+  - **GitHub Actions** (via `gh` CLI): list runs, PR status, PR list, list workflows, watch run
+  - **Fastlane**: show lanes, run lane (context-sensitive — only when Fastfile is present)
+  - **Tuist** and **XcodeGen**: project generation (context-sensitive — only when configuration file is present)
+  - **Git Worktrees**: list, add, remove
+  - **Conventional Commits**: commit assistant, determine next semantic version, check `.gitignore`
 
-- **Projekt-Analyse erweitert** — Das Menü „Projekt-Analyse" (08) enthält nun 35 read-only Analysen, u.a. Swift-Dateianzahl & LOC, Code-Struktur (Klassen/Structs/Enums/Protokolle), Dateitypübersicht, Deployment-Target, Test-Ratio und mehr.
+- **Project analysis extended** — The "Project Analysis" menu (08) now contains 35 read-only analyses, including Swift file count & LOC, code structure (classes/structs/enums/protocols), file type overview, deployment target, test ratio, and more.
 
-- **SPM-Abhängigkeiten auflösen** — Vor der Schema-Auswahl werden Swift Package Manager-Abhängigkeiten automatisch aufgelöst (`xcodebuild -resolvePackageDependencies`). Neue Aktion auch im benutzerdefinierten Menü verfügbar.
+- **Resolve SPM dependencies** — Before scheme selection, Swift Package Manager dependencies are automatically resolved (`xcodebuild -resolvePackageDependencies`). New action also available in the custom menu.
 
-- **Menü "Tests" stark erweitert** — Sechs neue Optionen:
+- **"Tests" menu greatly extended** — Six new options:
   - Build for Testing (`xcodebuild build-for-testing`)
   - Test without Building (`xcodebuild test-without-building`)
-  - Langsame Tests erkennen (aus letztem `.xcresult`)
-  - JUnit-Report generieren (→ `Desktop/junit_report.xml`)
-  - Markdown-Testbericht erstellen (→ `Desktop/TestReport.md`)
-  - Dateien ohne Testabdeckung anzeigen
+  - Detect slow tests (from last `.xcresult`)
+  - Generate JUnit report (→ `Desktop/junit_report.xml`)
+  - Create Markdown test report (→ `Desktop/TestReport.md`)
+  - Show files without test coverage
 
-- **Ausgabe-Modus im Test-Menü** — Bei den Optionen 1–5 (Unit Tests, UI Tests, Coverage, Build for Testing, Test without Building) kann vor der Ausführung zwischen zwei Ausgabe-Modi gewählt werden:
-  - **Build-Ausgabe** — rohe `xcodebuild`-Ausgabe live mit Build-Zusammenfassung (Fehler/Warnungen gruppiert)
-  - **Test-Ausgabe** — gefilterte Darstellung mit ✅/❌ pro Test und kompakter Zusammenfassung
+- **Output mode in test menu** — For options 1–5 (unit tests, UI tests, coverage, build for testing, test without building), two output modes can be selected before execution:
+  - **Build Output** — raw `xcodebuild` output live with build summary (errors/warnings grouped)
+  - **Test Output** — filtered display with ✅/❌ per test and compact summary
 
-- **Menü "Clean" überarbeitet** — Strukturierte Übersicht mit nummerierten Löschen/Anzeigen-Paaren für alle Cache-Typen (DerivedData, Modules, Module-Cache, SPM-Cache u.a.) sowie `xcodebuild clean` und kombinierte Lösch-Optionen.
+- **"Clean" menu revised** — Structured overview with numbered delete/show pairs for all cache types (DerivedData, Modules, Module Cache, SPM Cache, etc.) as well as `xcodebuild clean` and combined delete options.
 
-- **Benutzerdefiniertes Menü erweitert** — Viele neue zuweisbare Aktionen:
-  - SPM-Abhängigkeiten auflösen
-  - SwiftLint und Periphery direkt ausführbar
-  - Simulator: App installieren, App starten (Bundle-ID), Push-Benachrichtigung senden, und weitere Simulator-Aktionen
+- **Custom menu extended** — Many new assignable actions:
+  - Resolve SPM dependencies
+  - Run SwiftLint and Periphery directly
+  - Simulator: install app, launch app (Bundle ID), send push notification, and more simulator actions
 
-- **Neuer Menü-Modus: Standard (ohne Beta)** — Vierter wählbarer Hauptmenü-Modus (`M`-Shortcut). Zeigt alle stabilen Untermenüs des Standard-Menüs (01–10: Clean, Build & Simulator, Test, Code-Qualität, Projekt-Analyse, Metriken, Git, Xcode verwalten, Info & Diagnose, Apps öffnen). Beta-markierte Bereiche (Sicherheit, CI/CD, Simulator Extended) werden ausgeblendet — ideal für den stabilen Alltagsbetrieb ohne experimentelle Funktionen.
+- **New menu mode: Standard (without Beta)** — Fourth selectable main menu mode (`M` shortcut). Shows all stable submenus of the standard menu (01–10: Clean, Build & Simulator, Test, Code Quality, Project Analysis, Metrics, Git, Manage Xcode, Info & Diagnostics, Open Apps). Beta-marked areas (Security, CI/CD, Simulator Extended) are hidden — ideal for stable daily use without experimental features.
 
-### Verbesserungen
+### Improvements
 
-- **Beta-Kennzeichnung in der Komplett-Ansicht** — Beta-Untermenüs (z.B. Physische Geräte, Dependencies, CI/CD, Sicherheit u.a.) sind in der Komplett-Ansicht jetzt wie im Standard-Menü mit einem grünen `(Beta-Version)`-Tag gekennzeichnet.
+- **Beta labels in full view** — Beta submenus (e.g. Physical Devices, Dependencies, CI/CD, Security, etc.) are now marked with a green `(Beta)` tag in the full view, just like in the standard menu.
 
-- **Icons im Menü** — Alle Menüeinträge haben jetzt visuelle Icons für eine bessere Übersichtlichkeit. Untermenü-Einträge (führen zu einem Untermenü) sind mit 📁 gekennzeichnet. Befehle/Aktionen erhalten ein einheitliches ◆-Symbol. Abschnitts-Überschriften innerhalb der Menüs haben jeweils ein thematisch passendes Icon (z.B. 🔨 für Build, 🧪 für Tests, 🔒 für Sicherheit, 📦 für Abhängigkeiten).
+- **Icons in the menu** — All menu entries now have visual icons for better clarity. Submenu entries (leading to a submenu) are marked with 📁. Commands/actions receive a uniform ◆ symbol. Section headings within the menus each have a thematically appropriate icon (e.g. 🔨 for Build, 🧪 for Tests, 🔒 for Security, 📦 for Dependencies).
 
-- **Simulator Extended erweitert** — Neue Aktionen: App installieren, App starten (Bundle-ID), Logs anzeigen, installierte Apps auflisten, Push-Benachrichtigung testen, Deep-Link öffnen, Berechtigungen setzen, Medien hinzufügen, App-Datenordner öffnen, Video-Aufzeichnung, Status-Bar mocken/zurücksetzen, SQLite-DB finden, Group-Container öffnen u.v.m.
+- **Simulator Extended extended** — New actions: install app, launch app (Bundle ID), show logs, list installed apps, test push notification, open deep link, set permissions, add media, open app data folder, video recording, mock/reset status bar, find SQLite DB, open group container, and much more.
 
-- **Hauptmenü strukturiert** — Zwei neue Sektionen „Sicherheit & CI/CD" mit den neuen Menüs 22 (Sicherheit) und 23 (CI/CD).
+- **Main menu structured** — Two new sections "Security & CI/CD" with new menus 22 (Security) and 23 (CI/CD).
 
-- **Benutzerdefiniertes Menü vorbelegt** — Beim ersten Start werden Standardeinträge automatisch befüllt (`populateDefaultCustomMenuIfNeeded()`).
+- **Custom menu pre-populated** — On first launch, default entries are automatically filled in (`populateDefaultCustomMenuIfNeeded()`).
 
-- **Arbeitsverzeichnis-Browser neu gestaltet** — Der tastaturgesteuerte Verzeichnis-Navigator wurde vollständig überarbeitet und nutzt nun den einheitlichen `FileBrowser` mit verbessertem Rendering und Filtermöglichkeiten nach Dateiendung.
+- **Working directory browser redesigned** — The keyboard-driven directory navigator has been completely redesigned and now uses the unified `FileBrowser` with improved rendering and filtering by file extension.
 
-- **Mehrsprachigkeit** — 14 neue Sprachen hinzugefügt: Arabisch, Dänisch, Spanisch, Finnisch, Französisch, Italienisch, Japanisch, Koreanisch, Niederländisch, Portugiesisch, Russisch, Schwedisch, Türkisch, Chinesisch (vereinfacht & traditionell). Das Sprachmenü (`L`) listet alle verfügbaren Sprachen automatisch aus der Lokalisierungsdatei.
+- **Multilingual support** — 14 new languages added: Arabic, Danish, Spanish, Finnish, French, Italian, Japanese, Korean, Dutch, Portuguese, Russian, Swedish, Turkish, Chinese (Simplified & Traditional). The language menu (`L`) lists all available languages automatically from the localization file.
 
-- **Lokalisierung erweitert** — Ca. 430 neue Lokalisierungskeys für alle neuen Funktionen (DE + EN + alle neuen Sprachen).
+- **Localization extended** — Approx. 430 new localization keys for all new features (DE + EN + all new languages).
 
 ---
 
 ## Version 1.0.0 — 2026-04-06
 
-### Initiale Veröffentlichung
+### Initial Release
 
-Erstes Release des Xcode Developer Toolbox CLI-Tools für iOS/macOS-Entwickler.
+First release of the Xcode Developer Toolbox CLI tool for iOS/macOS developers.
 
-**Enthaltene Funktionen:**
+**Included features:**
 
-- Tastaturgesteuertes Terminal-Menü (Simple- und Extended-Modus)
-- Build & Run (Simulator und macOS nativ)
-- Tests ausführen (Unit Tests)
+- Keyboard-driven terminal menu (Simple and Extended mode)
+- Build & Run (Simulator and macOS native)
+- Run tests (Unit Tests)
 - Clean (DerivedData, Caches)
-- Code-Qualität: SwiftLint, SwiftFormat (Dry-Run), Periphery, Static Analyzer
-- Metriken & Projekt-Analyse
-- Simulator-Verwaltung (Install, Launch, Push-Notifications, Screenshots u.v.m.)
-- Benutzerdefiniertes Menü mit frei konfigurierbaren Aktionen
-- Einstellungen: Import, Export, Zurücksetzen
-- Arbeitsverzeichnis-Auswahl mit persistenten Einstellungen (`~/.xcode_toolbox_prefs.json`)
-- Vollständige DE/EN-Lokalisierung
-- Globale Keyboard-Shortcuts (Schema, Device, Config, Bundle-ID, Sprache, Hilfe u.a.)
-- Integriertes Hilfesystem
+- Code quality: SwiftLint, SwiftFormat (Dry-Run), Periphery, Static Analyzer
+- Metrics & Project Analysis
+- Simulator management (Install, Launch, Push Notifications, Screenshots, etc.)
+- Custom menu with freely configurable actions
+- Settings: Import, Export, Reset
+- Working directory selection with persistent settings (`~/.xcode_toolbox_prefs.json`)
+- Full DE/EN localization
+- Global keyboard shortcuts (Scheme, Device, Config, Bundle ID, Language, Help, etc.)
+- Integrated help system

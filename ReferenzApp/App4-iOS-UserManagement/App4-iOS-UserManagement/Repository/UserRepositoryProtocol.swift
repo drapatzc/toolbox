@@ -1,6 +1,6 @@
 import Foundation
 
-/// Abstrahiert den Datenzugriff für Benutzer — ermöglicht Testbarkeit via Mock
+/// Abstracts user data access — enables testability via mock
 protocol UserRepositoryProtocol {
     func fetchAll() async throws -> [User]
     func fetch(id: Int64) async throws -> User?

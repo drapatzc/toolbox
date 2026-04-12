@@ -1,33 +1,33 @@
 import Foundation
 
-/// Definiert die Geschäftslogik für das Verwalten von Todos.
-/// Sitzt zwischen ViewModel und Repository und kapselt Validierungsregeln.
+/// Defines the business logic for managing todos.
+/// Sits between the ViewModel and Repository, encapsulating validation rules.
 protocol TodoServiceProtocol: AnyObject {
-    /// Lädt alle Todos aus dem Repository.
+    /// Loads all todos from the repository.
     func loadTodos() -> [Todo]
 
-    /// Erstellt ein neues Todo nach Validierung des Titels.
-    /// - Parameter title: Der Titel des neuen Todos (darf nicht leer sein).
-    /// - Throws: `TodoError.emptyTitle` wenn der Titel leer ist.
+    /// Creates a new todo after validating the title.
+    /// - Parameter title: The title of the new todo (must not be empty).
+    /// - Throws: `TodoError.emptyTitle` if the title is empty.
     func createTodo(title: String) throws -> Todo
 
-    /// Wechselt den Erledigungsstatus eines Todos.
+    /// Toggles the completion status of a todo.
     func toggleCompletion(of todo: Todo)
 
-    /// Löscht das Todo mit der angegebenen ID.
+    /// Deletes the todo with the given ID.
     func deleteTodo(id: UUID)
 }
 
-// MARK: - Fehlertypen
+// MARK: - Error Types
 
-/// Fehlertypen für die Todo-Geschäftslogik.
+/// Error types for todo business logic.
 enum TodoError: LocalizedError, Equatable {
     case emptyTitle
 
     var errorDescription: String? {
         switch self {
         case .emptyTitle:
-            return "Der Titel darf nicht leer sein."
+            return String(localized: "error_empty_title")
         }
     }
 }

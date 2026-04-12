@@ -4,8 +4,8 @@ import Testing
 import Foundation
 @testable import App3_iOS
 
-/// Tests für `WeatherService`.
-/// Prüft Delegation an das Repository und Validierungslogik.
+/// Tests for `WeatherService`.
+/// Verifies delegation to the repository and validation logic.
 struct WeatherServiceTests {
 
     private func makeSUT() -> (service: WeatherService, repository: MockWeatherRepository) {
@@ -14,11 +14,11 @@ struct WeatherServiceTests {
         return (service, repository)
     }
 
-    private func testStadt() -> City {
+    private func testCity() -> City {
         City(name: "Teststadt", land: "Testland", latitude: 0, longitude: 0)
     }
 
-    private func testWetter(fuer city: City? = nil) -> CurrentWeather {
+    private func testWeather(for city: City? = nil) -> CurrentWeather {
         let stadt = city ?? City(name: "Teststadt", land: "Testland", latitude: 0, longitude: 0)
         let basis = Date()
         return CurrentWeather(
@@ -36,10 +36,10 @@ struct WeatherServiceTests {
         )
     }
 
-    private func testVorhersage(fuer city: City? = nil) -> WeeklyForecast {
-        let stadt = city ?? testStadt()
+    private func testForecast(for city: City? = nil) -> WeeklyForecast {
+        let stadt = city ?? testCity()
         let basis = Date()
-        let tage = (0..<7).map { offset in
+        let days = (0..<7).map { offset in
             DailyForecast(
                 datum: basis.addingTimeInterval(Double(offset) * 86_400),
                 minTemperatur: 10,
@@ -49,135 +49,135 @@ struct WeatherServiceTests {
                 luftfeuchtigkeit: 50
             )
         }
-        return WeeklyForecast(city: stadt, vorhersagen: tage)
+        return WeeklyForecast(city: stadt, vorhersagen: days)
     }
 
     // MARK: - alleCities
 
-    @Test("alleCities delegiert an das Repository")
-    func alleCitiesDelegiertAnRepository() {
+    @Test("alleCities delegates to the repository")
+    func alleCitiesDelegatestoRepository() {
         let (service, repository) = makeSUT()
-        repository.gespeicherteCities = [testStadt()]
-        let ergebnis = service.alleCities()
-        #expect(ergebnis.count == 1)
+        repository.gespeicherteCities = [testCity()]
+        let result = service.alleCities()
+        #expect(result.count == 1)
         #expect(repository.alleCitiesAufrufe == 1)
     }
 
-    @Test("alleCities gibt leere Liste zurück wenn Repository leer ist")
-    func alleCitiesGibtLeerListeBeimLeerenRepository() {
+    @Test("alleCities returns empty list when repository is empty")
+    func alleCitiesReturnsEmptyListForEmptyRepository() {
         let (service, _) = makeSUT()
         #expect(service.alleCities().isEmpty)
     }
 
-    @Test("alleCities gibt mehrere Städte korrekt zurück")
-    func alleCitiesGibtMehrereStädteZurück() {
+    @Test("alleCities returns multiple cities correctly")
+    func alleCitiesReturnsMultipleCitiesCorrectly() {
         let (service, repository) = makeSUT()
-        let städte = [testStadt(), City(name: "B", land: "L", latitude: 1, longitude: 1)]
-        repository.gespeicherteCities = städte
+        let cities = [testCity(), City(name: "B", land: "L", latitude: 1, longitude: 1)]
+        repository.gespeicherteCities = cities
         #expect(service.alleCities().count == 2)
     }
 
-    // MARK: - aktuellesWetter (Positivpfade)
+    // MARK: - aktuellesWetter (happy path)
 
-    @Test("aktuellesWetter delegiert den Abruf ans Repository")
-    func aktuellesWetterDelegiertAnRepository() async throws {
+    @Test("aktuellesWetter delegates the fetch to the repository")
+    func aktuellesWetterDelegatesToRepository() async throws {
         let (service, repository) = makeSUT()
-        let stadt = testStadt()
-        repository.aktuellesWetterResult = testWetter(fuer: stadt)
-        _ = try await service.aktuellesWetter(fuer: stadt)
+        let city = testCity()
+        repository.aktuellesWetterResult = testWeather(for: city)
+        _ = try await service.aktuellesWetter(fuer: city)
         #expect(repository.aktuellesWetterAufrufe.count == 1)
         #expect(repository.aktuellesWetterAufrufe.first?.name == "Teststadt")
     }
 
-    @Test("aktuellesWetter gibt das korrekte Wetterobjekt zurück")
-    func aktuellesWetterGibtKorrektesDatenObjektZurück() async throws {
+    @Test("aktuellesWetter returns the correct weather object")
+    func aktuellesWetterReturnsCorrectWeatherObject() async throws {
         let (service, repository) = makeSUT()
-        let erwartetes = testWetter()
-        repository.aktuellesWetterResult = erwartetes
-        let ergebnis = try await service.aktuellesWetter(fuer: testStadt())
-        #expect(ergebnis.temperatur == 20.0)
-        #expect(ergebnis.bedingung == .sonnig)
+        let expected = testWeather()
+        repository.aktuellesWetterResult = expected
+        let result = try await service.aktuellesWetter(fuer: testCity())
+        #expect(result.temperatur == 20.0)
+        #expect(result.bedingung == .sonnig)
     }
 
-    // MARK: - aktuellesWetter (Fehlerpfade)
+    // MARK: - aktuellesWetter (error paths)
 
-    @Test("aktuellesWetter leitet stadtNichtGefunden-Fehler weiter")
-    func aktuellesWetterLeitetStadtNichtGefundenWeiter() async {
+    @Test("aktuellesWetter forwards stadtNichtGefunden error")
+    func aktuellesWetterForwardsCityNotFoundError() async {
         let (service, repository) = makeSUT()
         repository.aktuellesWetterFehler = .stadtNichtGefunden
         await #expect(throws: WetterFehler.stadtNichtGefunden) {
-            try await service.aktuellesWetter(fuer: testStadt())
+            try await service.aktuellesWetter(fuer: testCity())
         }
     }
 
-    @Test("aktuellesWetter leitet datenNichtVerfügbar-Fehler weiter")
-    func aktuellesWetterLeitetDatenNichtVerfügbarWeiter() async {
+    @Test("aktuellesWetter forwards datenNichtVerfügbar error")
+    func aktuellesWetterForwardsDataUnavailableError() async {
         let (service, repository) = makeSUT()
         repository.aktuellesWetterFehler = .datenNichtVerfügbar
         await #expect(throws: WetterFehler.datenNichtVerfügbar) {
-            try await service.aktuellesWetter(fuer: testStadt())
+            try await service.aktuellesWetter(fuer: testCity())
         }
     }
 
-    // MARK: - wochenvorhersage (Positivpfade)
+    // MARK: - wochenvorhersage (happy path)
 
-    @Test("wochenvorhersage delegiert den Abruf ans Repository")
-    func wochenvorhersageDelegiertAnRepository() async throws {
+    @Test("wochenvorhersage delegates the fetch to the repository")
+    func wochenvorhersageDelegatesToRepository() async throws {
         let (service, repository) = makeSUT()
-        repository.wochenvorhersageResult = testVorhersage()
-        _ = try await service.wochenvorhersage(fuer: testStadt())
+        repository.wochenvorhersageResult = testForecast()
+        _ = try await service.wochenvorhersage(fuer: testCity())
         #expect(repository.wochenvorhersageAufrufe.count == 1)
     }
 
-    @Test("wochenvorhersage gibt sieben Tage zurück")
-    func wochenvorhersageGibtSiebenTageZurück() async throws {
+    @Test("wochenvorhersage returns seven days")
+    func wochenvorhersageReturnsSevenDays() async throws {
         let (service, repository) = makeSUT()
-        repository.wochenvorhersageResult = testVorhersage()
-        let ergebnis = try await service.wochenvorhersage(fuer: testStadt())
-        #expect(ergebnis.vorhersagen.count == 7)
+        repository.wochenvorhersageResult = testForecast()
+        let result = try await service.wochenvorhersage(fuer: testCity())
+        #expect(result.vorhersagen.count == 7)
     }
 
-    // MARK: - wochenvorhersage (Fehlerpfade)
+    // MARK: - wochenvorhersage (error paths)
 
-    @Test("wochenvorhersage leitet stadtNichtGefunden-Fehler weiter")
-    func wochenvorhersageLeitetFehlerWeiter() async {
+    @Test("wochenvorhersage forwards stadtNichtGefunden error")
+    func wochenvorhersageForwardsCityNotFoundError() async {
         let (service, repository) = makeSUT()
         repository.wochenvorhersageFehler = .stadtNichtGefunden
         await #expect(throws: WetterFehler.stadtNichtGefunden) {
-            try await service.wochenvorhersage(fuer: testStadt())
+            try await service.wochenvorhersage(fuer: testCity())
         }
     }
 
-    @Test("wochenvorhersage leitet datenNichtVerfügbar-Fehler weiter")
-    func wochenvorhersageLeitetDatenFehlerWeiter() async {
+    @Test("wochenvorhersage forwards datenNichtVerfügbar error")
+    func wochenvorhersageForwardsDataUnavailableError() async {
         let (service, repository) = makeSUT()
         repository.wochenvorhersageFehler = .datenNichtVerfügbar
         await #expect(throws: WetterFehler.datenNichtVerfügbar) {
-            try await service.wochenvorhersage(fuer: testStadt())
+            try await service.wochenvorhersage(fuer: testCity())
         }
     }
 
     // MARK: - citiesSuchen
 
-    @Test("citiesSuchen delegiert trimmierten Suchbegriff ans Repository")
-    func citiesSuchenDelegiertGesäubertenBegriff() async {
+    @Test("citiesSuchen delegates trimmed search term to repository")
+    func citiesSuchenDelegatesTrimmedTerm() async {
         let (service, repository) = makeSUT()
-        repository.gespeicherteCities = [testStadt()]
+        repository.gespeicherteCities = [testCity()]
         _ = await service.citiesSuchen(suchbegriff: "  Test  ")
         #expect(repository.citiesSuchenAufrufe.first == "Test")
     }
 
-    @Test("citiesSuchen mit leerem Begriff liefert alle Städte")
-    func citiesSuchenMitLeeremBegriffLiefertAlleStädte() async {
+    @Test("citiesSuchen with empty term returns all cities")
+    func citiesSuchenWithEmptyTermReturnsAllCities() async {
         let (service, repository) = makeSUT()
-        let städte = [testStadt(), City(name: "B", land: "L", latitude: 0, longitude: 0)]
-        repository.gespeicherteCities = städte
-        let ergebnis = await service.citiesSuchen(suchbegriff: "")
-        #expect(ergebnis.count == 2)
+        let cities = [testCity(), City(name: "B", land: "L", latitude: 0, longitude: 0)]
+        repository.gespeicherteCities = cities
+        let result = await service.citiesSuchen(suchbegriff: "")
+        #expect(result.count == 2)
     }
 
-    @Test("citiesSuchen mit Nur-Leerzeichen trimmt zu leerem Suchbegriff")
-    func citiesSuchenMitNurLeerzeichenWirdGetrimmt() async {
+    @Test("citiesSuchen with whitespace-only term trims to empty search")
+    func citiesSuchenWithWhitespaceOnlyTermIsTrimmmed() async {
         let (service, repository) = makeSUT()
         _ = await service.citiesSuchen(suchbegriff: "   ")
         #expect(repository.citiesSuchenAufrufe.first == "")

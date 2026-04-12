@@ -1,23 +1,23 @@
 import Foundation
 
-/// Vollständiger, unveränderlicher Anwendungszustand (Single Source of Truth).
-/// Im Redux-Muster ist der AppState die einzige Datenquelle der App.
+/// Complete, immutable application state (Single Source of Truth).
+/// In the Redux pattern, AppState is the app's only data source.
 struct AppState: Equatable {
 
-    // MARK: - Datenhaltung
+    // MARK: - Data
 
     var tasks: [WorkTask] = []
 
-    // MARK: - Navigations- und UI-Zustand
+    // MARK: - Navigation and UI State
 
     var selectedTaskID: UUID?
     var filterStatus: TaskStatus?
     var isAddTaskPresented: Bool = false
     var errorMessage: String?
 
-    // MARK: - Berechnete Eigenschaften
+    // MARK: - Computed Properties
 
-    /// Gibt die gefilterten und nach Priorität sortierten Tasks zurück.
+    /// Returns filtered tasks sorted by priority.
     var filteredTasks: [WorkTask] {
         let filtered: [WorkTask]
         if let filterStatus {
@@ -28,7 +28,7 @@ struct AppState: Equatable {
         return filtered.sorted { $0.priority.sortOrder < $1.priority.sortOrder }
     }
 
-    /// Gibt den aktuell ausgewählten Task zurück.
+    /// Returns the currently selected task.
     var selectedTask: WorkTask? {
         guard let selectedTaskID else { return nil }
         return tasks.first { $0.id == selectedTaskID }

@@ -2,30 +2,30 @@
 
 import Foundation
 
-/// Aktuelles Wetter für eine Stadt zum aktuellen Zeitpunkt.
+/// Current weather for a city at the present moment.
 struct CurrentWeather: Equatable {
     let city: City
-    /// Temperatur in Grad Celsius.
+    /// Temperature in degrees Celsius.
     let temperatur: Double
-    /// Gefühlte Temperatur in Grad Celsius.
+    /// Feels-like temperature in degrees Celsius.
     let gefuehlteTemperatur: Double
-    /// Relative Luftfeuchtigkeit in Prozent (0–100).
+    /// Relative humidity in percent (0–100).
     let luftfeuchtigkeit: Int
-    /// Windgeschwindigkeit in km/h.
+    /// Wind speed in km/h.
     let windgeschwindigkeit: Double
-    /// Windrichtung als Himmelsrichtungsabkürzung (z.B. "NW").
+    /// Wind direction as a cardinal abbreviation (e.g. "NW").
     let windrichtung: String
-    /// Sichtweite in Kilometern.
+    /// Visibility in kilometers.
     let sichtweite: Double
-    /// UV-Index (0–11+).
+    /// UV index (0–11+).
     let uvIndex: Int
-    /// Aktuelle Wetterbedingung.
+    /// Current weather condition.
     let bedingung: WeatherCondition
-    /// Uhrzeit des Sonnenaufgangs.
+    /// Time of sunrise.
     let sonnenaufgang: Date
-    /// Uhrzeit des Sonnenuntergangs.
+    /// Time of sunset.
     let sonnenuntergang: Date
-    /// Zeitstempel der letzten Aktualisierung.
+    /// Timestamp of the last update.
     let zuletztAktualisiert: Date
 
     init(
@@ -56,12 +56,12 @@ struct CurrentWeather: Equatable {
         self.zuletztAktualisiert = zuletztAktualisiert
     }
 
-    /// Formatierte Temperaturanzeige (z.B. "22°").
+    /// Formatted temperature display (e.g. "22°").
     var temperaturFormatiert: String {
         String(format: "%.0f°", temperatur)
     }
 
-    /// Formatierte gefühlte Temperatur (z.B. "20°").
+    /// Formatted feels-like temperature (e.g. "20°").
     var gefuehlteTemperaturFormatiert: String {
         String(format: "%.0f°", gefuehlteTemperatur)
     }

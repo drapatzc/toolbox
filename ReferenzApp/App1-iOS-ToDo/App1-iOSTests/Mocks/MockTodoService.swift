@@ -1,17 +1,17 @@
 import Foundation
 @testable import App1_iOS
 
-/// Test-Double für den TodoService.
-/// Erlaubt das Testen von ViewModels ohne echte Geschäftslogik.
+/// Test double for the TodoService.
+/// Allows testing ViewModels without real business logic.
 final class MockTodoService: TodoServiceProtocol {
 
-    // MARK: - Gespeicherte Aufrufe
+    // MARK: - Recorded Calls
 
     private(set) var toggledTodoIDs: [UUID] = []
     private(set) var deletedIDs: [UUID] = []
     private(set) var createCallCount: Int = 0
 
-    // MARK: - Konfigurierbarer Zustand
+    // MARK: - Configurable State
 
     var storedTodos: [Todo] = []
     var createShouldThrow: Bool = false

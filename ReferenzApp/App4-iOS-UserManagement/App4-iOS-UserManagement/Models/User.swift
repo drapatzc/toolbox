@@ -1,6 +1,6 @@
 import Foundation
 
-/// Anrede / Salutation
+/// Salutation
 enum Salutation: String, CaseIterable, Codable, Identifiable {
     case mr = "mr"
     case ms = "ms"
@@ -17,7 +17,7 @@ enum Salutation: String, CaseIterable, Codable, Identifiable {
     }
 }
 
-/// Benutzerdatenmodell
+/// User data model
 struct User: Identifiable, Codable, Equatable, Hashable {
     var id: Int64
     var salutation: Salutation
@@ -54,12 +54,12 @@ struct User: Identifiable, Codable, Equatable, Hashable {
         self.email = email
     }
 
-    /// Vollständiger Name (Anrede + Vorname + Nachname)
+    /// Full name (salutation + first name + last name)
     var fullName: String {
         "\(salutation.localizedLabel) \(firstName) \(lastName)"
     }
 
-    /// Vollständige Adresse
+    /// Formatted address
     var formattedAddress: String {
         "\(street) \(houseNumber), \(postalCode) \(city), \(country)"
     }

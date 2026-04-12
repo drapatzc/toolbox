@@ -1,6 +1,6 @@
 import Foundation
 
-/// Business-Logik-Schicht — orchestriert Repository und Validator
+/// Business logic layer — orchestrates repository and validator
 @MainActor
 final class UserService {
 
@@ -12,7 +12,7 @@ final class UserService {
         self.validator = validator
     }
 
-    // MARK: - Lesen
+    // MARK: - Read
 
     func loadAllUsers() async throws -> [User] {
         try await repository.fetchAll()
@@ -29,9 +29,9 @@ final class UserService {
         try await repository.search(query: query)
     }
 
-    // MARK: - Schreiben
+    // MARK: - Write
 
-    /// Neuen Benutzer anlegen — validiert zuerst
+    /// Creates a new user — validates first
     func createUser(_ user: User) async throws -> User {
         let trimmed = trimmedUser(user)
         let result = validator.validate(trimmed)
@@ -41,7 +41,7 @@ final class UserService {
         return try await repository.insert(trimmed)
     }
 
-    /// Bestehenden Benutzer aktualisieren — validiert zuerst
+    /// Updates an existing user — validates first
     func updateUser(_ user: User) async throws {
         let trimmed = trimmedUser(user)
         let result = validator.validate(trimmed)
@@ -51,7 +51,7 @@ final class UserService {
         try await repository.update(trimmed)
     }
 
-    /// Benutzer löschen
+    /// Deletes a user
     func deleteUser(id: Int64) async throws {
         try await repository.delete(id: id)
     }
@@ -65,7 +65,7 @@ final class UserService {
     // MARK: - Debug
 
 #if DEBUG
-    /// Legt 10 vordefinierte Testbenutzer an (ohne Validierung)
+    /// Creates 10 predefined test users (without validation)
     func seedTestUsers() async throws -> [User] {
         var created: [User] = []
         for user in UserService.debugSeedUsers {
@@ -75,7 +75,7 @@ final class UserService {
         return created
     }
 
-    /// Löscht alle Benutzer aus der Datenbank
+    /// Deletes all users from the database
     func deleteAllUsers() async throws {
         try await repository.deleteAll()
     }
@@ -94,9 +94,9 @@ final class UserService {
     ]
 #endif
 
-    // MARK: - Hilfsmethoden
+    // MARK: - Helpers
 
-    /// Whitespace an allen Textfeldern trimmen
+    /// Trims whitespace from all text fields
     private func trimmedUser(_ user: User) -> User {
         User(
             id: user.id,

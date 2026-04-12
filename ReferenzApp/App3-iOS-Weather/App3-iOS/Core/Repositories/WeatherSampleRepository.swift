@@ -2,23 +2,23 @@
 
 import Foundation
 
-/// Implementierung des Wetter-Repositories mit fest codierten Beispieldaten.
-/// Stellt realistische, deterministische Wetterdaten für zehn Städte bereit.
+/// Implementation of the weather repository with hard-coded sample data.
+/// Provides realistic, deterministic weather data for ten cities.
 final class WeatherSampleRepository: WeatherRepositoryProtocol {
 
-    // MARK: - Städteliste
+    // MARK: - City List
 
     private let verfügbareCities: [City] = [
-        City(id: UUID(uuidString: "A3000000-0000-0000-0000-000000000001")!, name: "Berlin",    land: "Deutschland",          latitude:  52.52, longitude:  13.40),
-        City(id: UUID(uuidString: "A3000000-0000-0000-0000-000000000002")!, name: "München",   land: "Deutschland",          latitude:  48.14, longitude:  11.58),
-        City(id: UUID(uuidString: "A3000000-0000-0000-0000-000000000003")!, name: "Hamburg",   land: "Deutschland",          latitude:  53.55, longitude:   9.99),
-        City(id: UUID(uuidString: "A3000000-0000-0000-0000-000000000004")!, name: "Wien",      land: "Österreich",           latitude:  48.21, longitude:  16.37),
-        City(id: UUID(uuidString: "A3000000-0000-0000-0000-000000000005")!, name: "Zürich",    land: "Schweiz",              latitude:  47.38, longitude:   8.54),
-        City(id: UUID(uuidString: "A3000000-0000-0000-0000-000000000006")!, name: "Paris",     land: "Frankreich",           latitude:  48.86, longitude:   2.35),
-        City(id: UUID(uuidString: "A3000000-0000-0000-0000-000000000007")!, name: "London",    land: "Vereinigtes Königreich", latitude: 51.51, longitude:  -0.13),
-        City(id: UUID(uuidString: "A3000000-0000-0000-0000-000000000008")!, name: "New York",  land: "USA",                  latitude:  40.71, longitude: -74.01),
-        City(id: UUID(uuidString: "A3000000-0000-0000-0000-000000000009")!, name: "Tokio",     land: "Japan",                latitude:  35.69, longitude: 139.69),
-        City(id: UUID(uuidString: "A3000000-0000-0000-0000-00000000000A")!, name: "Sydney",    land: "Australien",           latitude: -33.87, longitude: 151.21),
+        City(id: UUID(uuidString: "A3000000-0000-0000-0000-000000000001")!, name: "Berlin",    land: "Germany",         latitude:  52.52, longitude:  13.40),
+        City(id: UUID(uuidString: "A3000000-0000-0000-0000-000000000002")!, name: "Munich",    land: "Germany",         latitude:  48.14, longitude:  11.58),
+        City(id: UUID(uuidString: "A3000000-0000-0000-0000-000000000003")!, name: "Hamburg",   land: "Germany",         latitude:  53.55, longitude:   9.99),
+        City(id: UUID(uuidString: "A3000000-0000-0000-0000-000000000004")!, name: "Vienna",    land: "Austria",         latitude:  48.21, longitude:  16.37),
+        City(id: UUID(uuidString: "A3000000-0000-0000-0000-000000000005")!, name: "Zurich",    land: "Switzerland",     latitude:  47.38, longitude:   8.54),
+        City(id: UUID(uuidString: "A3000000-0000-0000-0000-000000000006")!, name: "Paris",     land: "France",          latitude:  48.86, longitude:   2.35),
+        City(id: UUID(uuidString: "A3000000-0000-0000-0000-000000000007")!, name: "London",    land: "United Kingdom",  latitude:  51.51, longitude:  -0.13),
+        City(id: UUID(uuidString: "A3000000-0000-0000-0000-000000000008")!, name: "New York",  land: "USA",             latitude:  40.71, longitude: -74.01),
+        City(id: UUID(uuidString: "A3000000-0000-0000-0000-000000000009")!, name: "Tokyo",     land: "Japan",           latitude:  35.69, longitude: 139.69),
+        City(id: UUID(uuidString: "A3000000-0000-0000-0000-00000000000A")!, name: "Sydney",    land: "Australia",       latitude: -33.87, longitude: 151.21),
     ]
 
     // MARK: - WeatherRepositoryProtocol
@@ -50,7 +50,7 @@ final class WeatherSampleRepository: WeatherRepositoryProtocol {
         }
     }
 
-    // MARK: - Wetterdaten (deterministische Beispielwerte)
+    // MARK: - Weather Data (deterministic sample values)
 
     private struct WetterVariante {
         let temperatur: Double
@@ -71,7 +71,7 @@ final class WeatherSampleRepository: WeatherRepositoryProtocol {
         let luftfeuchtigkeit: Int
     }
 
-    /// Zehn Wettervarianten – eine je Stadt (Reihenfolge = Städteliste).
+    /// Ten weather variants – one per city (order matches city list).
     private let wetterVarianten: [WetterVariante] = [
         WetterVariante(temperatur: 18.0, gefuehlteTemperatur: 17.0, luftfeuchtigkeit: 60, windgeschwindigkeit: 14.0, windrichtung: "NW", sichtweite: 18.0, uvIndex: 4, bedingung: .teilbewölkt),
         WetterVariante(temperatur: 24.0, gefuehlteTemperatur: 23.0, luftfeuchtigkeit: 45, windgeschwindigkeit:  8.0, windrichtung:  "S", sichtweite: 25.0, uvIndex: 7, bedingung: .sonnig),
@@ -85,7 +85,7 @@ final class WeatherSampleRepository: WeatherRepositoryProtocol {
         WetterVariante(temperatur: 20.0, gefuehlteTemperatur: 19.0, luftfeuchtigkeit: 58, windgeschwindigkeit: 10.0, windrichtung: "NW", sichtweite: 25.0, uvIndex: 7, bedingung: .sonnig),
     ]
 
-    /// Sieben Vorhersagevarianten – zyklisch über die Woche verteilt.
+    /// Seven forecast variants – distributed cyclically over the week.
     private let vorhersageVarianten: [VorhersageVariante] = [
         VorhersageVariante(minTemperatur: 14.0, maxTemperatur: 22.0, bedingung: .sonnig,       regenWahrscheinlichkeit:  5, luftfeuchtigkeit: 48),
         VorhersageVariante(minTemperatur: 11.0, maxTemperatur: 18.0, bedingung: .teilbewölkt,  regenWahrscheinlichkeit: 20, luftfeuchtigkeit: 60),
@@ -96,7 +96,7 @@ final class WeatherSampleRepository: WeatherRepositoryProtocol {
         VorhersageVariante(minTemperatur: 12.0, maxTemperatur: 20.0, bedingung: .teilbewölkt,  regenWahrscheinlichkeit: 25, luftfeuchtigkeit: 55),
     ]
 
-    // MARK: - Private Hilfsmethoden
+    // MARK: - Private Helpers
 
     private func erstelleWetter(fuer city: City, index: Int) -> CurrentWeather {
         let variante = wetterVarianten[index % wetterVarianten.count]

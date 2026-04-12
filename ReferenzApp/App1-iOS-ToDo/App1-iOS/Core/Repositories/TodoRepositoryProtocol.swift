@@ -1,17 +1,17 @@
 import Foundation
 
-/// Abstrahiert den Datenzugriff für Todo-Elemente.
-/// Ermöglicht das einfache Austauschen der Persistenzschicht (z. B. InMemory ↔ CoreData).
+/// Abstracts data access for todo items.
+/// Allows easy swapping of the persistence layer (e.g. InMemory ↔ CoreData).
 protocol TodoRepositoryProtocol: AnyObject {
-    /// Gibt alle gespeicherten Todos chronologisch sortiert zurück.
+    /// Returns all stored todos sorted chronologically.
     func fetchAll() -> [Todo]
 
-    /// Speichert ein neues Todo.
+    /// Saves a new todo.
     func save(_ todo: Todo)
 
-    /// Aktualisiert ein bestehendes Todo.
+    /// Updates an existing todo.
     func update(_ todo: Todo)
 
-    /// Löscht das Todo mit der angegebenen ID.
+    /// Deletes the todo with the given ID.
     func delete(id: UUID)
 }

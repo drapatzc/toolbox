@@ -2,23 +2,23 @@
 
 import Foundation
 
-/// Schnittstelle für den Wetter-Datenzugriff.
-/// Implementierungen können echte Netzwerkquellen oder Testdaten bereitstellen.
+/// Interface for weather data access.
+/// Implementations can provide real network sources or test data.
 protocol WeatherRepositoryProtocol {
-    /// Gibt alle verfügbaren Städte zurück.
+    /// Returns all available cities.
     func alleCities() -> [City]
 
-    /// Lädt das aktuelle Wetter für eine bekannte Stadt.
-    /// - Parameter city: Die gewünschte Stadt.
-    /// - Throws: `WetterFehler.stadtNichtGefunden` wenn die Stadt unbekannt ist.
+    /// Loads the current weather for a known city.
+    /// - Parameter city: The requested city.
+    /// - Throws: `WetterFehler.stadtNichtGefunden` if the city is unknown.
     func aktuellesWetter(fuer city: City) throws -> CurrentWeather
 
-    /// Lädt die 7-Tage-Vorhersage für eine bekannte Stadt.
-    /// - Parameter city: Die gewünschte Stadt.
-    /// - Throws: `WetterFehler.stadtNichtGefunden` wenn die Stadt unbekannt ist.
+    /// Loads the 7-day forecast for a known city.
+    /// - Parameter city: The requested city.
+    /// - Throws: `WetterFehler.stadtNichtGefunden` if the city is unknown.
     func wochenvorhersage(fuer city: City) throws -> WeeklyForecast
 
-    /// Sucht Städte anhand eines Suchbegriffs (Name oder Land).
-    /// - Parameter suchbegriff: Suchtext; leerer String gibt alle Städte zurück.
+    /// Searches cities by a search term (name or country).
+    /// - Parameter suchbegriff: Search text; an empty string returns all cities.
     func citiesSuchen(suchbegriff: String) -> [City]
 }

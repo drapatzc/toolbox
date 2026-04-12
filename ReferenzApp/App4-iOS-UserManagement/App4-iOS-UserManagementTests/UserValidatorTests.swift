@@ -182,13 +182,13 @@ final class UserValidatorTests: XCTestCase {
         )
         let result = sut.validate(user)
         XCTAssertFalse(result.isValid)
-        // Erwarte Fehler für: firstName, lastName, postalCode
+        // Expect errors for: firstName, lastName, postalCode
         XCTAssertGreaterThanOrEqual(result.errors.count, 3)
     }
 
     func test_validate_trimming_whitespace_firstName_returnsError() {
-        // Der Validator selbst trimmt nicht — das macht der Service
-        // Hier prüfen wir dass " " als leer erkannt wird
+        // The validator itself does not trim — that is done by the service
+        // Here we verify that " " is treated as empty
         let error = sut.validateFirstName("   ")
         XCTAssertNotNil(error)
     }
