@@ -2,38 +2,38 @@
 
 import Foundation
 
-/// Fehlerbeschreibungen für Wetterdienst-Operationen.
+/// Error descriptions for weather service operations.
 enum WetterFehler: Error, LocalizedError, Equatable {
-    /// Die angegebene Stadt ist im Datensatz nicht vorhanden.
+    /// The specified city is not present in the data set.
     case stadtNichtGefunden
-    /// Wetterdaten können nicht abgerufen werden.
+    /// Weather data cannot be retrieved.
     case datenNichtVerfügbar
 
     var errorDescription: String? {
         switch self {
         case .stadtNichtGefunden:
-            return "Die gewählte Stadt konnte nicht gefunden werden."
+            return String(localized: "error_city_not_found")
         case .datenNichtVerfügbar:
-            return "Die Wetterdaten sind derzeit nicht verfügbar."
+            return String(localized: "error_data_unavailable")
         }
     }
 }
 
-/// Schnittstelle für den Wetter-Service.
-/// Stellt Wetterdaten asynchron bereit und abstrahiert die Datenquelle.
+/// Interface for the weather service.
+/// Provides weather data asynchronously and abstracts the data source.
 protocol WeatherServiceProtocol {
-    /// Gibt alle verfügbaren Städte synchron zurück.
+    /// Returns all available cities synchronously.
     func alleCities() -> [City]
 
-    /// Ruft das aktuelle Wetter für eine Stadt asynchron ab.
-    /// - Throws: `WetterFehler` bei Fehlern.
+    /// Retrieves the current weather for a city asynchronously.
+    /// - Throws: `WetterFehler` on failure.
     func aktuellesWetter(fuer city: City) async throws -> CurrentWeather
 
-    /// Ruft die 7-Tage-Vorhersage für eine Stadt asynchron ab.
-    /// - Throws: `WetterFehler` bei Fehlern.
+    /// Retrieves the 7-day forecast for a city asynchronously.
+    /// - Throws: `WetterFehler` on failure.
     func wochenvorhersage(fuer city: City) async throws -> WeeklyForecast
 
-    /// Sucht Städte nach Name oder Land.
-    /// Gibt bei leerem Suchbegriff alle Städte zurück.
+    /// Searches cities by name or country.
+    /// Returns all cities when the search term is empty.
     func citiesSuchen(suchbegriff: String) async -> [City]
 }

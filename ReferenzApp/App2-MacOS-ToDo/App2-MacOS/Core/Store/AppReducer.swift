@@ -1,10 +1,10 @@
 import Foundation
 
-/// Reine Funktion, die einen neuen Zustand aus altem Zustand und Aktion berechnet.
-/// Der Reducer ist der Kern des Redux-Musters:
-/// - Keine Seiteneffekte
-/// - Keine externe Abhängigkeiten
-/// - Gleicher Input → gleicher Output (deterministisch)
+/// Pure function that computes a new state from the current state and an action.
+/// The reducer is the core of the Redux pattern:
+/// - No side effects
+/// - No external dependencies
+/// - Same input → same output (deterministic)
 func appReducer(state: AppState, action: AppAction) -> AppState {
     var newState = state
 
@@ -13,7 +13,7 @@ func appReducer(state: AppState, action: AppAction) -> AppState {
     case let .addTask(title, description, priority):
         let trimmedTitle = title.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !trimmedTitle.isEmpty else {
-            newState.errorMessage = "Der Titel darf nicht leer sein."
+            newState.errorMessage = String(localized: "error_empty_title")
             return newState
         }
         let newTask = WorkTask(title: trimmedTitle, taskDescription: description, priority: priority)

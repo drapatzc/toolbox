@@ -2,13 +2,13 @@ import Testing
 import Foundation
 @testable import App2_MacOS
 
-/// Tests für die reine Reducer-Funktion.
-/// Da der Reducer eine reine Funktion ist, können alle Fälle ohne Mocks getestet werden.
+/// Tests for the pure reducer function.
+/// Since the reducer is a pure function, all cases can be tested without mocks.
 struct AppReducerTests {
 
     // MARK: - addTask
 
-    @Test("Aufgabe wird korrekt hinzugefügt")
+    @Test("Task is added correctly")
     func taskIsAddedCorrectly() {
         let state = AppState()
         let action = AppAction.addTask(title: "Neue Aufgabe", description: "Beschreibung", priority: .high)
@@ -23,7 +23,7 @@ struct AppReducerTests {
         #expect(newState.errorMessage == nil)
     }
 
-    @Test("Leerer Titel setzt Fehlermeldung und fügt keine Aufgabe hinzu")
+    @Test("Empty title sets error message and no task is added")
     func emptyTitleSetsErrorMessageAndNoTaskAdded() {
         let state = AppState()
         let action = AppAction.addTask(title: "   ", description: "", priority: .medium)
@@ -33,7 +33,7 @@ struct AppReducerTests {
         #expect(newState.errorMessage != nil)
     }
 
-    @Test("Titel wird beim Hinzufügen bereinigt")
+    @Test("Title is trimmed on add")
     func titleIsTrimmedOnAdd() {
         let state = AppState()
         let action = AppAction.addTask(title: "  Aufgabe  ", description: "", priority: .low)
@@ -44,7 +44,7 @@ struct AppReducerTests {
 
     // MARK: - updateTaskStatus
 
-    @Test("Aufgabenstatus wird korrekt aktualisiert")
+    @Test("Task status is updated correctly")
     func taskStatusIsUpdatedCorrectly() {
         var state = AppState()
         let task = WorkTask(title: "Test", status: .todo)
@@ -56,7 +56,7 @@ struct AppReducerTests {
         #expect(newState.tasks.first?.status == .inProgress)
     }
 
-    @Test("Update auf nicht vorhandene ID hat keine Auswirkung")
+    @Test("Update on non-existent ID has no effect")
     func updateNonExistentTaskHasNoEffect() {
         var state = AppState()
         state.tasks = [WorkTask(title: "Vorhandene Aufgabe")]
@@ -67,7 +67,7 @@ struct AppReducerTests {
 
     // MARK: - deleteTask
 
-    @Test("Aufgabe wird korrekt gelöscht")
+    @Test("Task is deleted correctly")
     func taskIsDeletedCorrectly() {
         var state = AppState()
         let task = WorkTask(title: "Zu löschen")
@@ -81,7 +81,7 @@ struct AppReducerTests {
         #expect(newState.selectedTaskID == nil)
     }
 
-    @Test("Löschen einer anderen Aufgabe löscht die Auswahl nicht")
+    @Test("Deleting another task does not clear the selection")
     func deletingOtherTaskKeepsSelection() {
         var state = AppState()
         let selectedTask = WorkTask(title: "Ausgewählt")
@@ -97,7 +97,7 @@ struct AppReducerTests {
 
     // MARK: - selectTask
 
-    @Test("Aufgabe wird korrekt ausgewählt")
+    @Test("Task is selected correctly")
     func taskIsSelectedCorrectly() {
         let state = AppState()
         let taskID = UUID()
@@ -105,7 +105,7 @@ struct AppReducerTests {
         #expect(newState.selectedTaskID == taskID)
     }
 
-    @Test("Auswahl wird mit nil zurückgesetzt")
+    @Test("Selection is reset with nil")
     func selectionIsResetWithNil() {
         var state = AppState()
         state.selectedTaskID = UUID()
@@ -115,14 +115,14 @@ struct AppReducerTests {
 
     // MARK: - setFilter
 
-    @Test("Filter wird korrekt gesetzt")
+    @Test("Filter is set correctly")
     func filterIsSetCorrectly() {
         let state = AppState()
         let newState = appReducer(state: state, action: .setFilter(status: .done))
         #expect(newState.filterStatus == .done)
     }
 
-    @Test("Filter wird mit nil zurückgesetzt")
+    @Test("Filter is reset with nil")
     func filterIsResetWithNil() {
         var state = AppState()
         state.filterStatus = .done
@@ -132,14 +132,14 @@ struct AppReducerTests {
 
     // MARK: - showAddTask / hideAddTask
 
-    @Test("showAddTask setzt isAddTaskPresented auf true")
+    @Test("showAddTask sets isAddTaskPresented to true")
     func showAddTaskSetsFlag() {
         let state = AppState()
         let newState = appReducer(state: state, action: .showAddTask)
         #expect(newState.isAddTaskPresented == true)
     }
 
-    @Test("hideAddTask setzt isAddTaskPresented auf false")
+    @Test("hideAddTask sets isAddTaskPresented to false")
     func hideAddTaskClearsFlag() {
         var state = AppState()
         state.isAddTaskPresented = true
@@ -149,7 +149,7 @@ struct AppReducerTests {
 
     // MARK: - clearError
 
-    @Test("clearError entfernt die Fehlermeldung")
+    @Test("clearError removes the error message")
     func clearErrorRemovesErrorMessage() {
         var state = AppState()
         state.errorMessage = "Ein Fehler ist aufgetreten"

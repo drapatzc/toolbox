@@ -1,14 +1,14 @@
 import Foundation
 @testable import App4_iOS_UserManagement
 
-/// Mock-Implementierung des UserRepository für Tests
+/// Mock implementation of UserRepository for tests
 final class MockUserRepository: UserRepositoryProtocol {
 
-    // MARK: - Gespeicherte Daten
+    // MARK: - Stored Data
     private var storage: [Int64: User] = [:]
     private var nextID: Int64 = 1
 
-    // MARK: - Fehler-Simulation
+    // MARK: - Error Simulation
     var shouldThrowOnFetch: Bool = false
     var shouldThrowOnInsert: Bool = false
     var shouldThrowOnUpdate: Bool = false
@@ -24,7 +24,7 @@ final class MockUserRepository: UserRepositoryProtocol {
     private(set) var lastInsertedUser: User? = nil
     private(set) var lastUpdatedUser: User? = nil
 
-    // MARK: - Vorbefüllung
+    // MARK: - Pre-population
     func addUser(_ user: User) {
         var u = user
         if u.id == 0 {
@@ -50,7 +50,7 @@ final class MockUserRepository: UserRepositoryProtocol {
         shouldThrowOnDelete = false
     }
 
-    // MARK: - Protocol-Implementierung
+    // MARK: - Protocol Implementation
 
     func fetchAll() async throws -> [User] {
         fetchAllCallCount += 1
@@ -109,7 +109,7 @@ final class MockUserRepository: UserRepositoryProtocol {
 #endif
 }
 
-// MARK: - Hilfsfunktion für Tests
+// MARK: - Test Helper
 
 extension User {
     static func makeTest(

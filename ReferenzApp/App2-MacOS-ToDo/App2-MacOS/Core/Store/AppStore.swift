@@ -1,22 +1,22 @@
 import Foundation
 import Observation
 
-/// Zentraler Store der Anwendung (Redux-Pattern).
-/// Hält den aktuellen AppState und verarbeitet Aktionen über den Reducer.
-/// Views beobachten den State direkt – jede Änderung löst ein Re-Render aus.
+/// Central store of the application (Redux pattern).
+/// Holds the current AppState and processes actions through the reducer.
+/// Views observe the state directly – any change triggers a re-render.
 @Observable
 final class AppStore {
 
-    // MARK: - Zustand
+    // MARK: - State
 
     private(set) var state: AppState
 
-    // MARK: - Abhängigkeiten
+    // MARK: - Dependencies
 
     private let reducer: (AppState, AppAction) -> AppState
     private let persistence: PersistenceProtocol
 
-    // MARK: - Initialisierung
+    // MARK: - Initialization
 
     init(
         initialState: AppState = AppState(),
@@ -31,13 +31,13 @@ final class AppStore {
 
     // MARK: - Dispatch
 
-    /// Verarbeitet eine Aktion: wendet den Reducer an und speichert den neuen Zustand.
+    /// Processes an action: applies the reducer and saves the new state.
     func dispatch(_ action: AppAction) {
         state = reducer(state, action)
         saveToPersistence()
     }
 
-    // MARK: - Persistenz
+    // MARK: - Persistence
 
     private func loadFromPersistence() {
         let loaded = persistence.loadTasks()

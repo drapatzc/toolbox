@@ -1,7 +1,7 @@
 import Foundation
 
-/// Konkrete Implementierung der Todo-Geschäftslogik.
-/// Delegiert die Datenhaltung an das Repository und ergänzt Validierungsregeln.
+/// Concrete implementation of todo business logic.
+/// Delegates data persistence to the repository and adds validation rules.
 final class TodoService: TodoServiceProtocol {
 
     private let repository: TodoRepositoryProtocol

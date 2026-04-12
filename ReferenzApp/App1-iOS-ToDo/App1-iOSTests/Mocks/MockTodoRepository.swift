@@ -1,17 +1,17 @@
 import Foundation
 @testable import App1_iOS
 
-/// Test-Double für das TodoRepository.
-/// Erlaubt kontrollierten Datenzugriff ohne echte Persistenz.
+/// Test double for the TodoRepository.
+/// Provides controlled data access without real persistence.
 final class MockTodoRepository: TodoRepositoryProtocol {
 
-    // MARK: - Gespeicherte Aufrufe (für Verifikation)
+    // MARK: - Recorded Calls (for verification)
 
     private(set) var savedTodos: [Todo] = []
     private(set) var updatedTodos: [Todo] = []
     private(set) var deletedIDs: [UUID] = []
 
-    // MARK: - Konfigurierbarer Zustand
+    // MARK: - Configurable State
 
     var storedTodos: [Todo] = []
 

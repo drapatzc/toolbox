@@ -1,18 +1,18 @@
 import Foundation
 import Observation
 
-/// ViewModel für das Anlegen eines neuen Todos.
-/// Kapselt Validierung und Delegation an den Service.
+/// ViewModel for creating a new todo.
+/// Encapsulates validation and delegation to the service.
 @Observable
 final class AddTodoViewModel {
 
-    // MARK: - Zustand
+    // MARK: - State
 
     var title: String = ""
     private(set) var errorMessage: String?
     private(set) var isSaved: Bool = false
 
-    // MARK: - Abhängigkeiten
+    // MARK: - Dependencies
 
     private let service: TodoServiceProtocol
 
@@ -20,13 +20,13 @@ final class AddTodoViewModel {
         self.service = service
     }
 
-    // MARK: - Validierung
+    // MARK: - Validation
 
     var isTitleValid: Bool {
         !title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
     }
 
-    // MARK: - Aktionen
+    // MARK: - Actions
 
     func saveTodo() {
         do {

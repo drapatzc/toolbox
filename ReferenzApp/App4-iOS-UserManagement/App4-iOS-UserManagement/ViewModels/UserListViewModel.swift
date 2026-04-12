@@ -42,7 +42,7 @@ final class UserListViewModel: ObservableObject {
     private func scheduleSearch() {
         searchTask?.cancel()
         searchTask = Task { [weak self] in
-            // Kurze Verzögerung für Debouncing
+            // Brief delay for debouncing
             try? await Task.sleep(nanoseconds: 300_000_000) // 300ms
             guard !Task.isCancelled else { return }
             await self?.performSearch()
@@ -62,7 +62,7 @@ final class UserListViewModel: ObservableObject {
         }
     }
 
-    // MARK: - Löschen
+    // MARK: - Deleting
 
     func requestDelete(user: User) {
         userToDelete = user

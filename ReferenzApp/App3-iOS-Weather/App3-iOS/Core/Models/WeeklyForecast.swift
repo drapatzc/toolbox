@@ -2,11 +2,11 @@
 
 import Foundation
 
-/// Wochenvorhersage (7 Tage) für eine Stadt.
+/// 7-day weather forecast for a city.
 struct WeeklyForecast: Equatable {
-    /// Stadt, für die die Vorhersage gilt.
+    /// City for which the forecast applies.
     let city: City
-    /// Tagesvorhersagen, aufsteigend nach Datum sortiert.
+    /// Daily forecasts sorted ascending by date.
     let vorhersagen: [DailyForecast]
 
     init(city: City, vorhersagen: [DailyForecast]) {

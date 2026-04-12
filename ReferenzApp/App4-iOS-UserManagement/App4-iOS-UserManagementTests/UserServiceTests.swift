@@ -109,7 +109,7 @@ final class UserServiceTests: XCTestCase {
         var user = User.makeTest()
         user.id = 1
         mockRepository.addUser(user)
-        user.postalCode = "ABCDE" // Ungültige PLZ
+        user.postalCode = "ABCDE" // Invalid postal code
 
         do {
             try await sut.updateUser(user)

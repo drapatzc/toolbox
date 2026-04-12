@@ -9,7 +9,7 @@ final class UserDetailUITests: XCTestCase {
         app = XCUIApplication()
         app.launchArguments = ["-UITesting"]
         app.launch()
-        // Testbenutzer anlegen, damit Detailansicht erreichbar ist
+        // Create test user so the detail view is reachable
         createTestUser(firstName: "Detail", lastName: "TestUser")
         openFirstUserDetail()
     }
@@ -18,7 +18,7 @@ final class UserDetailUITests: XCTestCase {
         app = nil
     }
 
-    // MARK: - Setup-Hilfsmethoden
+    // MARK: - Setup Helpers
 
     private func createTestUser(firstName: String, lastName: String) {
         let newUserBtn = app.buttons["btn_newUser"]
@@ -43,7 +43,7 @@ final class UserDetailUITests: XCTestCase {
         let firstCell = list.cells.firstMatch
         guard firstCell.waitForExistence(timeout: 3) else { return }
         firstCell.tap()
-        // Auf iPad: Detail erscheint direkt; auf iPhone: Navigation
+        // On iPad: detail appears directly; on iPhone: navigation
         _ = app.buttons["btn_edit"].waitForExistence(timeout: 3)
     }
 
@@ -56,7 +56,7 @@ final class UserDetailUITests: XCTestCase {
         }
     }
 
-    // MARK: - Detailansicht Struktur
+    // MARK: - Detail View Structure
 
     func test_detailView_showsEditButton() {
         XCTAssertTrue(app.buttons["btn_edit"].waitForExistence(timeout: 3))
@@ -67,7 +67,7 @@ final class UserDetailUITests: XCTestCase {
     }
 
     func test_detailView_showsUserName() {
-        // Der vollständige Name sollte irgendwo im Navigationsbereich oder Inhalt erscheinen
+        // The full name should appear somewhere in the navigation area or content
         let nameText = app.staticTexts.matching(NSPredicate(format: "label CONTAINS[c] 'TestUser'")).firstMatch
         XCTAssertTrue(nameText.waitForExistence(timeout: 3))
     }
@@ -77,7 +77,7 @@ final class UserDetailUITests: XCTestCase {
         XCTAssertTrue(streetText.waitForExistence(timeout: 3))
     }
 
-    // MARK: - Bearbeiten
+    // MARK: - Editing
 
     func test_editButton_opensEditForm() {
         app.buttons["btn_edit"].tap()
@@ -116,22 +116,22 @@ final class UserDetailUITests: XCTestCase {
         XCTAssertTrue(firstNameField.waitForExistence(timeout: 2))
         firstNameField.tap()
         firstNameField.clearText()
-        firstNameField.typeText("Geändert")
+        firstNameField.typeText("Updated")
 
         app.buttons["btn_save"].tap()
 
-        // Detailansicht zeigt den neuen Namen
+        // Detail view shows the updated name
         let updatedName = app.staticTexts.matching(
-            NSPredicate(format: "label CONTAINS[c] 'Geändert'")
+            NSPredicate(format: "label CONTAINS[c] 'Updated'")
         ).firstMatch
         XCTAssertTrue(updatedName.waitForExistence(timeout: 5))
     }
 
-    // MARK: - Löschen
+    // MARK: - Deleting
 
     func test_deleteButton_showsConfirmationDialog() {
         app.buttons["btn_deleteUser"].tap()
-        // Bestätigungsdialog erscheint
+        // Confirmation dialog appears
         let deleteBtn = app.buttons.matching(
             NSPredicate(format: "label CONTAINS[c] 'Delete' OR label CONTAINS[c] 'Löschen'")
         ).firstMatch
@@ -147,7 +147,7 @@ final class UserDetailUITests: XCTestCase {
         XCTAssertTrue(cancelBtn.waitForExistence(timeout: 3))
         cancelBtn.tap()
 
-        // Detailansicht noch offen
+        // Detail view still open
         XCTAssertTrue(app.buttons["btn_edit"].waitForExistence(timeout: 3))
     }
 
@@ -160,7 +160,7 @@ final class UserDetailUITests: XCTestCase {
         XCTAssertTrue(confirmDeleteBtn.waitForExistence(timeout: 3))
         confirmDeleteBtn.tap()
 
-        // App kehrt zur Liste zurück — New-User-Button wieder sichtbar
+        // App returns to list — new user button visible again
         XCTAssertTrue(app.buttons["btn_newUser"].waitForExistence(timeout: 5))
     }
 }

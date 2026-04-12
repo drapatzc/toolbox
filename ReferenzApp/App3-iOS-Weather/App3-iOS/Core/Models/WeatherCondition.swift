@@ -2,7 +2,7 @@
 
 import Foundation
 
-/// Mögliche Wetterbedingungen mit SF-Symbol und deutscher Beschreibung.
+/// Possible weather conditions with SF Symbol and localized description.
 enum WeatherCondition: String, CaseIterable, Codable, Equatable {
     case sonnig
     case teilbewölkt
@@ -14,7 +14,7 @@ enum WeatherCondition: String, CaseIterable, Codable, Equatable {
     case neblig
     case windig
 
-    /// SF-Symbol passend zur Wetterbedingung.
+    /// SF Symbol matching the weather condition.
     var systemSymbol: String {
         switch self {
         case .sonnig:          return "sun.max.fill"
@@ -29,18 +29,18 @@ enum WeatherCondition: String, CaseIterable, Codable, Equatable {
         }
     }
 
-    /// Deutsche Beschreibung der Wetterbedingung.
+    /// Localized description of the weather condition.
     var beschreibung: String {
         switch self {
-        case .sonnig:          return "Sonnig"
-        case .teilbewölkt:     return "Teilweise bewölkt"
-        case .bewölkt:         return "Bewölkt"
-        case .regnerisch:      return "Regnerisch"
-        case .starkRegnerisch: return "Starker Regen"
-        case .gewittig:        return "Gewitter"
-        case .schneeig:        return "Schnee"
-        case .neblig:          return "Neblig"
-        case .windig:          return "Windig"
+        case .sonnig:          return String(localized: "weather_sunny")
+        case .teilbewölkt:     return String(localized: "weather_partly_cloudy")
+        case .bewölkt:         return String(localized: "weather_cloudy")
+        case .regnerisch:      return String(localized: "weather_rainy")
+        case .starkRegnerisch: return String(localized: "weather_heavy_rain")
+        case .gewittig:        return String(localized: "weather_thunderstorm")
+        case .schneeig:        return String(localized: "weather_snowy")
+        case .neblig:          return String(localized: "weather_foggy")
+        case .windig:          return String(localized: "weather_windy")
         }
     }
 }

@@ -1,7 +1,7 @@
 import SwiftUI
 
-/// Einstiegspunkt der App2-MacOS-Aufgabenverwaltung.
-/// Erzeugt den zentralen AppStore und gibt ihn an die Wurzelansicht weiter.
+/// Entry point of the App2-MacOS task manager.
+/// Creates the central AppStore and passes it to the root view.
 @main
 struct App2_MacOSApp: App {
 
@@ -15,7 +15,7 @@ struct App2_MacOSApp: App {
         .windowToolbarStyle(.unified)
         .commands {
             CommandGroup(replacing: .newItem) {
-                Button("Neue Aufgabe") {
+                Button(String(localized: "new_task")) {
                     store.dispatch(.showAddTask)
                 }
                 .keyboardShortcut("n", modifiers: .command)

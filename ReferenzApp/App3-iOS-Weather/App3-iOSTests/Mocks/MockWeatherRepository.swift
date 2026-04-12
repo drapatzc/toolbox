@@ -3,32 +3,32 @@
 import Foundation
 @testable import App3_iOS
 
-/// Test-Double für `WeatherRepositoryProtocol`.
-/// Zeichnet alle Methodenaufrufe auf und gibt konfigurierbare Testwerte zurück.
+/// Test double for `WeatherRepositoryProtocol`.
+/// Records all method calls and returns configurable test values.
 final class MockWeatherRepository: WeatherRepositoryProtocol {
 
-    // MARK: - Konfigurierbare Rückgabewerte
+    // MARK: - Configurable Return Values
 
-    /// Städte, die `alleCities()` zurückgibt.
+    /// Cities returned by `alleCities()`.
     var gespeicherteCities: [City] = []
-    /// Wenn gesetzt, wirft `aktuellesWetter(fuer:)` diesen Fehler.
+    /// If set, `aktuellesWetter(fuer:)` throws this error.
     var aktuellesWetterFehler: WetterFehler?
-    /// Wenn gesetzt, wirft `wochenvorhersage(fuer:)` diesen Fehler.
+    /// If set, `wochenvorhersage(fuer:)` throws this error.
     var wochenvorhersageFehler: WetterFehler?
-    /// Rückgabewert für `aktuellesWetter(fuer:)`.
+    /// Return value for `aktuellesWetter(fuer:)`.
     var aktuellesWetterResult: CurrentWeather?
-    /// Rückgabewert für `wochenvorhersage(fuer:)`.
+    /// Return value for `wochenvorhersage(fuer:)`.
     var wochenvorhersageResult: WeeklyForecast?
 
-    // MARK: - Aufruf-Aufzeichnung
+    // MARK: - Call Recording
 
-    /// Anzahl der `alleCities()`-Aufrufe.
+    /// Number of `alleCities()` calls.
     var alleCitiesAufrufe: Int = 0
-    /// Städte, für die `aktuellesWetter(fuer:)` aufgerufen wurde.
+    /// Cities for which `aktuellesWetter(fuer:)` was called.
     var aktuellesWetterAufrufe: [City] = []
-    /// Städte, für die `wochenvorhersage(fuer:)` aufgerufen wurde.
+    /// Cities for which `wochenvorhersage(fuer:)` was called.
     var wochenvorhersageAufrufe: [City] = []
-    /// Suchbegriffe, mit denen `citiesSuchen(suchbegriff:)` aufgerufen wurde.
+    /// Search terms passed to `citiesSuchen(suchbegriff:)`.
     var citiesSuchenAufrufe: [String] = []
 
     // MARK: - WeatherRepositoryProtocol

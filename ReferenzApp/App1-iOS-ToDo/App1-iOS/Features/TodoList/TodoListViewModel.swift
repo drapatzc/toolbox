@@ -1,17 +1,17 @@
 import Foundation
 import Observation
 
-/// ViewModel für die Listenansicht aller Todos.
-/// Koordiniert Datenabruf und Benutzeraktionen über den Service.
+/// ViewModel for the todo list view.
+/// Coordinates data loading and user actions via the service.
 @Observable
 final class TodoListViewModel {
 
-    // MARK: - Zustand
+    // MARK: - State
 
     private(set) var todos: [Todo] = []
     var isAddTodoPresented: Bool = false
 
-    // MARK: - Abhängigkeiten
+    // MARK: - Dependencies
 
     private let service: TodoServiceProtocol
 
@@ -19,7 +19,7 @@ final class TodoListViewModel {
         self.service = service
     }
 
-    // MARK: - Öffentliche Aktionen
+    // MARK: - Public Actions
 
     func loadTodos() {
         todos = service.loadTodos()

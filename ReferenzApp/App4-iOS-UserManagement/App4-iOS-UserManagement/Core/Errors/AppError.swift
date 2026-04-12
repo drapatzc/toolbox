@@ -1,8 +1,8 @@
 import Foundation
 
-/// Alle Fehlerfälle der App
+/// All error cases of the app
 enum AppError: LocalizedError, Equatable {
-    // MARK: - Datenbankfehler
+    // MARK: - Database Errors
     case databaseOpenFailed(String)
     case databaseQueryFailed(String)
     case databaseInsertFailed(String)
@@ -10,10 +10,10 @@ enum AppError: LocalizedError, Equatable {
     case databaseDeleteFailed(String)
     case recordNotFound
 
-    // MARK: - Validierungsfehler
+    // MARK: - Validation Errors
     case validationFailed([ValidationFieldError])
 
-    // MARK: - Allgemeine Fehler
+    // MARK: - General Errors
     case unknown(String)
 
     var errorDescription: String? {
@@ -52,13 +52,13 @@ enum AppError: LocalizedError, Equatable {
     }
 }
 
-/// Einzelner Validierungsfehler für ein bestimmtes Feld
+/// Single validation error for a specific field
 struct ValidationFieldError: Equatable {
     let field: UserField
     let message: String
 }
 
-/// Felder des Benutzerformulars
+/// Fields of the user form
 enum UserField: String, CaseIterable {
     case salutation
     case firstName

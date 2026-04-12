@@ -2,10 +2,11 @@
 
 import Foundation
 
-/// Repräsentiert eine Stadt mit geografischen Koordinaten.
+/// Represents a city with geographic coordinates.
 struct City: Identifiable, Equatable, Codable, Hashable {
     let id: UUID
     let name: String
+    /// Country name (in the app's default language).
     let land: String
     let latitude: Double
     let longitude: Double

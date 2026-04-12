@@ -4,8 +4,8 @@ import Testing
 import Foundation
 @testable import App3_iOS
 
-/// Tests für `CitySearchViewModel`.
-/// Prüft das Laden von Städten, Suchfunktion und Stadtauswahl.
+/// Tests for `CitySearchViewModel`.
+/// Verifies city loading, search functionality, and city selection.
 struct CitySearchViewModelTests {
 
     private func makeSUT() -> (viewModel: CitySearchViewModel, service: MockWeatherService) {
@@ -14,18 +14,18 @@ struct CitySearchViewModelTests {
         return (viewModel, service)
     }
 
-    private func testStädte() -> [City] {
+    private func testCities() -> [City] {
         [
-            City(name: "Berlin",  land: "Deutschland", latitude: 52.52, longitude: 13.40),
-            City(name: "München", land: "Deutschland", latitude: 48.14, longitude: 11.58),
-            City(name: "Paris",   land: "Frankreich",  latitude: 48.86, longitude:  2.35),
+            City(name: "Berlin",  land: "Germany", latitude: 52.52, longitude: 13.40),
+            City(name: "Munich",  land: "Germany", latitude: 48.14, longitude: 11.58),
+            City(name: "Paris",   land: "France",  latitude: 48.86, longitude:  2.35),
         ]
     }
 
-    // MARK: - Initialzustand
+    // MARK: - Initial State
 
-    @Test("ViewModel hat korrekten Initialzustand")
-    func viewModelHatKorrektenInitialzustand() {
+    @Test("ViewModel has correct initial state")
+    func viewModelHasCorrectInitialState() {
         let (viewModel, _) = makeSUT()
         #expect(viewModel.alleStaedte.isEmpty)
         #expect(viewModel.suchergebnisse.isEmpty)
@@ -38,51 +38,51 @@ struct CitySearchViewModelTests {
 
     // MARK: - alleStaedteLaden
 
-    @Test("alleStaedteLaden befüllt alleStaedte vom Service")
-    func alleStaedteLadenBefülltListe() async {
+    @Test("alleStaedteLaden populates alleStaedte from service")
+    func alleStaedteLadenPopulatesList() async {
         let (viewModel, service) = makeSUT()
-        service.verfügbareCities = testStädte()
+        service.verfügbareCities = testCities()
         await viewModel.alleStaedteLaden()
         #expect(viewModel.alleStaedte.count == 3)
     }
 
-    @Test("alleStaedteLaden befüllt auch suchergebnisse initial")
-    func alleStaedteLadenBefülltSuchergebnisse() async {
+    @Test("alleStaedteLaden also populates suchergebnisse initially")
+    func alleStaedteLadenPopulatesSearchResults() async {
         let (viewModel, service) = makeSUT()
-        service.verfügbareCities = testStädte()
+        service.verfügbareCities = testCities()
         await viewModel.alleStaedteLaden()
         #expect(viewModel.suchergebnisse.count == 3)
     }
 
-    @Test("alleStaedteLaden ruft alleCities genau einmal auf")
-    func alleStaedteLadenRuftServiceEinmalAuf() async {
+    @Test("alleStaedteLaden calls alleCities exactly once")
+    func alleStaedteLadenCallsServiceOnce() async {
         let (viewModel, service) = makeSUT()
         await viewModel.alleStaedteLaden()
         #expect(service.alleCitiesAufrufe == 1)
     }
 
-    @Test("alleStaedteLaden bei leerem Service ergibt leere Liste")
-    func alleStaedteLadenBeiLeeremServiceErgibtLeersteListe() async {
+    @Test("alleStaedteLaden with empty service results in empty list")
+    func alleStaedteLadenWithEmptyServiceResultsInEmptyList() async {
         let (viewModel, _) = makeSUT()
         await viewModel.alleStaedteLaden()
         #expect(viewModel.alleStaedte.isEmpty)
     }
 
-    // MARK: - angezeigteStädte
+    // MARK: - angezeigteStädte (Displayed Cities)
 
-    @Test("angezeigteStädte gibt alleStaedte zurück wenn kein Suchbegriff gesetzt")
-    func angezeigteStädteGibtAlleStädteOhneSuchbegriff() async {
+    @Test("angezeigteStädte returns alleStaedte when no search term is set")
+    func angezeigteStädteReturnsAllCitiesWithoutSearchTerm() async {
         let (viewModel, service) = makeSUT()
-        service.verfügbareCities = testStädte()
+        service.verfügbareCities = testCities()
         await viewModel.alleStaedteLaden()
         #expect(viewModel.angezeigteStädte.count == 3)
     }
 
-    @Test("angezeigteStädte gibt suchergebnisse zurück wenn Suchbegriff gesetzt")
-    func angezeigteStädteGibtSuchergebnisseMitBegriff() async {
+    @Test("angezeigteStädte returns suchergebnisse when search term is set")
+    func angezeigteStädteReturnsSearchResultsWithTerm() async {
         let (viewModel, service) = makeSUT()
-        service.verfügbareCities = testStädte()
-        service.suchenResult = [testStädte()[0]] // nur Berlin
+        service.verfügbareCities = testCities()
+        service.suchenResult = [testCities()[0]] // Berlin only
         await viewModel.alleStaedteLaden()
         viewModel.suchbegriff = "Berlin"
         await viewModel.suchen()
@@ -90,8 +90,8 @@ struct CitySearchViewModelTests {
         #expect(viewModel.angezeigteStädte.first?.name == "Berlin")
     }
 
-    @Test("angezeigteStädte ist leer wenn Suche keine Treffer liefert")
-    func angezeigteStädteIstLeerBeiKeinenTreffern() async {
+    @Test("angezeigteStädte is empty when search returns no results")
+    func angezeigteStädteIsEmptyWithNoResults() async {
         let (viewModel, service) = makeSUT()
         service.suchenResult = []
         viewModel.suchbegriff = "ZZZ"
@@ -101,52 +101,52 @@ struct CitySearchViewModelTests {
 
     // MARK: - suchen
 
-    @Test("suchen aktualisiert suchergebnisse")
-    func suchenAktualistertSuchergebnisse() async {
+    @Test("suchen updates suchergebnisse")
+    func suchenUpdatesSuchErgebnisse() async {
         let (viewModel, service) = makeSUT()
-        service.suchenResult = [testStädte()[2]] // nur Paris
+        service.suchenResult = [testCities()[2]] // Paris only
         viewModel.suchbegriff = "Paris"
         await viewModel.suchen()
         #expect(viewModel.suchergebnisse.count == 1)
         #expect(viewModel.suchergebnisse.first?.name == "Paris")
     }
 
-    @Test("suchen setzt isLoading nach Abschluss auf false")
-    func suchenSetztIsLoadingAufFalse() async {
+    @Test("suchen sets isLoading to false after completion")
+    func suchenSetsIsLoadingFalseAfterCompletion() async {
         let (viewModel, service) = makeSUT()
         service.suchenResult = []
         await viewModel.suchen()
         #expect(viewModel.isLoading == false)
     }
 
-    @Test("suchen übergibt aktuellen suchbegriff an Service")
-    func suchenÜbergibtSuchbegriffAnService() async {
+    @Test("suchen passes current suchbegriff to service")
+    func suchenPassesSearchTermToService() async {
         let (viewModel, service) = makeSUT()
-        viewModel.suchbegriff = "München"
+        viewModel.suchbegriff = "Munich"
         await viewModel.suchen()
-        #expect(service.suchenAufrufe.last == "München")
+        #expect(service.suchenAufrufe.last == "Munich")
     }
 
-    @Test("suchen mit leerem Suchbegriff übergibt leeren String an Service")
-    func suchenMitLeeremBegriffÜbergibtLeereZeichenfolge() async {
+    @Test("suchen with empty search term passes empty string to service")
+    func suchenWithEmptyTermPassesEmptyStringToService() async {
         let (viewModel, service) = makeSUT()
         viewModel.suchbegriff = ""
         await viewModel.suchen()
         #expect(service.suchenAufrufe.last == "")
     }
 
-    @Test("suchen setzt fehlerMeldung auf nil bei Erfolg")
-    func suchenSetztFehlerAufNilBeiErfolg() async {
+    @Test("suchen sets fehlerMeldung to nil on success")
+    func suchenSetsErrorNilOnSuccess() async {
         let (viewModel, service) = makeSUT()
         service.suchenResult = []
         await viewModel.suchen()
         #expect(viewModel.fehlerMeldung == nil)
     }
 
-    // MARK: - fehlerZurücksetzen
+    // MARK: - fehlerZurücksetzen (Reset Error)
 
-    @Test("fehlerZurücksetzen entfernt die fehlerMeldung")
-    func fehlerZurücksetzenEntferntFehlerMeldung() {
+    @Test("fehlerZurücksetzen removes fehlerMeldung")
+    func fehlerZurücksetzenRemovesErrorMessage() {
         let (viewModel, _) = makeSUT()
         viewModel.fehlerMeldung = "Testfehler"
         viewModel.fehlerZurücksetzen()
@@ -154,8 +154,8 @@ struct CitySearchViewModelTests {
         #expect(viewModel.hatFehler == false)
     }
 
-    @Test("fehlerZurücksetzen bei nil-Fehler ändert nichts")
-    func fehlerZurücksetzenBeiNilIstSicher() {
+    @Test("fehlerZurücksetzen with nil error is safe")
+    func fehlerZurücksetzenWithNilErrorIsSafe() {
         let (viewModel, _) = makeSUT()
         viewModel.fehlerZurücksetzen()
         #expect(viewModel.fehlerMeldung == nil)
@@ -163,15 +163,15 @@ struct CitySearchViewModelTests {
 
     // MARK: - hatFehler
 
-    @Test("hatFehler ist true wenn fehlerMeldung nicht nil ist")
-    func hatFehlerIstTrueBeiGesetzterMeldung() {
+    @Test("hatFehler is true when fehlerMeldung is not nil")
+    func hatFehlerIsTrueWhenErrorIsSet() {
         let (viewModel, _) = makeSUT()
         viewModel.fehlerMeldung = "Fehler"
         #expect(viewModel.hatFehler == true)
     }
 
-    @Test("hatFehler ist false bei nil-fehlerMeldung")
-    func hatFehlerIstFalseBeiNilMeldung() {
+    @Test("hatFehler is false when fehlerMeldung is nil")
+    func hatFehlerIsFalseWhenErrorIsNil() {
         let (viewModel, _) = makeSUT()
         #expect(viewModel.hatFehler == false)
     }

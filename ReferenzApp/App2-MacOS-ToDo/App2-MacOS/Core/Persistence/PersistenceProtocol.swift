@@ -1,11 +1,11 @@
 import Foundation
 
-/// Abstrahiert die Persistenzschicht für WorkTask-Elemente.
-/// Erlaubt den Austausch zwischen InMemory, UserDefaults, CoreData, CloudKit usw.
+/// Abstracts the persistence layer for WorkTask items.
+/// Allows swapping between InMemory, UserDefaults, CoreData, CloudKit, etc.
 protocol PersistenceProtocol: AnyObject {
-    /// Lädt alle gespeicherten Tasks.
+    /// Loads all stored tasks.
     func loadTasks() -> [WorkTask]
 
-    /// Speichert eine vollständige Liste von Tasks.
+    /// Saves a complete list of tasks.
     func saveTasks(_ tasks: [WorkTask])
 }

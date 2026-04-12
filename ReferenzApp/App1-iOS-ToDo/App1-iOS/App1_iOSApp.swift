@@ -1,7 +1,7 @@
 import SwiftUI
 
-/// Einstiegspunkt der App1-iOS-App.
-/// Richtet den Dependency-Container ein und startet die Hauptansicht.
+/// Entry point of the App1-iOS app.
+/// Sets up the dependency container and launches the main view.
 @main
 struct App1_iOSApp: App {
 

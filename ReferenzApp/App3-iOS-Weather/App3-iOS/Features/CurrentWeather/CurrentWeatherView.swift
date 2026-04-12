@@ -2,8 +2,8 @@
 
 import SwiftUI
 
-/// Ansicht für das aktuelle Wetter einer Stadt.
-/// Zeigt Temperatur, Wetterbedingung und Detailinformationen.
+/// View for the current weather of a city.
+/// Displays temperature, weather condition, and detailed information.
 struct CurrentWeatherView: View {
 
     @State var viewModel: CurrentWeatherViewModel
@@ -13,12 +13,12 @@ struct CurrentWeatherView: View {
     var body: some View {
         Group {
             if viewModel.isLoading {
-                ProgressView("Wetter wird geladen…")
+                ProgressView(String(localized: "loading_weather"))
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
             } else if let wetter = viewModel.aktuellesWetter {
                 WetterInhalt(wetter: wetter)
             } else {
-                Text("Keine Wetterdaten verfügbar.")
+                Text(String(localized: "no_weather_data"))
                     .foregroundStyle(.secondary)
             }
         }
@@ -29,7 +29,7 @@ struct CurrentWeatherView: View {
                 NavigationLink {
                     ForecastView(viewModel: forecastViewModel, stadt: stadt)
                 } label: {
-                    Label("7-Tage-Vorhersage", systemImage: "calendar")
+                    Label(String(localized: "forecast_button_label"), systemImage: "calendar")
                 }
                 .accessibilityIdentifier("vorhersageButton")
             }
@@ -37,18 +37,18 @@ struct CurrentWeatherView: View {
         .task {
             await viewModel.wetterLaden(fuer: stadt)
         }
-        .alert("Fehler", isPresented: Binding(
+        .alert(String(localized: "error_title"), isPresented: Binding(
             get: { viewModel.hatFehler },
             set: { if !$0 { viewModel.fehlerZurücksetzen() } }
         )) {
-            Button("OK") { viewModel.fehlerZurücksetzen() }
+            Button(String(localized: "ok")) { viewModel.fehlerZurücksetzen() }
         } message: {
             Text(viewModel.fehlerMeldung ?? "")
         }
     }
 }
 
-// MARK: - WetterInhalt
+// MARK: - Weather Content
 
 private struct WetterInhalt: View {
     let wetter: CurrentWeather
@@ -64,7 +64,7 @@ private struct WetterInhalt: View {
     }
 }
 
-// MARK: - HauptanzeigeSektionView
+// MARK: - Main Display Section
 
 private struct HauptanzeigeSektionView: View {
     let wetter: CurrentWeather
@@ -84,7 +84,7 @@ private struct HauptanzeigeSektionView: View {
                 .font(.title2)
                 .foregroundStyle(.secondary)
 
-            Text("Gefühlt \(wetter.gefuehlteTemperaturFormatiert)")
+            Text(String(format: String(localized: "feels_like"), wetter.gefuehlteTemperaturFormatiert))
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
         }
@@ -92,7 +92,7 @@ private struct HauptanzeigeSektionView: View {
     }
 }
 
-// MARK: - DetailKartenSektionView
+// MARK: - Detail Cards Section
 
 private struct DetailKartenSektionView: View {
     let wetter: CurrentWeather
@@ -101,22 +101,22 @@ private struct DetailKartenSektionView: View {
         LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 12) {
             WetterDetailKarte(
                 symbol: "humidity.fill",
-                titel: "Luftfeuchtigkeit",
+                titel: String(localized: "humidity"),
                 wert: "\(wetter.luftfeuchtigkeit) %"
             )
             WetterDetailKarte(
                 symbol: "wind",
-                titel: "Wind",
+                titel: String(localized: "wind"),
                 wert: "\(String(format: "%.0f", wetter.windgeschwindigkeit)) km/h \(wetter.windrichtung)"
             )
             WetterDetailKarte(
                 symbol: "eye.fill",
-                titel: "Sichtweite",
+                titel: String(localized: "visibility"),
                 wert: "\(String(format: "%.0f", wetter.sichtweite)) km"
             )
             WetterDetailKarte(
                 symbol: "sun.max.fill",
-                titel: "UV-Index",
+                titel: String(localized: "uv_index"),
                 wert: "\(wetter.uvIndex)"
             )
         }
@@ -124,7 +124,7 @@ private struct DetailKartenSektionView: View {
     }
 }
 
-// MARK: - WetterDetailKarte
+// MARK: - Weather Detail Card
 
 private struct WetterDetailKarte: View {
     let symbol: String

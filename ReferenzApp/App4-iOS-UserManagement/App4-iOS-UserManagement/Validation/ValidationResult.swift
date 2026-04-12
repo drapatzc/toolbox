@@ -1,6 +1,6 @@
 import Foundation
 
-/// Ergebnis einer Validierung
+/// Result of a validation
 enum ValidationResult {
     case valid
     case invalid([ValidationFieldError])
@@ -15,7 +15,7 @@ enum ValidationResult {
         return []
     }
 
-    /// Fehler für ein bestimmtes Feld
+    /// Error for a specific field
     func error(for field: UserField) -> String? {
         errors.first(where: { $0.field == field })?.message
     }
