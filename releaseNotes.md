@@ -2,7 +2,55 @@
 
 ---
 
-## Version 1.0.6 — 2026-04-12
+## Version 1.0.7 — 2026-04-12
+
+### Rename: Auto-Build → Live-Build
+
+- **Auto-Build is now Live-Build** — The core feature introduced in 1.0.6 has been renamed consistently throughout the app. All menu entries, settings, log messages, and localization keys are now aligned on "Live-Build". The surrounding menu structure was updated as well so Live-Build is easy to find in its new position.
+
+### New Feature: Build and Test Timeline Diagrams
+
+- **Timeline renderer** — Two new units: `Core/BuildTimeline.swift` (data model) and `Core/BuildTimelineRenderer.swift` (ASCII renderer). After every build or test run, a timeline is drawn that visualizes each Xcode phase as a bar — making it immediately obvious where the time actually went.
+
+- **Integration in the Build and Test menus** — The timeline is emitted automatically in `BuildActions` and `MenuTest`. Live-Build also produces a diagram after each run, in addition to the phase legend introduced in 1.0.6.
+
+- **Fully localized** — All diagram labels, phase abbreviations, and unit strings are available in DE/EN; additional languages were extended where the source strings were accessible.
+
+### Live-Build: Package Manager Integration
+
+- **Package managers fully applied by the script** — Live-Build now takes CocoaPods, Carthage, and Swift Package Manager into account. Before every build/test cycle, the configured package managers are applied in full via script (install / update / resolve), so newly added dependencies no longer have to wait until the following cycle.
+
+- **New file `Actions/PackageManagerSync.swift`** — Encapsulates the package-manager invocation in one place and is called from both `AutoBuildActions` (Live-Build) and `BuildActions`.
+
+### Live-Build: Configurable Clean Mode
+
+- **Clean behavior selectable in settings** — In the Live-Build settings menu you can now choose **how** cleaning happens before every run: no clean, partial derived-data clean, or a full clean. The choice is persisted via `Preferences.swift` alongside the other Live-Build settings and shown on the dashboard.
+
+### Live-Build: Test Plan Support
+
+- **`xcodebuild` test plans are recognized** — Live-Build now explicitly understands test plans (`.xctestplan`). Existing test plans are resolved correctly and used during test runs. Previously, targets with multiple test plans could produce inconsistent results — runs succeeded but attribution stayed empty.
+
+### Custom Menu
+
+- **Two variable columns** — The custom menu now features two variably configurable columns. Column width and the number of entries per column adapt dynamically to the available terminal width and the actual entry count.
+
+### Menu Structure
+
+- **"Dependencies" ↔ "Build & Simulator" order swapped** — The two menus have been swapped in their position within the main menu to better reflect actual usage frequency. Touches `MenuBuildSimulator`, `MenuDependencies`, `MenuCompleteTree`, and the associated `MenuRegistry` entries.
+
+- **Commands renamed** — Various menu and action labels were streamlined and unified. Around 170 localization keys were touched; existing functionality remains unchanged.
+
+### Configuration
+
+- **`senior.conf` updated** — The "senior" configuration has been adapted to the new 1.0.7 menu structure and the renamed commands (Auto-Build → Live-Build and the swapped menu order).
+
+### Localization
+
+- All new Live-Build, timeline, clean-mode, and package-manager strings have been localized (DE + EN, more languages where possible).
+
+---
+
+## Version 1.0.6 — 2026-04-11
 
 ### New Feature: Auto-Build
 
