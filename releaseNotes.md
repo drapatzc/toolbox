@@ -2,6 +2,64 @@
 
 ---
 
+## Version 1.0.9 — 2026-04-13
+
+### Build Acceleration
+
+- **Build speed flags added** — Up to four parameters are now passed during the build (`COMPILER_INDEX_STORE_ENABLE=NO`, `ONLY_ACTIVE_ARCH=YES`, and in Debug mode additionally `DEBUG_INFORMATION_FORMAT=dwarf` and `SWIFT_COMPILATION_MODE=incremental`), noticeably reducing build times.
+
+### DerivedData Optimization
+
+- **Targeted clean instead of full wipe** — DerivedData is no longer deleted entirely. Only the product-specific folder is removed during a clean, making subsequent builds considerably faster.
+
+### Clean, Build, and Test Processes
+
+- **Processes stabilized** — Clean, build, and test workflows were further revised and made more reliable. Automated tests also benefit from the optimizations.
+
+### Test Output
+
+- **JUnit report and Markdown report with full diagram** — The "Generate JUnit Report" and "Markdown Test Report" actions now use the same output style as "Run Unit Tests": filtered live output, class summary, and BuildTimeline diagram.
+
+- **Slow tests: bar chart** — The slow tests display now includes a color-coded bar chart that visualizes test durations proportionally.
+
+- **"Files without tests" progress reworked** — Progress now runs on a single overwriting line and correctly shows the total number of all files checked.
+
+---
+
+## Version 1.0.8 — 2026-04-13
+
+### New Feature: Git Browser
+
+- **Git browser integrated** — New interactive view that makes Git information accessible directly within the tool. Built in two stages, followed by a bug-fix release.
+
+- **Git > Enter user** — The Git username can now be entered and saved directly within the Git section of the tool.
+
+### Platform Detection
+
+- **Platform detection is now persisted** — The "Detect Platform..." action caused long loading times on every call. The result is now cached and only re-evaluated when the scheme or working directory changes.
+
+### Diagrams & UX
+
+- **Diagrams shown without key press** — Build and test timeline diagrams are now displayed immediately after a run, without requiring a key press.
+
+- **UX for commands improved** — Presentation and interaction for menu commands have been revised and unified.
+
+- **Missing menu registrations added** — Several commands were not registered in the menu registry and are now correctly included.
+
+### Tests & Workflow
+
+- **Unit, UI, and automated tests improved** — Existing tests were revised for better stability.
+
+- **"Select working directory" workflow changed** — The process for switching the working directory has been updated.
+
+### Configuration & Localization
+
+- **`senior.conf` updated** — The "senior" configuration has been adapted to the new Git browser and further changes.
+
+- **Localization extended** — Additional strings have been localized; metrics and various UX texts were added.
+
+---
+
 ## Version 1.0.7 — 2026-04-12
 
 ### Rename: Auto-Build → Live-Build
