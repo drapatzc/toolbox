@@ -2,6 +2,30 @@
 
 ---
 
+## Version 1.0.9 — 2026-04-13
+
+### Build Acceleration
+
+- **Build speed flags added** — Up to four parameters are now passed during the build (`COMPILER_INDEX_STORE_ENABLE=NO`, `ONLY_ACTIVE_ARCH=YES`, and in Debug mode additionally `DEBUG_INFORMATION_FORMAT=dwarf` and `SWIFT_COMPILATION_MODE=incremental`), noticeably reducing build times.
+
+### DerivedData Optimization
+
+- **Targeted clean instead of full wipe** — DerivedData is no longer deleted entirely. Only the product-specific folder is removed during a clean, making subsequent builds considerably faster.
+
+### Clean, Build, and Test Processes
+
+- **Processes stabilized** — Clean, build, and test workflows were further revised and made more reliable. Automated tests also benefit from the optimizations.
+
+### Test Output
+
+- **JUnit report and Markdown report with full diagram** — The "Generate JUnit Report" and "Markdown Test Report" actions now use the same output style as "Run Unit Tests": filtered live output, class summary, and BuildTimeline diagram.
+
+- **Slow tests: bar chart** — The slow tests display now includes a color-coded bar chart that visualizes test durations proportionally.
+
+- **"Files without tests" progress reworked** — Progress now runs on a single overwriting line and correctly shows the total number of all files checked.
+
+---
+
 ## Version 1.0.8 — 2026-04-13
 
 ### New Feature: Git Browser
