@@ -2,6 +2,44 @@
 
 ---
 
+## Version 1.0.10 — 2026-04-14
+
+### DerivedData Precision
+
+- **Targeted deletion applied consistently** — Every place in the code that cleans DerivedData has been reviewed and updated. From now on, only the product-specific folder (`DerivedData/{product}`) is ever deleted — the full DerivedData directory is never wiped automatically. The only exception remains deliberate clean actions where the user explicitly confirms a full delete.
+
+- **Affected areas:** Directory change, configuration switch (Debug↔Release), Full Reset & Build, Auto-Build clean levels, and SPM SourcePackages.
+
+### xcodebuild — Consistent Use of `-derivedDataPath`
+
+- **`-derivedDataPath` set everywhere** — All xcodebuild calls that produce build artefacts now consistently pass `-derivedDataPath` with the product-specific folder. Affected areas: static analysis, profiling builds, build timing analysis, and archive. All intermediate artefacts now land in the same place.
+
+### Dependencies
+
+- **CocoaPods — Show Dependencies** — New action in the CocoaPods section: parses `Podfile.lock` and displays all installed pods with name and version in a consistent format.
+
+- **Carthage — Show Dependencies** — New action in the Carthage section: parses `Cartfile.resolved` and displays all installed frameworks with name, version, and source URL in a consistent format.
+
+### Display Fixes
+
+- **Double path prefix fixed** — Several display texts were showing the path as `DerivedData/DerivedData/ToolboxBuild-…`. The root cause (a doubled prefix in localisation keys) has been corrected; the path now displays correctly as `DerivedData/{product}`.
+
+- **Description texts updated** — All confirmation prompts and description texts (17 languages) have been corrected: they now accurately describe the app build folder instead of vague phrases such as "all caches will be deleted".
+
+- **Quick Reset & Build** — The confirmation prompt no longer shows the folder path redundantly, since it is already visible in the description box.
+
+### Behaviour
+
+- **Quit behaviour changed** — Lowercase `q` no longer exits the app. Only uppercase `Q` quits. A lowercase `q` is ignored and the input prompt reappears.
+
+### Bug Fixes
+
+- **Duplicate DerivedData directory fixed (resolvePackageDependencies)** — All `xcodebuild -resolvePackageDependencies` calls were missing the `-derivedDataPath` flag. Xcode therefore created a second default DerivedData directory alongside the product-specific folder. All seven affected locations have been corrected.
+
+- **`-archivePath` correctly quoted** — The value was passed without quotes. Scheme names containing spaces caused shell word-splitting, which broke the archive action. Fixed: `-archivePath '…'`.
+
+---
+
 ## Version 1.0.9 — 2026-04-13
 
 ### Build Acceleration
