@@ -2,6 +2,50 @@
 
 ---
 
+## Version 1.0.11 — 2026-04-15
+
+### Bug Fixes
+
+- **Build (compile only) fixed for macOS** — An incorrect `isMacOSDevice` guard in `actionBuildDebug()` was unconditionally blocking macOS builds, even though `xcodebuild build` with `-destination 'platform=macOS'` works correctly. The guard has been removed. "Build" is now available for iOS Simulator, iPadOS Simulator, and macOS (My Mac) alike.
+
+- **Duplicate DerivedData directory for macOS fixed** — Two `xcodebuild -showBuildSettings` calls in `SchemeSelector.swift` (bundle ID reading and `detectSchemePlatforms()`) were missing the `-derivedDataPath` flag. On macOS, `xcodebuild` internally resolves packages when querying build settings and writes to the default DerivedData location — this does not occur with the iOS Simulator. Both calls now include `-derivedDataPath '\(toolboxProductBuildPath)'`.
+
+- **Bug fix: "Uninstall app & fresh test"** — If no `.app` file is found in the product-specific build folder, the tool now asks whether the app should be built right away. Confirming starts `actionBuildAndRunSimulator()` directly. Previously only an error message was shown with no further action.
+
+### UI & UX
+
+- **Consistent action headers for shortcut dialogs** — `printActionHeader()` is now used consistently for all global keyboard shortcut dialogs: configuration (`K`), language (`L`), menu mode (`M`), scheme (`S`), and device (`D`). All these dialogs now show the same structured title/description block as regular menu actions.
+
+- **`[A]` workflow: fewer key presses** — When switching the working directory (`A`), scheme and test target selection are now embedded without a trailing `waitForKeyPress()`. The intermediate confirmation is skipped; the flow proceeds directly to device selection.
+
+- **`selectBuildScheme()` / `selectTestTarget()` with new parameters** — Both functions now accept `showHeader: Bool` and `suppressFinalWait: Bool`. This allows them to be cleanly embedded in higher-level workflows (e.g. `[A]`) without showing their own header or final pause.
+
+### Build & App Path Display
+
+- **Build path shown after a successful build** — After every successful build, the tool now shows which folder the app was placed in (`printBuiltAppInfo()`). Affected actions: "Build", "Build & Run", "Quick Reset & Build", and "Full Reset & Build".
+
+- **App path shown on launch** — When launching the app directly (actions "Launch App" and "Relaunch App"), the full path of the started `.app` file is printed.
+
+### Tests
+
+- **`printTestSummary()` removed** — In all test actions (Unit Tests, UI Tests, All Tests, Coverage, JUnit Report, Markdown Report, test plan runs), results are now shown exclusively via `printTestResultBox()`. The redundant summary line has been removed.
+
+- **`BuildTimeline` per simulator iteration** — In the multi-simulator loop, `BuildTimeline.begin/finish` is now called correctly for each additional simulator run. Previously, the timeline was not restarted when switching to an additional simulator.
+
+- **`build-for-testing` and `test-without-building` unified** — Both actions now use `runBuildLive()` and `runTestsLiveParsed()` respectively and display the same result box as all other test actions. `askOutputMode()` has been removed — output is now consistent across all test actions.
+
+- **macOS targets** — Test actions running on macOS (`platform=macOS`) now correctly wait for a key press instead of attempting a simulator shutdown.
+
+### Dependencies
+
+- **SPM — "Show Package.resolved": action header added** — The action now shows a structured title and description block (`printActionHeader()`). New localization key `spm_show_package_resolved_description` added in all 17 languages.
+
+### Display
+
+- **`printBuiltAppInfo()` cleaned up** — ANSI color codes have been removed from the app info box border lines. The app path is now shown on a dedicated line below the label — better readability for long paths and neutral across different terminal color themes.
+
+---
+
 ## Version 1.0.10 — 2026-04-14
 
 ### DerivedData Precision
