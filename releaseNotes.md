@@ -90,6 +90,10 @@
 
 - **Parameterised Swift Testing tests** — `runTestsLive()` and `parseTestData()` now recognise the format of parameterised Swift Testing tests without quotes (e.g. `◇ Test decode_succeeds(input: TestInput(...)) passed after 0.001 seconds.`). Previously such tests were silently ignored — result counters remained empty.
 
+### Example Configurations (Project Manager)
+
+- **HTTPS example configurations added** — Two new example JSON configurations for the Project Manager have been added to the `work/HTTPS/` folder: `repository-cliTools.json` (clones the xcodex and toolbox repositories via HTTPS) and `repository-refApps.json` (clones the RefenzApps repository via HTTPS). Both SSH (`work/SSH/`) and HTTPS variants of all example configurations are now available.
+
 ### Reference Apps
 
 - **New reference app App11-iOS-Namensliste-U-UI** — iOS app for managing a name list (MVVM, SwiftUI, LiquidGlass extension). Includes unit tests, UI tests, and a complete test plan.
