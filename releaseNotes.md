@@ -2,6 +2,102 @@
 
 ---
 
+## Version 1.0.12 — 2026-04-19
+
+### Project Manager & Terminal Stability
+
+- **New feature: Project Manager** — Three new actions in the main menu under "🔧 Project Manager": `Initialize project` (clones repositories from a JSON configuration into a purely temporary directory), `Update project` (discards local changes and re-pulls), and `Delete project` (removes repositories and state entry). Full logic in `ActionProjectManager.swift` (~1000 lines). Read-only against the remote — no commits, no pushes. State is persisted per JSON configuration in `.toolbox-project-state.json`. Integrated into the Main, Simple, Slim, and Complete-Tree menus; entries are shown/hidden dynamically via `canShowProjectInit` / `canShowProjectUpdateOrDelete`. Example config: `repository-scanbox.json` (replaces the former `repository-toolbox.json`).
+
+- **Submodule support in the Project Manager** — The Project Manager now supports Git submodules and subtrees in cloned repositories. The optional JSON field `submodule_branch_strategy` controls how submodules are handled when switching branches or commits: `"follow_parent"` (default) switches all submodules to the same branch as the main repository, `"pinned"` leaves submodules at their Git-pinned commit, and an explicit branch name switches all submodules to exactly that branch. The switch is performed via `git submodule foreach --recursive`; if a branch does not exist in a submodule, it stays on its pinned commit (no abort). The "Show project info" action has been extended with a new "Submodules / Subtrees" section that explains all three strategies.
+
+- **Simulator boot blocks until ready** — `bootDevice()` now waits via `xcrun simctl bootstatus -b` after `simctl boot` until the simulator is fully booted. Fixes a race condition where `simctl install` was rejected while the simulator was still in the "Booting" state.
+
+- **Device name & OS in status messages** — `bootDevice()` and `installAndLaunchApp()` now also accept `deviceName` and `deviceOS`; status messages now show concrete text like "Starting iPhone 17 Pro — iOS 26.1" instead of a generic "Starting simulator".
+
+- **New function `runShellInteractive()`** — Inherits stdin/stdout/stderr directly from the terminal; required for shell commands that prompt for a password or passphrase (e.g. `git clone` over SSH with a protected key). `runShellLive` additionally recognises `\r` as a line terminator and suppresses empty lines.
+
+- **Stable ESC sequence handling** — `FileBrowser` and `MenuGitBrowser` now read arrow keys via `VTIME=1` (100 ms timeout per follow-up byte) instead of `fcntl(O_NONBLOCK)`. Prevents occasionally ignored or misinterpreted arrow key sequences.
+
+- **Spinner: cursor hide/show** — `ActivitySpinner` hides the cursor at start with ANSI `\u{1B}[?25l` and restores it at stop with `\u{1B}[?25h`; each line is now explicitly cleared (`\u{1B}[2K`) before the frame is drawn instead of only at line end.
+
+- **`waitForKeyPress()` flow centralised** — At the end of `actionBuildAndRunSimulator`, `actionStartAppOnly`, `actionStartAppOnSelectedSimulator`, `actionFullResetAndBuild`, and `actionQuickResetAndBuild`, `waitForKeyPress()` is now invoked exactly once — instead of depending on `isMacOSDevice` inside an `if/else` branch. A `flushInputBuffer()` before the multi-simulator loop prevents keyboard buffer from a previous action from skipping the `[+]` prompt.
+
+### Tests
+
+- **3-state test result classification** — Previously the tool only distinguished between "passed" and "failed". From now on three states are clearly separated:
+
+  - ✅ **Success** — All tests passed, no technical error.
+  - ⚠️ **Technical Failure** — `xcodebuild` reported `** TEST FAILED **`, but no actual test case failed (e.g. empty test target, missing test plan configuration, compiler error). The result is highlighted in yellow; a hint text explains the difference from real test failures.
+  - ❌ **Real Failures** — At least one test case actually failed. Red border as before.
+
+- **`TestRunOutcome` enum** — New enum with three cases: `.success`, `.technicalFailure`, and `.realFailures`. The `outcome` property on `TestRunData` derives the state from the set flags and counters.
+
+- **`testFailed` flag in `TestRunData`** — New `Bool` field: set when `xcodebuild` outputs `** TEST FAILED **` — regardless of whether real test cases failed.
+
+- **`printTestResultBox()` and `printTestSummary()` reworked** — Both functions now use a `switch data.outcome` instead of a simple `if/else`. Technical failures get their own yellow box with a hint message.
+
+- **Live parsing: `runTestsLive()` detects `** TEST FAILED **`** — The live parser now sets `data.testFailed` when `xcodebuild` emits this marker.
+
+- **Auto-Build: technical failure logged separately** — In the Auto-Build cycle (`AutoBuildActions.swift`), the `.technicalFailure` state is now logged with ⚠ and a hint — separately from real test failures.
+
+- **Timeline evaluation unified** — `currentTimeline?.endPhase(success:)` in `MenuTest.swift` and `AutoBuildActions.swift` now uses `outcome == .success` instead of the previous manual multi-condition check (`testSucceeded && failed.isEmpty && !buildFailed`).
+
+### Build Output
+
+- **Grouped, structured build output** — The new `XcodeBuildFormatter` presents `xcodebuild` output structured by phases (Compile, Link, Copy, Sign, …). Each phase is clearly separated; copy resource operations show the individual file name (`extractCopyResourceName()`).
+
+- **Build formatter: target in phase headers** — `showTargetForPhase()` and `extractTargetFromPhaseLine()` now display the build target in relevant phase headers. `printStep()` uses `▸` instead of `→` for clearer visual separation.
+
+### Input & Interaction
+
+- **`[x]` as unified back key** — `[x]` works in all menus and dialogs without a trailing Enter — one key press to go back. Affected: `waitForKeyPress`, `DeviceSelector`, `SimulatorActions`.
+
+- **`confirmAction()` reacts immediately** — Confirmations with `j`/`J`/`y`/`Y` and cancellations with `n`/`N` are processed instantly — no Enter press required.
+
+- **Simulator loops: `[+]` without Enter** — In the multi-simulator loop, `[+]` starts the next simulator immediately, without pressing Enter.
+
+- **`readRawChar()` and `readDeviceSelection(max:)`** — New input functions for immediate single-character shortcuts; `readDeviceSelection` processes numeric selections directly without Enter.
+
+- **Bug fix: duplicate `waitForKeyPress()` in MenuTest** — The duplicate call in `case "1"` (Unit Tests) has been fixed.
+
+- **Test menu numbers revised** — The entries in the test menu have been renumbered.
+
+- **"Tests with Code Coverage" and "Detect slow tests" removed from menu display** — Both items are no longer listed in the menu; the functionality is preserved in the code.
+
+- **Localization keys updated** — All changed labels updated in 17 languages.
+
+- **Live SPM package list during resolution** — While `xcodebuild -resolvePackageDependencies` runs, all packages are updated with live status indicators (○ pending / ⠋ loading / ✓ done / ✗ failed). The ActivitySpinner shows the package name during Fetch/Clone.
+
+- **`actionCancelled` flag and "Cancelled" message** — After declining a `confirmAction()` prompt, `waitForKeyPress()` returns immediately — no extra key press needed. A unified cancellation message is shown.
+
+- **ActivitySpinner for cache and DerivedData operations** — `printStep()` replaced by ActivitySpinner for all cache/DerivedData deletions. `printCtrlCHint()` now appears before the operation starts. `xcodebuild clean` uses `runXcodebuildLiveFormatted`.
+
+- **`readDeviceSelection()` switched to `readLine()`** — Raw mode no longer needed.
+
+- **New color `Color.boldDarkPurple`** — Used consistently for [RETURN] hints in all input prompts. New localization keys: `spm_resolve_retry`, `start_build_run_confirm`, `action_cancelled`.
+
+### Dependencies
+
+- **CocoaPods: Live install/update list** — `runPodsInstallWithLiveList()`: `pod install` and `pod update` show all pods with live status indicators. New action: show Podfile.lock (`actionPodsShowPodfileLock()`).
+
+- **Carthage: Live update list and new actions** — `runCarthageWithLiveList()` shows all frameworks with live status during `carthage update`/`bootstrap`. New actions: show Cartfile.resolved, Bootstrap (`actionCarthageBootstrap()`), update frameworks (`actionCarthageUpdateFrameworks()`).
+
+- **Subspec filter** — CocoaPods subspecs (e.g. `GRDB.swift/standard`, `Moya/Core`) are no longer listed in the dependency display — only the top-level name appears.
+
+- **Thread-safe spinner** — `var spinnerRunning` replaced with a `SpinnerFlag` reference type; fixes Swift Sendable warning on thread closure capture.
+
+### Bug Fixes
+
+- **Parameterised Swift Testing tests** — `runTestsLive()` and `parseTestData()` now recognise the format of parameterised Swift Testing tests without quotes (e.g. `◇ Test decode_succeeds(input: TestInput(...)) passed after 0.001 seconds.`). Previously such tests were silently ignored — result counters remained empty.
+
+### Reference Apps
+
+- **New reference app App11-iOS-Namensliste-U-UI** — iOS app for managing a name list (MVVM, SwiftUI, LiquidGlass extension). Includes unit tests, UI tests, and a complete test plan.
+
+- **New reference app App15-iOS-Dependencies-spm-cocoapods-carthage** — iOS app with 15 dependencies split across all three package managers: 7 via SPM (Nuke, MarkdownUI, Defaults, swift-dependencies, swift-collections, swift-log, SnapshotTesting), 5 via CocoaPods (Lottie, Alamofire, Moya, GRDB.swift, Factory), 3 via Carthage (Kingfisher, DGCharts, AppAuth). Each dependency belongs exclusively to one package manager.
+
+---
+
 ## Version 1.0.11 — 2026-04-15
 
 ### Bug Fixes

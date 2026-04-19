@@ -17,6 +17,24 @@ In the daily life of an Apple developer, you constantly switch between Xcode, Te
 - **No accidental changes** — all analysis and Git functions work **read-only**
 - **Ready to use immediately** — no external dependencies, runs anywhere Xcode is installed
 
+<img src="images/image01.png" alt="Xcode Developer Toolbox Overview" width="800">
+
+---
+
+## Own DerivedData — Independent from Xcode
+
+The script uses its own DerivedData to run builds and tests, making it completely independent from Xcode. This means Xcode can stay open in the background — indexing or building on its own — without interfering. Each run happens in its own environment, so when something fails you can be confident the issue comes from the script, not leftover state. The downside: nothing is reused, so the first run does a full clean build, which takes longer and uses more disk space.
+
+<img src="images/image02.png" alt="Own DerivedData" width="800">
+
+---
+
+## Branch & Commit — Build and Compare Specific States
+
+The script can check out any branch or commit from the Git repository, build it locally and launch it. Because it runs independently from Xcode, parallel builds are possible, making it easy to compare different project states side by side. It also lowers the barrier for non-iOS developers who need to run an iOS build without a full development environment set up.
+
+<img src="images/image03.png" alt="Branch & Commit" width="800">
+
 ---
 
 ## Installation
