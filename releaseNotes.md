@@ -2,6 +2,14 @@
 
 ---
 
+## Version 1.0.13 — 2026-04-20
+
+### Physical Devices
+
+- **New feature: Deploy apps to physical devices** — The tool now supports building, installing, and launching apps directly on physical devices (iPhones, iPads). New files: `PhysicalDeviceActions.swift` (~470 lines) encapsulates all physical device actions; `DeviceTarget.swift` defines the new `DeviceTarget` type that unifies simulators and physical devices; `PhysicalDevice.swift` detects and manages connected devices; `PhysicalDeviceSelector.swift` provides a keyboard-driven device selection dialog. The existing `DeviceSelector.swift` has been extended to list and select physical devices alongside simulators. The "Build & Simulator" menu and the device menu have been updated to include physical device targets. New settings in `Preferences.swift` allow persisting the last selected physical device. The dashboard displays the active device (simulator or physical) in a unified format.
+
+---
+
 ## Version 1.0.12 — 2026-04-19
 
 ### Project Manager & Terminal Stability
