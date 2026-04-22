@@ -2,6 +2,26 @@
 
 ---
 
+## Version 1.0.14 — 2026-04-22
+
+### Clean & Cache
+
+- **New DerivedData browser** — New file `MenuDerivedDataDetails.swift` (214 lines): interactive browser for all DerivedData subdirectories. Displays each subdirectory's size using smart caching (`du -sh`) — no repeated measurements. Individual subdirectories can be deleted directly from the browser; the cache entry is invalidated after deletion. Accessible in the Clean menu via the new item "Delete DerivedData selectively".
+
+- **Extended cache browser "Show all caches"** — New file `MenuCacheBrowser.swift` (447 lines): navigable browser for all Xcode caches (DerivedData, ModuleCache, Simulator cache, Xcode cache, etc.) with size display and targeted deletion. The existing "Show all caches" menu item now opens the full browser. Sizes are cached — no repeated `du` calls on every page render. Deletion with immediate cache invalidation for affected paths.
+
+### Simulator Extended
+
+- **UX improvements in submenus** — `actionToggleSimulatorAppearance()`: unified `readLine()` input with `[x]` back-option instead of single raw-character reads; `printSubSectionTitle()` structures the selection. Push notification template selection: `[x]` aborts back to the menu, new `printMenuItemBack()` entry visible. Permissions dialog: `item()` function for list entries; `[x]` abort option after service and action selection. Deep link, add media, and app-data-folder actions: blank line after action header for improved readability.
+
+### Miscellaneous
+
+- **Debug mode: less noise** — `Shell.swift`: certain diagnostic outputs are now only printed in debug builds and no longer appear in the release version.
+
+- **README.md updated**
+
+---
+
 ## Version 1.0.13 — 2026-04-21
 
 ### Physical Devices
