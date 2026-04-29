@@ -2,6 +2,22 @@
 
 ---
 
+## Version 1.0.15 — 2026-04-26
+
+### Project
+
+- **Group "Project Manager" renamed to "Project"** — The command group is now consistently named "Project". New entry action `actionProjectSelect()`: selects a JSON configuration file and saves it persistently — all subsequent commands (Initialise, Update, Delete, Info) then operate on this saved configuration without requiring a new file selection. The legacy schema `{ "repositories": [...] }` is automatically migrated to the new schema `{ "projects": [...] }` on the next save. Safety check: prevents deletion of system and toolbox directories (/, /System, /Applications, home directory, binary directory and its ancestors). Menu visibility controlled dynamically via `canShowProjectFileSelected`.
+
+### Simulator
+
+- **Animated boot wait indicator** — New function `runSimctlBootStatus(udid:label:)` in `Shell.swift` (76 lines): waits with an animated `ActivitySpinner` for a simulator to fully boot. The raw `simctl bootstatus` output is completely suppressed; instead the spinner shows the current boot phase (`Waiting on System App`, `Booting SpringBoard`, etc.) and the elapsed time. Ctrl+C cleanly aborts the operation. Affects `bootDevice()` and `actionRestartCurrentSimulator()`.
+
+### Binary Analysis
+
+- **New and revised actions in `MenuBinaryAnalysis.swift`** — The binary analysis menu has been expanded: `actionBinaryLinkedFrameworks`, `actionBinaryArchitectures`, `actionBinarySegmentSizes`, `actionBinaryExportedSymbols`, `actionBinaryLargestSymbols`, `actionBinaryLoadCommands`, `actionBinaryMinIosVersion`, `actionBinaryShowEntitlements`. Extended localisation (114 new keys in `Localizable.xcstrings`). The app binary is selected automatically from the build directory; if multiple candidates are found, a selection prompt appears.
+
+---
+
 ## Version 1.0.14 — 2026-04-22
 
 ### Clean & Cache
